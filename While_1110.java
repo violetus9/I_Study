@@ -30,3 +30,4 @@ public class While_1110 {
 		System.out.println(cnt);
 	}
 }
+
