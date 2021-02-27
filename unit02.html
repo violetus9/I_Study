@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>객체 기본과 구구단 게임</title>
+</head>
+<body>
+
+<!-- lec01 별찍기 -->
+<script type="text/javascript">
+
+	for(var star = 1; star < 6; star++){
+		console.log('*'.repeat(star));
+	}
+	/* 이경우 종료 후 star = 6 */
+	
+	for(var star2 = 5; star2 >= 1; star2 -= 1){
+		console.log(' '.repeat(5 - star2) + '*'.repeat(star2));
+	}
+	
+	for(var star3 = 9; star3 > 0; star3 -= 2){
+		console.log(' '.repeat((9 - star3)/2) + '*'.repeat(star3));
+	}
+	
+	/* 과제
+	
+		*
+	   ***
+	  *****
+	   ***
+	    *	를 for문 한번 Math.abs 이용해서 풀어보기
+	
+	*/
+
+</script>
+
+
+<!-- lec02~lec03 객체 기본, 객체의 속성 -->
+<script type="text/javascript">
+
+	/*
+	
+		객체의 필요성 : 작업할때 비슷한 개념을 어떻게 정의해야 하느냐를 생각해보면 됨
+		사람이라는 작업에서 사람1, 사람2, .. 를 각자의 객체로 만든다는거
+		그리고 JS에서는 함수 또한 값이 될 수 있다. 객체 내부엔 값이 들어간다.
+	
+	*/
+	
+	var 동물1 = {
+				이름 : '고양',					// 속성(프로퍼티)
+				울음 : function 울음(){			// 함수인 속성(메서드)
+					console.log('야옹');
+				},							// 현업에서 마지막 구성요소 뒤에 컴마 찍는다고 한다
+		}
+	
+	console.log(동물1['이름']);				// 객체 내부의 것을 호출할 때 '.' 사용
+	console.log(동물1.이름);					// 차이점 : 대괄호 내부엔 변수 사용 가능하지만 '.' 뒤에는 안된다.
+
+</script>
+
+
+<!-- lec04 배열 기본 -->
+<script type="text/javascript">
+
+	/*
+		
+		배열 : 값 그룹화는 하고 싶으나 속성 이름을 따로 주고 싶지는 않을 때 사용
+		
+	*/
+	
+	var 배열 = ['사과', '오렌지', '딸기',];
+	console.log(배열.length);	
+	console.log(배열[1]);						// 배열 또한 객체
+	
+	var 배열같은객체 = {
+			0: '코끼리',
+			1: '강아지',
+			2: '고양이',						// 이 경우 구분은 어떻게 할까?
+	}
+	
+	console.log(Array.isArray(배열));			// 배열인지, 아닌지 판단할 수 있다
+
+</script>
+
+
+<!-- 구구단 구현 -->
+<script type="text/javascript">
+
+	
+
+</script>
+
+</body>
+</html>
