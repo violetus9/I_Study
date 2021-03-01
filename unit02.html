@@ -22,6 +22,7 @@
 		console.log(' '.repeat((9 - star3)/2) + '*'.repeat(star3));
 	}
 	
+	
 	/* 과제
 	
 		*
@@ -31,6 +32,13 @@
 	    *	를 for문 한번 Math.abs 이용해서 풀어보기
 	
 	*/
+	function starPr(){
+		for(var i = -2; i < 3; i++){
+			var x = Math.abs(i);
+			console.log(' '.repeat(x) + '*'.repeat((3-x)*2-1));
+		}
+	}
+
 
 </script>
 
@@ -81,13 +89,29 @@
 	console.log(Array.isArray(배열));			// 배열인지, 아닌지 판단할 수 있다
 
 </script>
-	
 
 
 <!-- 구구단 구현 -->
 <script type="text/javascript">
 
-	// for에서 of, in 차이가 있다는거 기억하기 웬만하면 of 써서 해
+	while(true){
+		var num1 = Math.floor(Math.random() * 9) + 1;
+		var num2 = Math.floor(Math.random() * 9) + 1;
+		var ans = num1 * num2;
+		var bool = true;
+		
+		while(bool){
+			var res = prompt(String(num1) + '곱하기' + String(num2) + '는?');
+			
+			if(ans === Number(res)){
+				alert('correct');
+				bool = false;
+			}else{
+				alert('wrong');
+			}
+		}
+	}
+	// 무한 반복이 되는 상태이다
 
 </script>
 
