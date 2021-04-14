@@ -44,7 +44,7 @@ let 비동기콜백 = function (이벤트) {
       다참 = true;
     }
     // 대각선 검사
-    if (몇줄 - 몇칸 === 0 || Math.abs(몇줄 - 몇칸) === 2) { // 대각선 검사 필요한 경우
+    if (몇줄 - 몇칸 === 0) { // 대각선 검사 필요한 경우
       if (
         칸들[0][0].textContent === 턴 &&
         칸들[1][1].textContent === 턴 &&
@@ -53,7 +53,15 @@ let 비동기콜백 = function (이벤트) {
         다참 = true;
       }
     }
-
+    if (Math.abs(몇줄 - 몇칸) === 2) {
+      if (
+        칸들[0][2].textContent === 턴 &&
+        칸들[1][1].textContent === 턴 &&
+        칸들[2][0].textContent === 턴
+      ) {
+        다참 = true;
+      }
+    }
     // 다 찼으면
     if (다참) {
       결과.textContent = 턴 + '의 승리';
@@ -61,7 +69,7 @@ let 비동기콜백 = function (이벤트) {
       턴 = 'X';
       칸들.forEach(function (티디) {
         티디.forEach(function (티알) {
-          디알.textContent = '';
+          티알.textContent = '';
         });
       });
     } else {
@@ -71,14 +79,11 @@ let 비동기콜백 = function (이벤트) {
         턴 = 'X';
       }
     }
-
   }
-
 };
 
 for (let i = 0; i < 3; i++) {
   let 티디 = document.createElement('tr');
-  테이블.appendChild(티디);
   줄들.push(티디);
   칸들.push([]);
   for (let j = 0; j < 3; j++) {
@@ -87,9 +92,11 @@ for (let i = 0; i < 3; i++) {
     티디.appendChild(티알);
     칸들[i].push(티알);
   }
+  테이블.appendChild(티디);
 }
 바디.appendChild(테이블);
 바디.appendChild(결과);
 console.log('줄들', 줄들, '칸들', 칸들);
 
 
+// 반복문 중첩은 적으면 적을수록 좋다고 한다
