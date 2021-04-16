@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>실패율</title>
+</head>
+
+<body>
+
+  <script>
+
+    function solution(N, stages) {
+      let answer = [];
+      let len = stages.length;
+
+      const res = stages.reduce((m, v) => {
+        m.set(v, (m.get(v) || 0) + 1);
+        return m;
+      }, new Map());
+      // console.log(res.entries());
+
+      let situation = new Map([...res.entries()].sort());
+      // console.log(situation);
+
+      for (let [k, v] of situation.entries()) {
+        situation.set(k, v / len);
+        len -= v;
+      }
+      // console.log(situation);
+
+      for (let v of situation.values()) {
+
+        // if ()
+      }
+
+      // 실패율 : 못깸 / 도달
+      // 전체 스테이지, 수 N
+      // 정체 스테이지, 배열 stages
+      // 높은 실패율, 내림순 스테이지 번호, 배열 return토록
+
+
+      return answer;
+    }
+
+  </script>
+
+</body>
+
+</html>
