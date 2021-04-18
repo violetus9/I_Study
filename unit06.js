@@ -49,7 +49,9 @@ console.log('당첨숫자들', 당첨숫자들.sort(function (p, c) { return p -
 // }
 // 위 for문에서 실행해보면 클로저(closure)에 관한 문제(반복문 속 비동기 사용 시)
 
-let 결과창 = document.getElementById('결과창');
+let 결과창 = document.querySelector('#결과창');
+// getElement~~ 써도 상관없는데 하나하나 다 기억해서 써야 하니까
+// 쿼리셀렉터도 좋은 선택이다~~ (querySelectorAll도 있다)
 
 function 공색칠하기(숫자, 결과창) {
   let 공 = document.createElement('div');
@@ -61,6 +63,20 @@ function 공색칠하기(숫자, 결과창) {
   공.style.height = '20px';
   공.style.textAlign = 'center';
   공.style.marginRight = '10px';
+  공.style.fontSize = '12px';
+  let 배경색;
+  if (숫자 <= 10) {
+    배경색 = 'red';
+  } else if (숫자 <= 20) {
+    배경색 = 'orange';
+  } else if (숫자 <= 30) {
+    배경색 = 'yellow';
+  } else if (숫자 <= 40) {
+    배경색 = 'skyblue';
+  } else {
+    배경색 = 'green';
+  }
+  공.style.background = 배경색;
   결과창.appendChild(공);
 }
 
