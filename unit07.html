@@ -9,7 +9,8 @@
   <style>
     #computer {
       width: 150px;
-      background: url('https://en.pimg.jp/023/182/267/1/23182267.jpg') 0 0;
+      height: 243px;
+      background: url("https://en.pimg.jp/023/182/267/1/23182267.jpg") 0 0;
     }
 
     /* 이미지 스프라이트 : 예전에 네트워크 자원을 아끼기 위해 작은 이미지를 모아 하나로 이어 사용했다고 한다
@@ -18,12 +19,11 @@
 </head>
 
 <body>
-  <div id="computer">
-    <img src="" alt="">
-  </div>
-  <div><button id="rock">바위</button>
-    <button id="scissor">가위</button>
-    <button id="paper">보</button>
+  <div id="computer"></div>
+  <div>
+    <button id="scissor" class="btn">가위</button>
+    <button id="rock" class="btn">바위</button>
+    <button id="paper" class="btn">보</button>
   </div>
   <script src="unit07.js"></script>
 
