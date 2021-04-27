@@ -7,28 +7,112 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>가위바위보</title>
   <style>
-    /*   이미지 출력 안됐던 이유 : height 꼭 지정할 것   */
+    /*  구버전
     #computer {
       width: 150px;
       height: 243px;
       background: url("https://en.pimg.jp/023/182/267/1/23182267.jpg") 0 0;
     }
 
-    /* 이미지 스프라이트 : 예전에 네트워크 자원을 아끼기 위해 작은 이미지를 모아 하나로 이어 사용했다고 한다
+    이미지 스프라이트 : 예전에 네트워크 자원을 아끼기 위해 작은 이미지를 모아 하나로 이어 사용했다고 한다
        네이버 맵 api 만질 때 왜 마커들이 모여있었는지~ ㅇㅋ */
+
+    #computer {
+      width: 142px;
+      height: 200px;
+    }
   </style>
 </head>
 
 <body>
   <div id="computer"></div>
   <div>
-    <button id="scissor" class="btn">가위</button>
+    <button id="scissors" class="btn">가위</button>
     <button id="rock" class="btn">바위</button>
     <button id="paper" class="btn">보</button>
   </div>
-  <script src="unit07.js"></script>
+  <div id="score">0</div>
+  <script>
+    const $computer = document.querySelector('#computer');
+    const $score = document.querySelector('#score');
+    const $rock = document.querySelector('#rock');
+    const $scissors = document.querySelector('#scissors');
+    const $paper = document.querySelector('#paper');
+    const IMG_URL = './rsp.png';
+    $computer.style.background = `url(${IMG_URL}) -464px 0`;
+    $computer.style.backgroundSize = 'auto 200px';
 
+    const rspX = {
+      scissors: '0', // 가위
+      rock: '-220px', // 바위
+      paper: '-440px', // 보
+    };
 
+    let computerChoice = 'scissors';
+    const changeComputerHand = () => {
+      if (computerChoice === 'scissors') { // 가위면
+        computerChoice = 'rock';
+      } else if (computerChoice === 'rock') { // 바위
+        computerChoice = 'paper';
+      } else { // 보
+        computerChoice = 'scissors';
+      }
+      $computer.style.background = `url(${IMG_URL}) ${rspX[computerChoice]} 0`;
+      $computer.style.backgroundSize = 'auto 200px';
+    }
+    let intervalId = setInterval(changeComputerHand, 50);
+    // setTimeout >> 선행함수 끝나야 해당 시간 소요 >> 앞 함수가 복잡하다면 해당 시간을 보장하지 못할 수 있음
+    // setInterval >> 최대한 시간을 보장하려는 노력은 함
+
+    const scoreTable = {
+      rock: 0,
+      scissors: 1,
+      paper: -1,
+    };
+
+    // clickButton 5번 호출, 인터벌 1번, 2번, 3번, 4번, 5번(얘만 intervalId)
+    //  그 다음에 버튼을 클릭하면 5번만 취소
+    let clickable = true;
+    // 클리커블 > plag변수라 부른다(나도 지도만들때 창조해서 썻었는데 그게 이거였음)
+    let score = 0;
+    const clickButton = () => {
+      if (clickable) {
+        clearInterval(intervalId);
+        clickable = false;
+        // 점수 계산 및 화면 표시
+        const myChoice = event.target.textContent === '바위'
+          ? 'rock'
+          : event.target.textContent === '가위'
+            ? 'scissors'
+            : 'paper';
+        const myScore = scoreTable[myChoice];
+        const computerScore = scoreTable[computerChoice];
+        const diff = myScore - computerScore;
+
+        let message;
+        // 2, -1은 승리조건이고, -2, 1은 패배조건, 점수표 참고
+        if ([2, -1].includes(diff)) {
+          score += 1;
+          message = '승리';
+        } else if ([-2, 1].includes(diff)) {
+          score -= 1;
+          message = '패배';
+        } else {
+          // else는 else if 로 바꾸고 조건을 적어 주는게 더 나은 상황도 있다
+          message = '무승부';
+        }
+        $score.textContent = `${message} 총: ${score}점`;
+        setTimeout(() => {
+          clickable = true;
+          intervalId = setInterval(changeComputerHand, 50);
+        }, 1000);
+      }
+    };
+
+    $rock.addEventListener('click', clickButton);
+    $scissors.addEventListener('click', clickButton);
+    $paper.addEventListener('click', clickButton);
+  </script>
 </body>
 
 </html>
