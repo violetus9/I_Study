@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="UTF-8">
+	<title>기타 필기</title>
+</head>
+
+<body>
+
+
+	<script type="text/javascript">
+
+		// forEach, map, fill
+
+		const array = [1, 2, 3, 4];
+		array.forEach((element, i) => {
+			console.log(element, i);
+		});
+
+		// map은 반복문 역할 하면서 기능도 수행
+		// 기존 배열은 바뀌지 않아
+		// let lex = 
+		array.map((element, i) => {
+			return element * 2;
+		});
+
+		// console.log(lex);
+		// 저장해줘야 쓸 수 있어
+
+		// 빈배열 empty * 9
+		Array(9);
+
+		// 빈배열 undefined * 9
+		Array(9).fill();
+
+		// 이런식으로 활용한다.
+		Array(9).fill(0).map((el, idx) => {
+			return idx + 1;
+		});
+
+	</script>
+
+</body>
+
+</html>
