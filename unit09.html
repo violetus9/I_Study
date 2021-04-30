@@ -82,7 +82,18 @@
         const current = endTime - startTime;
         records.push(current);
         const average = records.reduce((a, c) => a + c) / records.length;
-        $result.textContent = `현재 ${current}ms, 평균: ${average}ms`;
+        $result.textContent = `현재 ${current}ms, 전체 평균: ${average}ms`;
+
+        // 추가과제 부분
+        const topFive = records.sort((p, c) => p - c).slice(0, 5);
+        topFive.forEach((top, index) => {
+          $result.append(
+            document.createElement('br'),
+            `${index + 1}위: ${top}ms`,
+          );
+        });
+        // console.log(records); 찍어보면 전체 저장된 값 나오고 5순위까지만 출력되는걸 알 수 있음
+
         startTime = null;
         endTime = null;
         $screen.classList.remove('now');
