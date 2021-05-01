@@ -8,10 +8,8 @@
 
 <body>
 
-
+	<!-- forEach, map, fill -->
 	<script type="text/javascript">
-
-		// forEach, map, fill
 
 		const array = [1, 2, 3, 4];
 		array.forEach((element, i) => {
@@ -40,6 +38,107 @@
 		});
 
 	</script>
+
+	<!-- 구조분해할당(destructuring) -->
+	<script>
+
+		// const body = document.body;
+		// const createElement = document.createElement;
+		// 라는 문장이 있다고 하면 아래와 같이 간단히 
+		const { body, createElement } = document;
+
+		// 배열에선 어떻게 될까
+		// const arr = [1, 2, 3, 4, 5];
+		// const one = arr[0];
+		// const two = arr[1];
+		// const three = arr[2];
+		// const four = arr[3];
+		// const five = arr[4];	// 딱봐도 복잡하고 보기싫어
+		const [one, two, three, four, five] = arr;	// 깔끔
+		// two, four 쓰고 싶지 않다면 해당 자리 공란으로 만들면 됨
+		const [one, , three, , five] = arr;	// 자릿수가 중요하다는걸 암시
+
+		/*
+			예제
+			
+			const obj = {
+				a: 'hello',
+				b: {
+					c: 'hi',
+					d: { e: 'wow'},
+				},
+			}
+			일때 a, c, e를 가져와보기
+
+			>> 그냥 편하게 일반적인 접근에서 생각해보면
+			const a = obj.a;
+			const c = obj.b.c;
+			const e = obj.b.d.e;
+			이므로
+
+			const { a, b: { c, d: { e } } } = obj;	로 나타낼 수 있다.
+
+			+ a, b, e 구조분해할당을 원하면?
+			const { a, b } = obj;
+			const { d: { e } } = b;
+			>> 위와같이 하면 됨(b는 새로 구조분해를 할당해야한다.)
+
+		*/
+
+	</script>
+
+	<!-- 템플릿 리터럴 -->
+	<script>
+
+		// 마찬가지로 ES6 문법, 문자열 표기법이다. 문자열 생성시 백틱(`)을 사용한다는 차이.
+		/*
+			let str = ` H
+					E	
+						LL
+									O`;
+			와 같은 경우 escape sequence를 사용하지 않아도 자동 개행이 됨!
+		*/
+
+		
+			// ${} 사이 변수나 연산의 삽입이 가능
+
+			let name = '박박';
+			let age = 999;
+			let rebirth = 2;
+
+			console.log(`${name}은 실제${age * rebirth}살`);
+			// ${}결과는 문자열로 자동 변환됨
+			console.log(`${3+5} 이것도 가능해`);
+
+	</script>
+
+	<!-- Array.from()
+			: 유사배열객체를 배열로 처리해준다! -->
+	
+	<!-- 다차원 배열이 있다면 >> .flat() 사용하면 한차원 낮춰 펼쳐줌 -->
+	
+	<!-- .every(~) >> 1차원 배열에서만 사용, '모두 true라면 true', '하나라도 false면 false'
+			 .some(~) >> '하나라도 true면 true', '모두 false면 false' -->
+
+	<!--
+			이벤트 버블링
+	
+			: event bubbling, 이벤트가 발생할 때 부모 태그에도 동일한 이벤트가 발생하는 현상
+				자식의 자식인 td에 이벤트 발생하면 부모인 table 태그에도 발생
+				현상이 발생하면 이벤트 리스너 콜백 함수의 event.target이 이벤트가 발생한 태그로 바뀌므로 주의해야 한다
+				이벤트가 발생한 태그가 아닌 이벤트를 연결한 태그에 접근하고자 한다면
+				event.currentTarget 이용할 것!
+	-->
+	
+
+
+	<!--
+			-대기열-
+				
+			정규식
+			=,==,===
+		
+	-->
 
 </body>
 
