@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+
+<script type="text/javascript">
+
+	function solution(n, lost, reserve) {
+	    var answer = 0;
+	    var ban = [];               // 반동쉘
+	    
+	    // 여분 모질이 제거
+	    for(var i of lost){
+	        for(var j of reserve){
+	            if(i === j){
+	                ban.push(i);
+	            }
+	        }
+	    }
+	    for(var i of ban){
+	        lost.splice(lost.indexOf(i), 1);
+	        reserve.splice(reserve.indexOf(i), 1);
+	    }
+	    
+	    var mozi = lost.length;
+	    
+	    
+	    
+	    if(lost[0] < reserve[0]){
+	        for(var i of lost){
+	            for(var j of reserve){
+	                if(i+1 === j){
+	                    mozi -= 1;
+	                }
+	            }
+	        }
+	    }else{
+	        for(var i of lost){
+	            for(var j of reserve){
+	                if(i-1 === j){
+	                    mozi -= 1;
+	                }
+	            }
+	        }
+	    }
+	    answer = n - mozi;
+	    
+	    return answer;
+	}
+
+</script>
+
+</body>
+</html>
