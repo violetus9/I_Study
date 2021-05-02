@@ -2,7 +2,7 @@ package lego;
 
 import java.util.Scanner;
 
-public class While_1110 {
+public class 1110 {
 	
 	public static void main(String[] args) {
 
