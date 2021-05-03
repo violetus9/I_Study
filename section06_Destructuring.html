@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Destructuring</title>
+</head>
+
+<body>
+
+  <!-- Destructuring Array -->
+  <script>
+
+    // Destructuring
+    // 기존에 구조를 갖고 있던 객체를 파괴하고 별도의 변수에 값을 할당하는 것
+    // 배열이나 객체 내부의 어느 값을 추출할 때 쉽게 받아오는 것!
+
+    let data = ['crong', 'honux', 'jk', 'jin'];
+    // 필요하면 이렇게 뽑아 쓸 수 있다
+    // let jisu = data[0];
+
+    // 하지만 아래같은 방법도 있어
+    let [jisu, , jung] = data;
+    console.log(jisu, jung);
+    // 이처럼 변수에 배열이나 오브젝트의 필요한 값을 할당하는데 유용하게 사용할 수 있다
+
+  </script>
+
+  <!-- Destructuring Object -->
+  <script>
+
+    let obj = {
+      name: 'cron',
+      addr: 'kor',
+      age: 10
+    }
+
+    // let {name, age} = obj;
+    // console.log(name,age);
+
+    let { name: myName, age: myAge } = obj;
+    console.log(myName, myAge);
+    // 뭐 이렇게 다른이름으로 저장해서 쓸 수 있고
+    // 다양한 활용이 가능
+
+  </script>
+
+  <!-- Destructuring 활용 JSON파싱 -->
+  <script>
+
+    var news = [
+      {
+        "a": "A",
+        "b": "B",
+        "c": [
+          '1',
+          '2',
+          '3'
+        ]
+      },
+      {
+        "a": "AA",
+        "b": "BB",
+        "c": [
+          '11',
+          '22',
+          '33'
+        ]
+      }
+    ]
+    // 이런 정보가 주어졌다 한다, AA만 뽑고싶대
+    // let [, AA] = news;
+    // console.log(AA); // 이렇게 뽑을 수 있고
+    // 추가적으로 정보가 더 알고싶다?
+    // let { a, b } = AA;
+    // console.log(a, b);
+    // 파싱할때 몇번쨰 인덱스 할 수 있지만 destructuring 이용해서 필요한 값만 딱 뽑을 수 이씀
+
+    // 위 값을 한번에 뽑는 방법(a, b)를 뽑겠다
+    let [, { a, b }] = news;
+    console.log(b); // b만 뽑아서 BB가 나오는 모습
+
+  </script>
+
+  <!-- Destructuring 활용_Event객체전달 -->
+  <script>
+
+    // function 을 써서 뽑을 수도 있다, 여선 c라는 리스트를~
+    function getC(c) {
+      console.log(c);
+    }
+    getC(news);
+
+  </script>
+
+  <div>Lorem ipsum dolor sit amet, consectetur adipisicing elit.</div>
+
+  <script>
+
+    // div가 있을 때 리스너를 걸어보께
+    document.querySelector('div').addEventListener('click', function (evt) {
+      console.log(evt.target);
+    });
+
+    // 아래대로 하면 div태그만 뽑히겠지
+    // document.querySelector('div').addEventListener('click', function ({target}) {
+    //   console.log(target.tagName);
+    // });
+
+  </script>
+
+</body>
+
+</html>
