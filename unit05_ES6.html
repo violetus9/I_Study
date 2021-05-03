@@ -121,6 +121,27 @@
         return;
       }
       turn = turn === 'X' ? 'O' : 'X';
+
+      // self Check 컴퓨터 랜덤위치 찍게끔
+      // 처음부터 완벽한 알고리즘을 구현하려 하지 말고 생각나는대로 주석달고, 그 지시대로 가면서 생각을 파생시키고 나아가기
+      if (turn === 'X') {
+        const emptyCells = rows.flat().filter((v) => !v.textContent);
+        const randomCell = emptyCells[Math.floor(Math.random() * emptyCells.length)];
+        randomCell.textContent = 'X';
+        const hasWinner = checkWinner(randomCell);
+        // 승자가 있으면
+        if (hasWinner) {
+          $result.textContent = `${turn}님의 승리!`;
+          return;
+        }
+        // 승자가 없다면
+        const draw = rows.flat().every((cell) => cell.textContent);
+        if (draw) {
+          $result.textContent = '무승부';
+          return;
+        }
+        turn = turn === 'X' ? 'O' : 'X';
+      }
     };
 
     for (let i = 1; i <= 3; i++) {
@@ -139,9 +160,13 @@
     // $table.addEventListener('click', callback, true); 일 경우 이벤트 캡쳐링. 기본값은 false이고 버블링.
     body.append($table);
     body.append($result);
-  </script>
 
-  <!-- 1:57:11 selfCheck -->
+    // 순차실행이므로 간혹 함수 선언을 아래에 하고 위에서 함수를 사용할 경우 에러가 날 수 있다
+    // 이렇기 때문에 함수 선언은 되도록 위쪽 라인에서 하도록 합시다
+
+    // 컴터 능지가 너무 딸림 > 랜덤배치기 때문
+    // >> 내가 2칸 입력했을때 남은 자리를 막게끔 해보댜
+  </script>
 
 </body>
 
