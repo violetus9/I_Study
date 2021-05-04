@@ -2,7 +2,8 @@ const express = require('express')
 const app = express()
 const port = 3000
 const bodyParser = require('body-parser');
-
+// 쿠키파써 불러오기
+const cookieParser = require('cookie-parser');
 // 몽고디비 키 가져오는부분, mongoose.connect부분을 보삼
 const config = require('./config/key');
 
@@ -12,6 +13,8 @@ const { User } = require("./models/User");
 app.use(bodyParser.urlencoded({ extended: true })); // 신버전부터 바디파서 필요없대
 // application/json 을 분석해서 가져올 수 있게
 app.use(bodyParser.json());
+// 쿠키파서 이렇게 해주고 사용할 수 있게
+app.use(cookieParser());
 
 const mongoose = require('mongoose')
 mongoose.connect(config.mongoURI, {
@@ -39,6 +42,52 @@ app.post('/register', (req, res) => {
     })
   })
 })
+
+// 로그인 추가함니다
+app.post('/login', (req, res) => {
+
+  // 요청된 이메일을 db에서 있는지 찾는다
+  User.findOne({ email: req.body.email }, (err, user) => {
+    if (!user) {
+      return res.json({
+        loginSuccess: false,
+        message: '제공된 이메일에 해당하는 유저가 없습니다.'
+      })
+    }
+
+    // 요청된 이메일이 db에 있다면 비번 맞는 비번인지 확인
+    user.comparePassword(req.body.password, (err, isMatch) => {
+      // 메서드는 유저모델에서 만들고 왔슴
+
+      if (!isMatch)
+        return res.json({ loginSuccess: false, message: '비번 틀려씀니다' })
+
+      // 비번까지 맞으면 토큰 생성(메서드 만들거 generate~~)
+      // (토큰 생성 위해 라이브러리 다운해야해(JSONWEBTOKEN))
+      user.generateToken((err, user) => { // 유저를 받아온것
+        // 에러가 있다면 > status400이면 에러가 있단거고 > 클라에 전해준다 send(에러메세지도)
+        if (err) return res.status(400).send(err);
+
+        // 토큰을 저장한다 > 어디에? 쿠키, 로컬스토리지, 등 여러군데 가능
+        // 쿠키라고 치면 application탭에서 쿠키 보임 거기 저장되고
+        // 로컬스토리지, 세션도 거기 탭에 있어, 어디에 저장할진 논란이 많지만 현재는 쿠키에 하겠어 (각기 장단이 이써)
+
+        // 쿠키할라믄 라이브러리 또 깔아야댐 ㅋ(저번에 깐거 바디파서 말고 쿠키파서가 또 있슴)
+        // 받았으면 상단가서 또 쿠키파서 가져와 주고 const cookiePar~
+        // 암튼, 토큰을 쿠키에 저장할거다
+        res.cookie('x_auth', user.token)  // x_auth는 쿠키창에서 나오는 이름
+          .status(200)  // 대충 성공했다는 얘기
+          .json({ loginSuccess: true, userId: user._id }) // 데이터 보내줌
+        // 뭐 이렇게 로그인 설정이 끝났으니 postman으로 로그인 해봐
+        // 서버 켜진거 확인하고 send 하는건 교양이쥬?
+      })
+    })
+  })
+})
+
+
+
+
 
 
 app.listen(port, () => console.log(`Example app listening on port ${port}!`))
