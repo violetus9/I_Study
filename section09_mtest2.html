@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>실습예제 2 - Destructuring 과 Set 을 활용한 로또 번호 생성기
+  </title>
+</head>
+
+<body>
+
+  <!-- Destructuring & Set 활용 -->
+  <script>
+
+    // 로또번호 생성 (폼)
+    // const SETTING = {
+    //   name: 'LUCKY LOTTO!',
+    //   count: 6,
+    //   maxNumber: 45
+    // }
+
+    // function getRandomNumber(maxNumber) {
+    //   // 랜덤 유일 숫자 값 추출
+    // }
+
+    const SETTING = {
+      name: '쓸모없는 값',
+      count: 6,
+      maxNumber: 45
+    }
+    function getRandomNumber(maxNumber) {
+      const randomPick = Math.floor(Math.random() * maxNumber) + 1;
+      (!lotSet.has(randomPick)) ? (lotSet.add(randomPick)) : '';
+    }
+    let { count, maxNumber } = SETTING;
+    let lotSet = new Set();
+    for (let i = 0; i < count; i++) {
+      getRandomNumber(maxNumber);
+    }
+    console.log(lotSet);
+
+    // 다른 사람의 풀이에서
+    // [...Array.from(Set)] 로도 배열을 뽑아낼 수 있다는걸 알았씀
+
+  </script>
+
+</body>
+
+</html>
