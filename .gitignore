@@ -1,2 +1,4 @@
 node_modules
 
+# 깃헙에 키 보이는것 방지차원
+dev.js
