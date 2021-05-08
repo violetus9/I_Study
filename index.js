@@ -6,7 +6,7 @@ const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
 // 몽고디비 키 가져오는부분, mongoose.connect부분을 보삼
 const config = require('./config/key');
-
+const { auth } = require.apply('./middleware/auth');
 const { User } = require("./models/User");
 
 // application/x-www-form-urlencoded 를 분석해서 가져올 수 있게
@@ -27,7 +27,7 @@ mongoose.connect(config.mongoURI, {
 app.get('/', (req, res) => res.send('Hello World 노드몬 추가했써 hihihi'))
 
 // 포스트를 사용합, 라우트 엔드포인트는 /register
-app.post('/register', (req, res) => {
+app.post('/api/users/register', (req, res) => {
   // 회원가입할 때 필요한 정보들을 client에서 가져오면
   // 그것들을 DB에 넣어줌
   // 저번에 만든 유저모델 가져와야대
@@ -44,7 +44,7 @@ app.post('/register', (req, res) => {
 })
 
 // 로그인 추가함니다
-app.post('/login', (req, res) => {
+app.post('/api/users/login', (req, res) => {
 
   // 요청된 이메일을 db에서 있는지 찾는다
   User.findOne({ email: req.body.email }, (err, user) => {
@@ -83,6 +83,22 @@ app.post('/login', (req, res) => {
       })
     })
   })
+})
+
+// 여기 auth 미들웨어 콜백실행 전 무언가 해줌 middleware 폴더생성한거
+app.get('/api/users/auth', auth, (req, res) => {
+
+  // 여기까지 미들웨어를 통과했다는 얘기는 Authentication 이 True라는 말
+  res.status(200).json({
+    _id: req.user._id,
+    isAdmin: req.user.role === 0 ? false : true,  // 이부분은 역할의 부여에 따라 바꿀 수 있음
+    isAuth: true,
+    email: req.user.email,
+    name: req.user.name,
+    lastname: req.user.lastname,
+    role: req.user.role,
+    image: req.user.image
+  })  // 이렇게 정보를 주면 어떤 페이지든 유저 정보를 이용할 수 있기에 편해진다
 })
 
 
