@@ -6,7 +6,7 @@ const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
 // 몽고디비 키 가져오는부분, mongoose.connect부분을 보삼
 const config = require('./config/key');
-const { auth } = require.apply('./middleware/auth');
+const { auth } = require('./middleware/auth');
 const { User } = require("./models/User");
 
 // application/x-www-form-urlencoded 를 분석해서 가져올 수 있게
@@ -101,7 +101,17 @@ app.get('/api/users/auth', auth, (req, res) => {
   })  // 이렇게 정보를 주면 어떤 페이지든 유저 정보를 이용할 수 있기에 편해진다
 })
 
-
+// 로그아웃
+app.get('/api/users/logout', auth, (req, res) => {  // 미들웨어, 로그인될 상태일테니 auth넣어준것
+  User.findOneAndUpdate({ _id: req.user._id },
+    { token: "" },
+    (err, user) => {
+      if (err) return res.json({ success: false, err });
+      return res.status(200).send({
+        success: true
+      })
+    })
+})
 
 
 
