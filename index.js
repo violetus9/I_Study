@@ -5,9 +5,9 @@ const bodyParser = require('body-parser');
 // 쿠키파써 불러오기
 const cookieParser = require('cookie-parser');
 // 몽고디비 키 가져오는부분, mongoose.connect부분을 보삼
-const config = require('./config/key');
-const { auth } = require('./middleware/auth');
-const { User } = require("./models/User");
+const config = require('./server/config/key');
+const { auth } = require('./server/middleware/auth');
+const { User } = require("./server/models/User");
 
 // application/x-www-form-urlencoded 를 분석해서 가져올 수 있게
 app.use(bodyParser.urlencoded({ extended: true })); // 신버전부터 바디파서 필요없대
