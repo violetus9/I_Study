@@ -1,13 +1,13 @@
 const express = require('express')
 const app = express()
-const port = 3000
+const port = 5000
 const bodyParser = require('body-parser');
 // 쿠키파써 불러오기
 const cookieParser = require('cookie-parser');
 // 몽고디비 키 가져오는부분, mongoose.connect부분을 보삼
-const config = require('./server/config/key');
-const { auth } = require('./server/middleware/auth');
-const { User } = require("./server/models/User");
+const config = require('./config/key');
+const { auth } = require('./middleware/auth');
+const { User } = require("./models/User");
 
 // application/x-www-form-urlencoded 를 분석해서 가져올 수 있게
 app.use(bodyParser.urlencoded({ extended: true })); // 신버전부터 바디파서 필요없대
@@ -25,6 +25,13 @@ mongoose.connect(config.mongoURI, {
 
 
 app.get('/', (req, res) => res.send('Hello World 노드몬 추가했써 hihihi'))
+
+
+// 임의로 보내보는 req를 받는 라우터
+app.get('/api/hello', (req, res) => {
+  res.send('안녕하세요 ~ ! 보냈는데 받았나 보자~')
+})
+
 
 // 포스트를 사용합, 라우트 엔드포인트는 /register
 app.post('/api/users/register', (req, res) => {
