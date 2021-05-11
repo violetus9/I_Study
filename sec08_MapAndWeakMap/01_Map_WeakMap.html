@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Map & WeakMap 추가정보를 담은 객체저장하기</title>
+</head>
+
+<body>
+
+  <script>
+
+    // JS상에서 자료를 처리하는게 배열과 오브젝트 있다
+    // Array -> set, weakSet (추가적 기능 수행의 방향)
+    // Object -> map, weakMap
+
+    // map은 key/value, 객체에 대한 부연설명이나 정보, 같이 저장
+
+    // weakMap을 보자
+    let wm = new WeakMap();
+    let myFun = function () { };
+    // 이 함수가 얼마나 실행됐을까? 를 알려고 할 때, 참조에 대한 count 하는 걸 보려 해
+
+    wm.set(myFun, 0);
+    console.log(wm);  // function => 0
+
+    // 이상태서 function을 부르기 위해
+    let count = 0;
+    for (let i = 0; i < 10; i++) {
+      count = wm.get(myFun);  // key값에 따른 value를 뽑아냄
+      count++;
+      wm.set(myFun, count);
+    }
+    console.log(wm);  // 10출력
+
+    // weakSet이 set과 다른 특성은 객체가 초기화 되었을때 gc대상이 되어 참조를 잃는다는 특성이 있었어
+    // weakMap도 ws와 유사하다.
+    // object 타입을 중복없이 사용할 때, 꽤나 유용하게 사용할 수 있다는거 다시한번 상기하자!
+
+  </script>
+
+</body>
+
+</html>
