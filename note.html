@@ -54,7 +54,7 @@
 		// const three = arr[2];
 		// const four = arr[3];
 		// const five = arr[4];	// 딱봐도 복잡하고 보기싫어
-		const [one, two, three, four, five] = arr;	// 깔끔
+		// const [one, two, three, four, five] = arr;	// 깔끔
 		// two, four 쓰고 싶지 않다면 해당 자리 공란으로 만들면 됨
 		const [one, , three, , five] = arr;	// 자릿수가 중요하다는걸 암시
 
@@ -130,13 +130,51 @@
 				event.currentTarget 이용할 것!
 	-->
 	
+	<!-- 참조, 얕은복사, 깊은복사 -->
+	<script>
+
+		// 얕 : 겉만 복사, 내부 참조
+		// 깊 : 전부 복사, 참조 끊김
+		const copy_a = [];
+		const copy_b = 'hello';
+		const copy_c = {};
+		const copy_arr = [copy_a, copy_b, copy_c];
+
+		const copy_arr1 = copy_arr;		// 객체를 담은 변수를 다른 변수에 대입 >> 참조
+
+		copy_arr[1] = 'h1';
+		console.log(copy_arr[1]);			// 참조다보니 원본 훼손
+
+		const copy_arr2 = [...copy_arr]
+		// 이경우 복사가 되었다 >> 얕은복사
+		// 다음과같은 문제가 생김
+		copy_arr2[0].push(1);
+		console.log(copy_arr[0]);
+		// 복사했는데 바뀜
+		// 그러니까 가장 겉 배열만 복사, a,b,c는 참조된 것,
+		// (문자열,숫자,boolean...)등 원시값들은 객체가 아닌값이고 애초에 참조가 없으니까 복사가 되지만
+		// a, c 같은경우 내부있는 객체기에 참조가 된다
+
+		// 내부마저 끊고싶다면 깊은복사(방법은 많지만)
+		// 가장 쉬운 방법은
+		const copy_arr3 = JSON.parse(JSON.stringify(copy_arr))
+		copy_arr3[0].push(2);
+		console.log(copy_arr[0]);
+
+		console.log(copy_arr3[1]);
+		console.log(copy_arr3[0]);
+
+		// JSON~~이 그렇다고 만능인건 아니다, 성능도 좋지 못하고 prototype같은 적용이 안되는 애들도 있다
+		// 실무에서는 lodash같은 다른사람이 만든 라이브러리를 가져다 쓴다 함
+
+	</script>
 
 
 	<!--
 			-대기열-
 				
-			정규식
 			=,==,===
+			프로토타입
 		
 	-->
 
