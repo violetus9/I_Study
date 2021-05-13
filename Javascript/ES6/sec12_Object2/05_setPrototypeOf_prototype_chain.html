@@ -29,11 +29,24 @@
       }
     }
 
-    const chileObj = Object.setPrototypeOf({
+    const childObj = Object.setPrototypeOf({
       age: 22
     }, healthChildObj);
 
     console.log(`childObj is ${childObj}`);
+
+    // 근데 healthObj가 쓰고싶다 예를들어 다른 객체가 쓰고싶다 뭐 그러면
+    // 객체 모델을 서로 체인을 맺을 수 있다
+
+    Object.setPrototypeOf(healthChildObj, healthObj);
+    // healthChildObj에 프로토타입 체인으로 healthObj가 들어가게됨
+
+    console.log(childObj);  // 프로토 열어보셈
+
+    childObj.setHealth('11:55');
+    childObj.showHealth();
+    // childObj가 체인으로 연결되어 sethealth> 직속인거에 하위 체인을 또 타고 가서 부모의 showHealth를 찾은 것
+    // 이러한 구조를 설계할 때 setPrototypeOf가 아주 효과적으로 쓰일 수 이씀
 
   </script>
 
