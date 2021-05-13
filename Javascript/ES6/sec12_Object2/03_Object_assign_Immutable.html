@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Object assign으로 Immutable 객체만들기
+  </title>
+</head>
+
+<body>
+
+  <script>
+
+    // Object assign 메서드
+    // obj assign은 사실 immutable 객체를 만드는 방법이기도 하다
+    const previousObj = {
+      name: 'abcd',
+      lastTime: '12:12',
+      pref: 'TOF?'
+    };    // 이전의 객체가 이런게 있다 쳐보자
+    // 현재는 프로토타입 필요 없으니까 빈 오브젝트 만들고
+    const myHealth = Object.assign({}, previousObj, { // assign은 이전객체와 새로운 객체를 쓸 수 있다
+      'lastTime': '12:30',
+      'age': 99
+    });
+    console.log(`myHealth is  ${myHealth}`);
+    // 이전값과 비교해서 새로운거 대체하고 아니면 그대로 써주게되는 모습
+
+    console.log(previousObj === myHealth); // false 근데 아무것도 후자에 지정 않으면 true가 나오겠찌? >> 근데 false가 나오게됨
+    // obj assign 잘 활용하면 객체를 복사? 해서 새로운 객체를 생성해서 비교든 뭐든 잘 활용할 수 있어
+    // 혹은 히스토리를 저장키 위해서 되돌리기나 그런게 가능토록 할 수 이씀
+
+    // 이 경우 참조를 유지않은 어느 값을 찍어보면 true를 반환
+    console.log(previousObj.pref === myHealth.pref);
+
+    // 전개연산을 쓴 복사도 좋지만 assign을 잘 썼을 경우 히스토리를 기억하며 계속 저장해나갈 수 있다는 장점이 있어
+
+  </script>
+
+</body>
+
+</html>

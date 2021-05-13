@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Object setPrototypeOf로 객체만들기</title>
+</head>
+
+<body>
+
+  <script>
+
+    // setPrototypeOf : ~~의 프로토로 세팅하겠다
+    // 얼핏 보면 assign과 같아보임
+    const healthObj = {
+      showHealth: function () {
+        console.log(`오늘 운동시간 ${this.healthTime}`);
+      },
+      setHealth: function (newTime) {
+        this.healthTime = newTime;
+      }
+    }
+
+    // setPrototypeOf : ~~의 프로토타입으로 세팅하겠다(프로토타입 객체에만 추가하겠다) >> 명확하고 단순한 기능 유지
+    const myHealth = {
+      name: 'cronh',
+      lastTime: '15:20'
+    };
+    Object.setPrototypeOf(myHealth, healthObj);  // myH객체에 프로토타입으로 ~Obj를 지정해줘~ 라는 말
+    console.log(`myHealth is ${myHealth}`);
+
+    const newObj = Object.setPrototypeOf({
+      name: "crong",
+      lastTime: '11:20'
+    }, healthObj);
+
+    console.log(newObj);
+    // setPrototypeOf()의 return은 생성된 특정 객체
+    // 이것 아니면 sth.__proto__ = proto 라고 내부지정된걸 함부로 접근해 사용했었는데 지양하라고 함
+    // 암튼, 객체를 만드는 것이라고까지만 알아두자
+
+  </script>
+
+</body>
+
+</html>
