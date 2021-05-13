@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>WeakSet 으로 효과적으로 객체타입저장하기</title>
+</head>
+
+<body>
+
+  <script>
+
+    // weakSet : 참조를 가지고 있는 객체만 저장이 가능!!!!!!
+    // 객체형태를 중복없이 저장하려 할 때 유용합니다, 실제 웹상에서 활용한 경우가 많아
+    let arr = [1, 2, 3, 4];
+    // let ws = new WeakSet();
+
+    ws.add(arr);
+    // console.log(ws);  // 추가가 잘 되는 모습
+
+    // 다른 형태도 넣어보까
+    // ws.add(111);
+    // ws.add('111');
+    // ws.add(null);
+    // 셋 모두 invalid 타입이라고 안넣어져 >> 가비지컬렉션 대상이 되기 때문이다
+    // 하지만 function은 넣어진다 >> 왜? >> 당연, 참조를 가진 객체이기 때문
+
+    // 참조를 계속 모니터링 한다고 보면 돼, 아래를 보자
+    let arr2 = [5, 6, 7, 8];
+    let obj = { arr, arr2 };  // 이 객체 생성법은 알지?, 그리고 이경우 obj는 전개연산이 먹히지 않아 > iterable이 아니기 때문
+
+    ws.add(arr);
+    ws.add(arr2);
+    ws.add(obj);
+
+    console.log(ws);
+    // 잘 추가된듯 보인다 weakSet상 존재하는 것 같지만?
+    arr = null; // 이렇게 한다면?
+    console.log(ws.has(arr), ws.has(arr2));
+    // false의 원인 : 가비지컬렉션 대상이 되지 않기에 유효하지 않은 객체, 참조를 잃게 된다는것
+
+  </script>
+
+</body>
+
+</html>

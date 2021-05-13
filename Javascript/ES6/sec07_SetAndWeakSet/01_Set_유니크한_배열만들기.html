@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Set으로 유니크한 배열만들기</title>
+</head>
+
+<body>
+
+  <script>
+
+    // set : 중복없이 유일 값을 저장코자 할 때, 이미 존재하는지 체크할 때 유용하다
+    // set은 객체를 생성하듯 선언한다
+    let mySet = new Set();
+    console.log(toString.call(mySet));
+    // object Set 타입!
+
+    mySet.add('crong');
+    mySet.add('crom');
+    mySet.add('crom');
+    mySet.forEach(function (v) {  // 어레이가 먹히는걸 보니 어레이판정인듯!?
+      console.log(v);
+    });
+    // 중복값은 제외되고 2요소 출력
+
+    console.log(mySet.has('crom')); // 데이터 요소를 갖고 있는지 확인
+
+    mySet.delete('crong');  // 데이터를 삭제시킬 수도 있어요
+
+  </script>
+
+</body>
+
+</html>
