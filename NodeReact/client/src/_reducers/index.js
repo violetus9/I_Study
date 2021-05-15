@@ -4,10 +4,10 @@
 // 로그인이나 레지, 코멘트 이런거 만들거임
 // 기능 많아질수록 rootReducer가 길어지겠쬬
 import { combineReducers } from 'redux';
-// import user from './user_reducer';
+import user from './user_reducer';
 
 const rootReducer = combineReducers({
-  // user
+  user
 })
 
 // 다른 폴더서 쓸 수 있게 디폴트
