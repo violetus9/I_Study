@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { loginUser } from "../../../_actions/user_action";
 
+
 function LoginPage(props) {
 
   // 액션 취하기 위한 dispatch
@@ -28,7 +29,7 @@ function LoginPage(props) {
     // 서버에 보내려면 Axios 써서 post 메서드 이용해서 해당 값들 넣어서 보내믄댐
     let body = {
       email: Email,
-      Password: Password
+      password: Password
     }
     // 보낼때 앞에 경로는 index.js에서랑 같게해주고(보내고 받고 맞아야하니까)
     // 그렇게 딱 보내주면 index.js의 user.find에서 찾는다 해당 값을
@@ -42,7 +43,8 @@ function LoginPage(props) {
         if (response.payload.loginSuccess) {
           props.history.push('/')
         } else {
-          alert('Error!')
+          alert('Error"')
+          // console.log(response.payload)
         }
       })
 
