@@ -2,7 +2,7 @@
 /* eslint-disable import/no-anonymous-default-export */
 // 로그인이나 레지스터 기능 만들때 하나하나 해나갈 파일임
 
-import { LOGIN_USER } from "../_actions/types";
+import { LOGIN_USER, REGISTER_USER } from "../_actions/types";
 
 export default function (state = {}, action) {
 
@@ -10,6 +10,11 @@ export default function (state = {}, action) {
   switch (action.type) {
     case LOGIN_USER:
       return { ...state, loginSuccess: action.payload };
+      // eslint-disable-next-line no-unreachable
+      break;
+
+    case REGISTER_USER:
+      return { ...state, register: action.payload };
       // eslint-disable-next-line no-unreachable
       break;
 
