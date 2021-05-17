@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react'
 import axios from 'axios';
+import { withRouter } from "react-router-dom";
 
 function LandingPage(props) {
   // 랜딩페이지 오자마자 이걸 실행할건데, get > req를 서버로 보낼것, /api/hello로
@@ -36,4 +37,4 @@ function LandingPage(props) {
   )
 }
 
-export default LandingPage
+export default withRouter(LandingPage)
