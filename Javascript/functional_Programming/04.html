@@ -100,6 +100,100 @@
 
   </script>
 
+  <!-- filter -->
+  <script>
+
+    // filter: 걸러내는애임
+    const filter = (iter) => {
+      let res = [];
+      for (const a of iter) {
+        if (f(a)) res.push(a);
+      }
+      return res;
+    }
+
+    log(...filter(p => p.price < 20000, products));
+
+    // 또 다른 예들
+    log(filter(n => n % 2, [1, 2, 3, 4]));
+
+    log(filter(n => n % 2, function* () {
+      yield 1;
+      yield 2;
+      yield 3;
+      yield 4;
+      yield 5;
+    }))
+
+  </script>
+
+  <!-- reduce -->
+  <script>
+
+    // 축약, 하나로 만드는 것
+    const nums = [1, 2, 3, 4, 5];
+
+    let total = 0;
+    for (const n of nums) {
+      total = total + n;
+    }
+    log(total); // 특정 값들 순회하며 하나로 축약할 때 쓰인다
+
+    const reduce = (f, acc, iter) => {
+      if (!iter) {
+        iter = acc[Symbol.iterator]();  // 이터러블을 이터레이터로 만들고
+        acc = iter.next().value;
+      }
+      for (const a of iter) {
+        acc = f(acc, a);
+      }
+      return acc; // 외부세상 변경 않고 리턴
+    };
+    const add = (a, b) => a + b;
+    log(reduce(add, 0, [1, 2, 3, 4, 5]));
+    // 내부 구동은 재귀적으로 add(add(add(add(0, 1), 2), 3), 4) 이런식이다
+
+    // 초기값을 빼면 아래처럼 구동됨
+    // add, 0, [1, 2, 3, 4, 5]
+    // add, 1, [2, 3, 4, 5]
+
+  </script>
+
+  <!-- reduce2 -->
+  <script>
+
+    // 보조함수를 이용해 어떻게 축약할지를 완전 위임한다
+    log(reduce((total_price, product) => total_price + product.price,
+      0,
+      products));
+
+  </script>
+
+  <!-- map+filter+reduce 중첩 사용과 함수형 사고 -->
+  <script>
+    const add1 = (a, b) => a + b;
+
+    // 가격을 뽑기 원한다
+    log(map(p => p.price, products));
+
+    // 특정 조건을 맞춘 애들의 금액만, 다 더해서 뽑고싶다
+    log(
+      reduce(
+        add,
+        map(p => p.price,
+          filter(p => p.price < 20000, products))));
+
+    // 이처럼 해도 같은얘기
+    log(
+      reduce(
+        add,
+        filter(n => n < 20000,
+          map(p => p.price, products))));
+
+    // reduce(add, 숫자로 평가가 될 것을 기대하는 요소 진입)
+
+  </script>
+
 </body>
 
 </html>
