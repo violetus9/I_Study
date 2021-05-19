@@ -1,9 +1,21 @@
 import React, { useState } from 'react';
 import { Typography, Button, Form, message, Input, Icon } from 'antd';
 import Dropzone from 'react-dropzone';
+import Axios from 'axios';
 
 const { TextArea } = Input;
 const { Title } = Typography;
+
+const PrivateOptions = [
+  { value: 0, label: 'Private' },
+  { value: 1, label: 'Public' }
+]
+const CategoryOptions = [
+  { value: 0, label: 'Film & Animation' },
+  { value: 1, label: 'Autos & Vegicles' },
+  { value: 2, label: 'Music' },
+  { value: 3, label: 'Pets & Animals' }
+]
 
 function VideoUploadPage() {
 
@@ -12,6 +24,37 @@ function VideoUploadPage() {
   const [Description, setDescription] = useState("")
   const [Private, setPrivate] = useState(0)
   const [Category, setCategory] = useState('Film & Animation')
+
+  const onTitleChange = (e) => {
+    // console.log(e) // e가 뭔지 보고가실게요
+    setVideoTitle(e.currentTarget.value)
+  }
+  const onDescriptionChange = (e) => {
+    setDescription(e.currentTarget.value)
+  }
+  const onPrivateChange = (e) => {
+    setPrivate(e.currentTarget.value)
+  }
+  const onCategoryChange = (e) => {
+    setCategory(e.currentTarget.value)
+  }
+
+  const onDrop = (files) => {
+    let formData = new FormData;
+    const config = {
+      header: { 'content-type': 'ultipart/form-data' }
+    }
+    formData.append('file', files[0])
+
+    Axios.post('/api/video/uploadfiles', formData, config)
+      .then(response => {
+        if (response.data.success) {
+          // console.log(response.data)
+        } else {
+          alert('failed upload!!!^^')
+        }
+      })
+  }
 
   return (
     <div style={{ maxWidth: '700px', margin: '2rem auto' }}>
@@ -22,9 +65,9 @@ function VideoUploadPage() {
       <Form onSubmit>
         <div style={{ display: 'flex', justifyContent: 'space-between' }}>
           <Dropzone
-            onDrop
-            multiple
-            maxSize
+            onDrop={onDrop}
+            multiple={false}
+            maxSize={1000000000}
           >
             {({ getRootProps, getInputProps }) => (
               <div style={{
@@ -47,25 +90,29 @@ function VideoUploadPage() {
         <br />
         <label>Title</label>
         <Input
-          onChange
+          onChange={onTitleChange}
           value={VideoTitle} />
         <br />
         <br />
         <label>Description</label>
         <TextArea
-          onChange
+          onChange={onDescriptionChange}
           value={Description}
         />
         <br />
         <br />
 
-        <select onChange>
-          <option key value></option>
+        <select onChange={onPrivateChange}>
+          {PrivateOptions.map((item, index) => (
+            <option key={index} value={item.value}>{item.label}</option>
+          ))}
         </select>
 
 
-        <select onChange>
-          <option key value></option>
+        <select onChange={onCategoryChange}>
+          {CategoryOptions.map((item, index) => (
+            <option key={index} value={item.value}>{item.label}</option>
+          ))}
         </select>
         <br />
         <br />
