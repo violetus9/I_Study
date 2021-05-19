@@ -21,12 +21,12 @@ function VideoUploadPage() {
 
       <Form onSubmit>
         <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-          {/* <Dropzone
+          <Dropzone
             onDrop
             multiple
             maxSize
           >
-            maxSize{({ getRootProps, getInputProps }) => (
+            {({ getRootProps, getInputProps }) => (
               <div style={{
                 width: '300px', height: '240px', border: '1px solid lightgray', display: 'flex',
                 alignItems: 'center', justifyContent: 'center'
@@ -35,7 +35,7 @@ function VideoUploadPage() {
                 <Icon type="plus" style={{ fontSize: '3rem' }} />
               </div>
             )}
-          </Dropzone> */}
+          </Dropzone>;
 
           <div>
             <img src alt />
