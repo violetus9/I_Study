@@ -48,6 +48,17 @@ router.post('/uploadVideo', (req, res) => {
 
 })
 
+router.post('/getVideo', (req, res) => {
+  // 비디오 db서 가져와서 클라에 보냄
+  Video.find()
+    .populate('writer')   // populate 해줘야지 writer 모든정보 가져옴
+    .exec((err, videos) => {
+      if (err) return res.status(400).send(err);
+      res.status(200).json({ success: true, videos })
+    })
+
+})
+
 router.post('/thumbnail', (req, res) => {
 
   // 썸네일 생성하고 비디오 러닝타임도 가져오기
