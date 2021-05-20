@@ -78,7 +78,7 @@ function VideoUploadPage() {
                 <Icon type="plus" style={{ fontSize: '3rem' }} />
               </div>
             )}
-          </Dropzone>;
+          </Dropzone>
 
           <div>
             <img src alt />
