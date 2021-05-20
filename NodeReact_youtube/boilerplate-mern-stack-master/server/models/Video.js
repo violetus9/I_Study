@@ -8,18 +8,20 @@ const videoSchema = mongoose.Schema({
   },
   title: {
     type: String,
-    maxlength: 50,
+    maxlength: 50
   },
   description: {
-    type: String,
+    type: String
   },
   privacy: {
-    type: Number,
+    type: Number
   },
   filePath: {
-    type: String,
+    type: String
   },
-  catogory: String,
+  catogory: {
+    String
+  },
   views: {
     type: Number,
     default: 0
@@ -30,7 +32,7 @@ const videoSchema = mongoose.Schema({
   thumbnail: {
     type: String
   }
-}, { timestamps: true })
+}, { timestamps: true })  // 만든 date와 업뎃 date 표시되게
 
 
 const Video = mongoose.model('Video', videoSchema);

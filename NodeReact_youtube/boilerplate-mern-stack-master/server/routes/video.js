@@ -7,17 +7,17 @@ const multer = require('multer');
 const ffmpeg = require('fluent-ffmpeg');
 
 // STORAGE MULTER CONFIG
-var storage = multer.diskStorage({
+let storage = multer.diskStorage({
   destination: (req, file, cb) => {
-    cb(null, 'uploads/')
+    cb(null, "uploads/");
   },
   filename: (req, file, cb) => {
-    cb(null, `${Date.now()}_${file.originalname}`)
+    cb(null, `${Date.now()}_${file.originalname}`);
   },
   fileFilter: (req, file, cb) => {
     const ext = path.extname(file.originalname)
     if (ext !== '.mp4') { // 다른 파일 올리고싶으면 ||하고 추가하면 돼그냥
-      return cb(res.status(400).end('only jpg, png, mp4 is allowed'), false);
+      return cb(res.status(400).end('only mp4 is allowed'), false);
     }
     cb(null, true)
   }
@@ -32,11 +32,20 @@ const upload = multer({ storage: storage }).single('file');
 router.post('/uploadfiles', (req, res) => {
   // 비디오를 서버에 저장한다.
   upload(req, res, err => {
-    if (err) {
-      return res.json({ success: false, err })
-    }
-    return res.json({ success: true, url: res.req.file.path, fileName: res.req.file.filename })
+    if (err) return res.json({ success: false, err });
+
+    return res.json({ success: true, url: res.req.file.path, fileName: res.req.file.filename });
   })
+})
+
+router.post('/uploadVideo', (req, res) => {
+  // 비디오 정보들을 저장한다.
+  const video = new Video(req.body)
+  video.save((err, dox) => {
+    if (err) return res.json({ success: false, err })
+    res.status(200).json({ success: true })
+  })
+
 })
 
 router.post('/thumbnail', (req, res) => {
