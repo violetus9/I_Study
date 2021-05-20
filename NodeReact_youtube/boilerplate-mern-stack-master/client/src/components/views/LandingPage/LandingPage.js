@@ -14,6 +14,7 @@ function LandingPage() {
         Axios.get('/api/video/getVideos')
             .then(response => {
                 if (response.data.success) {
+                    console.log(response.data.videos)
                     setVideo(response.data.videos)
                 } else {
                     alert('비디오 가져오기 실패')
@@ -24,7 +25,7 @@ function LandingPage() {
 
 
 
-    const renderCards = Videos.map((video, index) => {
+    const renderCards = Video.map((video, index) => {
 
         let minutes = Math.floor(video.duration / 60);
         let seconds = Math.floor(video.duration - minutes * 60);
