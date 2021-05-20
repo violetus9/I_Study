@@ -24,6 +24,9 @@ function VideoUploadPage() {
   const [Description, setDescription] = useState("")
   const [Private, setPrivate] = useState(0)
   const [Category, setCategory] = useState('Film & Animation')
+  const [FilePath, setFilePath] = useState('')
+  const [Duration, setDuration] = useState('')
+  const [ThumbnailPath, setThumbnailPath] = useState('')
 
   const onTitleChange = (e) => {
     // console.log(e) // e가 뭔지 보고가실게요
@@ -50,6 +53,24 @@ function VideoUploadPage() {
       .then(response => {
         if (response.data.success) {
           // console.log(response.data)
+
+          let variable = {
+            url: response.data.url,
+            fileName: response.data.fileName
+          }
+          setFilePath(response.data.url)
+
+          Axios.post('/api/video/thumbnail', variable)
+            .then(response => {
+              if (response.data.success) {
+                // console.log(response.data)
+                setDuration(response.data.fileDuration)
+                setThumbnailPath(response.data.url)
+              } else {
+                alert('썸네일 생성 실패!')
+              }
+            })
+
         } else {
           alert('failed upload!!!^^')
         }
@@ -80,10 +101,12 @@ function VideoUploadPage() {
             )}
           </Dropzone>
 
-          <div>
-            <img src alt />
-          </div>
-
+          {/* 썸네일 패스가 있을때만 작동하겠따 && */}
+          {ThumbnailPath &&
+            <div>
+              <img src={`http://localhost:5000/%ThumbnailPath`} alt='thumbnail' />
+            </div>
+          }
         </div>
 
         <br />
@@ -124,7 +147,7 @@ function VideoUploadPage() {
       </Form>
 
 
-    </div>
+    </div >
   )
 }
 
