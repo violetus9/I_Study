@@ -1,7 +1,10 @@
 import Axios from 'axios';
 import React, { useEffect, useState } from 'react'
-import { FaCode } from "react-icons/fa";
 import moment from 'moment';
+import { Card, Avatar, Col, Typography, Row } from 'antd';
+
+const { Title } = Typography;
+const { Meta } = Card;
 
 function LandingPage() {
 
