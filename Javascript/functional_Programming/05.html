@@ -6,11 +6,10 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>코드를 값으로 다루어 표현력 높이기</title>
+  <script src="05.js"></script>
 </head>
 
 <body>
-
-  <script>const log = console.log;</script>
 
   <script>
 
@@ -64,16 +63,60 @@
 
   <!-- go를 사용하여 읽기 좋은 코드로 만들기 -->
   <script>
-    const go1 = (...args) => reduce((a, f) => f(a), args);
 
-    go1(
+    go(
       products,
       products => filter(p => p.price < 20000, products),
       products => map(p => p.price, products),
       prices => reduce(add, prices),
       log);
 
+
+
   </script>
+
+  <!-- go+curry를 사용하여 더 읽기 좋은 코드로 만들기 -->
+  <script>
+
+    // curry 붙은 경우 아래처럼 간결해짐
+    go(
+      products,
+      filter(p => p.price < 20000),
+      map(p => p.price),
+      reduce(add),
+      log);
+
+  </script>
+
+  <!-- 함수 조합으로 함수 만들기 -->
+  <script>
+
+    // 위 함수에서 중복된 부분을 제거
+    const total_price = pipe(
+      map(p => p.price),
+      reduce(add)
+    );
+
+    const base_total_price = predi => pipe(
+      filter(predi),
+      total_price
+    );
+
+    go(
+      products,
+      filter(p => p.price < 20000),
+      total_price,
+      log);
+
+    go(
+      products,
+      base_total_price(p => p.price <= 20000),
+      log);
+    // 고차 함수를 잘게잘게 나눌 수 이씀
+
+  </script>
+
+
 
 </body>
 
