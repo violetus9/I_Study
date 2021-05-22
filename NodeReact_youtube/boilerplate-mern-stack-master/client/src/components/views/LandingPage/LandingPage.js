@@ -11,13 +11,13 @@ function LandingPage() {
     // 비디오 정보 저장 state
     const [Video, setVideo] = useState([])
 
-
+    // dom 로드 되자마자
     useEffect(() => {
 
         Axios.get('/api/video/getVideos')
             .then(response => {
                 if (response.data.success) {
-                    console.log(response.data.videos)
+                    // console.log(response.data) // 비디오데이터 전달되나 본거임
                     setVideo(response.data.videos)
                 } else {
                     alert('비디오 가져오기 실패')
@@ -34,10 +34,10 @@ function LandingPage() {
         let seconds = Math.floor(video.duration - minutes * 60);
 
         return <Col lg={6} md={8} xs={24}>
-            <div style={{ position: 'relative' }}>
-                <a href={`/video/${video._id}`} >
+            <a href={`/video/post/${video._id}`} >
+                <div style={{ position: 'relative' }}>
                     <img style={{ width: '100%' }} alt="thumbnail" src={`http://localhost:5000/${video.thumbnail}`} />
-                    <div className=" duration"
+                    <div className="duration"
                         style={{
                             bottom: 0, right: 0, position: 'absolute', margin: '4px',
                             color: '#fff', backgroundColor: 'rgba(17, 17, 17, 0.8)', opacity: 0.8,
@@ -46,8 +46,8 @@ function LandingPage() {
                         }}>
                         <span>{minutes} : {seconds}</span>
                     </div>
-                </a>
-            </div><br />
+                </div>
+            </a><br />
             <Meta
                 avatar={
                     <Avatar src={video.writer.image} />
@@ -66,7 +66,7 @@ function LandingPage() {
             <Title level={2} > Recommended </Title>
             <hr />
 
-            <Row gutter={16}>
+            <Row gutter={[32, 16]}>
                 {renderCards}
             </Row>
         </div>

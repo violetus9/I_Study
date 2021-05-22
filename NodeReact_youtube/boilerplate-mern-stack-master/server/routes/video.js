@@ -47,7 +47,7 @@ router.post('/uploadVideo', (req, res) => {
   })
 })
 
-router.post('/getVideo', (req, res) => {
+router.get('/getVideos', (req, res) => {
   // 비디오 db서 가져와서 클라에 보냄
   Video.find()
     .populate('writer')   // populate 해줘야지 writer 모든정보 가져옴
