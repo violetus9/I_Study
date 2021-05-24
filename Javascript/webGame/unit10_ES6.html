@@ -69,6 +69,8 @@
         this.hp += 20;
         this.hp -= monster.attack;
       },
+      // this는 화살표함수에서 못쓰는거 알지
+      // 화살표에서 this >> window를 가르킨다는거(window는 생략 가능)
     };
     let monster = null;
     const monsterList = [

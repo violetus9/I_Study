@@ -169,13 +169,27 @@
 
 	</script>
 
+	<!-- 객체 리터럴 -->
+	<script>
 
-	<!--
-			-대기열-
-				
-			프로토타입
-		
-	-->
+		const ObjLit = {
+			// 일반 선언
+			name: 'hihi',
+
+			// 함수 선언
+			attack(monster){
+				monster.hp -= this.att; 
+			},
+			attac: function(props){
+				console.log('엄밀하게 attack과 같은 방식과 다르지만 큰 차이는 없음')
+			},
+			atta: (props) => {
+				console.log('결국 화살표함수냐 아니냐만 좀 중요하게 따져도 됨')
+			}
+
+		}
+
+	</script>
 
 </body>
 
