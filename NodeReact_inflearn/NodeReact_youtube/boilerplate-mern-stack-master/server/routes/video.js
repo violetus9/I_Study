@@ -58,6 +58,7 @@ router.get('/getVideos', (req, res) => {
 })
 
 router.post('/getVideoDetail', (req, res) => {
+  console.log(req.body.videoId)
   // 디테일 주세요
   Video.findOne({ '_id': req.body.videoId })
     .populate('writer')
