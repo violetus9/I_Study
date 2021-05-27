@@ -1,3 +1,16 @@
+# 자바스크립트의 필수 개념들
+
+1. [변수,호이스팅,TDZ](#변수,-호이스팅,-TDZ)   
+2. [생성자함수](#생성자-함수)
+
+
+<br>
+<br>
+
+------------
+------------
+
+
 ## 변수, 호이스팅, TDZ(Temporal Dead Zone)   
 
 * var   
@@ -49,14 +62,54 @@
 
 <br>
 
---------------------
+##### [목록보기](#자바스크립트의-필수-개념들)
+----------------------
 
+## 생성자 함수
 
+회원이나 상품같은 여러개의 객체를 생성하고자 할 때!
 
+  ```javaScript
 
+  function User(name, age){
+    // this = {}
+    this.name = name;
+    this.age = age;
+    // return this;
 
+    // 주석 부분은 실제로 코드에 없어, new를 쓴 순간 내부적인 구동이 저렇다는거야
+  }
 
+  let user1 = new User('A', 30);
+  let user2 = new User('B', 20);
+  let user3 = new User('C', 10);
 
+  ```
+  * 첫 글자는 대문자로
+  * new 를 이용한 호출
+    - new를 붙이지 않으면 함수 실행뿐이고 그 값이 해당 변수로 들어가는 개념임
+    
+<br>
+   
+메서드를 추가해보자
+
+  ```javaScript
+
+  function User(name, age){
+    this.name = name;
+    this.age = age;
+    this.sayName = function(){
+      console.log(this.name);
+    }
+  }
+
+  let user = new User('N', 30);
+  user.sayName(); // 'N'
+
+  ```
+
+##### [목록보기](#자바스크립트의-필수-개념들)
+----------------------
 
 
 
