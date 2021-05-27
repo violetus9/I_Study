@@ -3,6 +3,7 @@ import { Row, Col, List, Avatar } from "antd";
 import Axios from 'axios';
 import SideVideo from "./Sections/SideVideo";
 import Subscribe from "./Sections/Subscribe";
+import Comment from './Sections/Comment';
 
 function VideoDetailPage(props) {
 
@@ -29,6 +30,9 @@ function VideoDetailPage(props) {
 
   if (VideoDetail.writer) {
     console.log(VideoDetail)
+
+    const subscribeButton = VideoDetail.writer._id !== localStorage.getItem('userId') && <Subscribe userTo={VideoDetail.writer._id} userFrom={localStorage.getItem('userId')} />
+
     return (
       <Row gutter={[16, 16]}>
         <Col lg={18} xs={24}>
@@ -37,7 +41,7 @@ function VideoDetailPage(props) {
             <video style={{ width: '100%' }} src={`http://localhost:5000/${VideoDetail.filePath}`} controls />
 
             <List.Item
-              actions={[<Subscribe userTo={VideoDetail.writer._id} userFrom={localStorage.getItem('userId')} />]}
+              actions={[subscribeButton]}
             >
               <List.Item.Meta
                 avatar={<Avatar src={VideoDetail.writer.image} />}
@@ -48,6 +52,7 @@ function VideoDetailPage(props) {
             </List.Item>
 
             {/* Comments */}
+            <Comment />
 
           </div>
         </Col>
