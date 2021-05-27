@@ -12,11 +12,15 @@
   const par = parseInt('asd123') // NaN
   ```
 
-* **split(',')** : String객체 > A로 나눈 배열
+* **.split(',')** : String객체 > A로 나눈 배열
   ```javaScript
   const str = 'a b c d,e'
   str.split(' ');   // ['a', 'b', 'c', 'd,e']
   ```
+
+* **.toFixed(num)** : 소숫점(반올림) num자리
+
+
 
 
   
