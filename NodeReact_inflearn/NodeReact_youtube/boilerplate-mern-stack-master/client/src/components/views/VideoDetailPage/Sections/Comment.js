@@ -1,6 +1,8 @@
 import React, { useState } from 'react'
 import Axios from 'axios'
 import { useSelector } from 'react-redux'
+import SingleComment from './SingleComment'
+
 
 function Comment(props) {
 
@@ -26,6 +28,9 @@ function Comment(props) {
       .then(response => {
         if (response.data.success) {
           // console.log(response.data.result)
+          setcommentValue('')
+          // 부모컴포넌트 업데이팅해야해
+          props.refreshFunction(response.data.result)
         } else {
           alert('코멘트를 저장하지 못했습니다.')
         }
@@ -43,19 +48,22 @@ function Comment(props) {
       <hr />
       {/* Comment Lists */}
 
-
-
+      {props.commentLists && props.commentLists.map((comment, index) => {
+        (!comment.responseTo &&
+          <SingleComment refreshFunction={refreshFunction} comment={comment} postId={videoId} />
+        )
+      })}
 
       {/* Root Comment Form */}
       <form style={{ display: 'flex' }} onSubmit={onSubmit}>
-        <TextArea
+        <textarea
           style={{ width: '100%', borderRadius: '5px' }}
           onChange={handleClick}
           value={Comment}
           placeholder="write some comments"
         />
         <br />
-        <Button style={{ width: '20%', height: '52px' }} onClick={onSubmit}>Submit</Button>
+        <button style={{ width: '20%', height: '52px' }} onClick={onSubmit}>Submit</button>
       </form>
 
     </div>
