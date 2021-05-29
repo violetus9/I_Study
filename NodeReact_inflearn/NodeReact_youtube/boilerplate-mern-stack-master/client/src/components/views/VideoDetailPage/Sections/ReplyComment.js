@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import SingleComment from './SingleComment'
 
 function ReplyComment(props) {
@@ -25,7 +25,7 @@ function ReplyComment(props) {
       <React.Fragment>
         {
           comment.responseTo === parentCommentId &&
-          <div style={{ width: '80%', marginLeft='40px' }}>
+          <div style={{ width: '80%', marginLeft: '40px' }}>
             <SingleComment refreshFunction={props.refreshFunction} comment={comment} postId={props.videoId} />
             <ReplyComment refreshFunction={props.refreshFunction} commentLists={props.commentLists} postId={props.videoId} parentCommentId={comment._id} />
           </div>
