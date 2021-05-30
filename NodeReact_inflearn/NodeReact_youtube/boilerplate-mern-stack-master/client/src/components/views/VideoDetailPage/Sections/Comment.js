@@ -3,6 +3,8 @@ import Axios from 'axios'
 import { useSelector } from 'react-redux'
 import SingleComment from './SingleComment'
 import ReplyComment from './ReplyComment'
+import { Button } from 'antd'
+import TextArea from 'antd/lib/input/TextArea'
 
 
 function Comment(props) {
@@ -49,25 +51,25 @@ function Comment(props) {
       <hr />
       {/* Comment Lists */}
 
-      {props.commentLists && props.commentLists.map((comment, index) => {
+      {props.commentLists && props.commentLists.map((comment, index) => (
         (!comment.responseTo &&
           <React.Fragment>
             <SingleComment refreshFunction={props.refreshFunction} comment={comment} postId={videoId} />
             <ReplyComment refreshFunction={props.refreshFunction} parentCommentId={comment._id} postId={videoId} commentLists={props.commentLists} />
           </React.Fragment>
         )
-      })}
+      ))}
 
       {/* Root Comment Form */}
       <form style={{ display: 'flex' }} onSubmit={onSubmit}>
-        <textarea
+        <TextArea
           style={{ width: '100%', borderRadius: '5px' }}
           onChange={handleClick}
-          value={Comment}
+          value={commentValue}
           placeholder="write some comments"
         />
         <br />
-        <button style={{ width: '20%', height: '52px' }} onClick={onSubmit}>Submit</button>
+        <Button style={{ width: '20%', height: '52px' }} onClick={onSubmit}>Submit</Button>
       </form>
 
     </div>
