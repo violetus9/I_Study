@@ -1,7 +1,8 @@
 # 자바스크립트의 필수 개념들
 
 1. [변수,호이스팅,TDZ](#변수,-호이스팅,-TDZ)   
-2. [생성자함수](#생성자-함수)
+2. [생성자함수](#생성자-함수)   
+3. [Object methods, Computed property](#Object-methods,-Computed-property)   
 
 
 <br>
@@ -70,7 +71,6 @@
 회원이나 상품같은 여러개의 객체를 생성하고자 할 때!
 
   ```javaScript
-
   function User(name, age){
     // this = {}
     this.name = name;
@@ -83,7 +83,6 @@
   let user1 = new User('A', 30);
   let user2 = new User('B', 20);
   let user3 = new User('C', 10);
-
   ```
   * 첫 글자는 대문자로
   * new 를 이용한 호출
@@ -94,7 +93,6 @@
 메서드를 추가해보자
 
   ```javaScript
-
   function User(name, age){
     this.name = name;
     this.age = age;
@@ -105,11 +103,54 @@
 
   let user = new User('N', 30);
   user.sayName(); // 'N'
-
   ```
 
 ##### [목록보기](#자바스크립트의-필수-개념들)
 ----------------------
+
+## Object methods, Computed property
+
+* Computed property
+  ```javaScript
+  let a = 'age';
+  const user = {
+    name: 'ABC',
+    [a]: 30,   // age : 30 (계산된 프로퍼티)
+    [1 + 4]: 5,
+    ['he'+'llo'] : 'hello'  // 이렇게 넣는 것도 가능
+  }
+
+  // 어느 것이 key가 될지 모르는 객체에 유용하다
+  function makeObj(key, val){
+    return {
+      [key]: val
+    };
+  }
+  const obj = makeObj('오', '굳~')  // {오: '굳~'}
+  ```
+* Object Methods
+  * Object.assign() : 객체 복제
+    ```javaScript
+    const user = {
+      name: 'Mike',
+      age: 30
+    }
+    const clonUser = user;  // 참조일 뿐, 복제는 되지 않는다
+
+    // 복제를 원한다면
+    const newUser = Object.assign({기본객체}, user);  // 기본객체 + user
+    Object.assign(user, 객체1, 객체2);  // user + 객체1, user + 객체2
+    ```
+  * Object.keys() : 키 **배열** 반환
+  * Object.values() : 값 **배열** 반환
+  * Object.entries() : 키/값 **배열**로 반환(배열 속 배열)
+  * Object.fromEntries() : 키/값 배열을 객체로
+
+##### [목록보기](#자바스크립트의-필수-개념들)
+----------------------
+
+
+
 
 
 
