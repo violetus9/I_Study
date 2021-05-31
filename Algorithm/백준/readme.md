@@ -1,6 +1,14 @@
-## JS로 풀기
+## 언어별 입력 방법
+
+[JavaScript](#JavaScript)   
+[python](#python)   
+
+---------------------
+---------------------
 
 <br>
+
+## JavaScript
 
 1. readline 모듈
     ```javaScript
@@ -67,3 +75,30 @@
     ```
     * *line : 입력값, 문자열*
 
+
+---------------------
+---------------------
+
+## python
+  
+1. input()
+  ```python
+  data = list(map(int, input().split()))
+  ```
+
+<br>
+
+2. sys.stdin.readline()
+  ```python
+  import sys
+
+  # 2차원 리스트 입력시
+  li = [list(map(int, sys.stdin.readline().split())) for _ in range(N)]
+
+  # 문자열 입력시
+  text = sys.stdin.readline().rstrip()  
+  ```
+
+  * input() 으로 받는 입력보다 sys 이용하는 편이 더 빠르대
+
+-----------------------
