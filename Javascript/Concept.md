@@ -1,8 +1,10 @@
 # 자바스크립트의 필수 개념들
 
-1. [변수,호이스팅,TDZ](#변수,-호이스팅,-TDZ)   
+1. [변수, 호이스팅, TDZ](#변수,-호이스팅,-TDZ)   
 2. [생성자함수](#생성자-함수)   
 3. [Object methods, Computed property](#Object-methods,-Computed-property)   
+4. [Symbol](#Symbol)   
+5. [Number, Math](#Number,-Math-method)   
 
 
 <br>
@@ -149,8 +151,96 @@
 ##### [목록보기](#자바스크립트의-필수-개념들)
 ----------------------
 
+## Symbol
+
+* property key : 문자형   
+또한 객체 property key는 문자형으로 접근이 가능
+  ```javaScript
+  const obj = {
+    1: '1임',
+    false: '거짓'
+  }
+  Object.keys(obj)  // ['1', 'false']
+  obj['1']          // '1임'
+  ```
+  
+* Symbol
+  ```javaScript
+  const a = Symbol(); // new를 붙이지 않고 생성, 유일한 식별자를 만들 때 사용
+  ```
+
+* 유일성을 보장한다
+  ```javaScript
+  const id = Symbol('id');
+  const id2 = Symbol('id');
+
+  id  // Symbol(id)
+  id2 // Symbol(id)
+  id === id2    // false
+  id == id2     // false
+  ```
+
+* property key : 심볼형
+  ```javaScript
+  const id = Symbol('id');
+  const user = {
+    name: 'YS',
+    [id]: 'myid'
+  }
+  // Symbol로 만든 property를 가진 key가 존재함
+  user  // {name: 'YS', Symbol(id): 'myid'}
+  user[id]  // 'myid'
+
+  // Object method 접근은 Symbol을 감지하지 않는다
+  Object.keys(user);  // ['name']
+  ```   
+  ##### 원본객체를 손상시키지 않는 선에서 개성을 부여코자 할 때 사용한다.
+  ##### Symbol은 기본적으로 유일성을 보장받는다. 그렇기에 없으면 만들고, 있으면 가져온다.
+
+* Symbol.for() : 전역 Symbol   
+  하나를 생성한 뒤 키를 통해 같은 Symbol을 공유
+  ```javaScript
+  const id1 = Symbol.for('id');
+  const id2 = Symbol.for('id');
+  id1 === id2;  // true, 코드 어디서든 사용 가능
+  Symbol.keyFor(id1);   // 'id', 이름을 얻을 수도 있다
+  
+  // 만일 전역Symbol이 아닌 경우 keyFor는 사용할 수 없다.
+  const id = Symbol('id 입니다');
+  id.description;   // 'id 입니다', description을 이용하자.
+  ```
+
+* 활용
+  ```javaScript
+  // 타 개발자가 만든 객체
+  const user = {
+    name: 'Mike',
+    age: 30
+  };
+
+  // 나의 작업
+  user.showName = function(){};
+  // user's showName is function(){}., 원치않는 문구가 사용자에게 보이게 된다.
+  // Symbol을 활용하자
+  const showName = Symbol('show name');
+  user[showName] = function(){
+    console.log(this.name);
+  };  // for in문에 감지되지 않는다!, name과 age만 출력
+  user[showName](); // 'Mike', 내 작업물도 확인 가능하다
+
+  // 사용자 접속 시 보이는 문구(타 개발자의 작업물)
+  for (let key in user) {
+    console.log(`user's ${key} is ${user[key]}.`);
+  }
+  ```
+
+##### [목록보기](#자바스크립트의-필수-개념들)
+----------------------
 
 
+
+##### [목록보기](#자바스크립트의-필수-개념들)
+----------------------
 
 
 
