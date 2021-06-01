@@ -5,6 +5,7 @@
 3. [Object methods, Computed property](#Object-methods,-Computed-property)   
 4. [Symbol](#Symbol)   
 5. [Number, Math](#Number,-Math-method)   
+6. [Destructuring assignment](#Destructuring-assignment)   
 
 
 <br>
@@ -237,7 +238,28 @@
 ##### [목록보기](#자바스크립트의-필수-개념들)
 ----------------------
 
+## Destructuring assignment
 
+배열이나 객체의 속성 분해 후 값을 변수에 담는 표현식
+
+  ```javaScript
+  let alp = ['a', 'b', 'c'];
+  let [al1, al2, al3, al4, al5=5] = alp;
+  console.log(al2);   // 'b'
+  console.log(al4);   // undefined
+  console.log(al5);   // 5
+  ```
+
+* 값의 바꿔치기도 가능하다
+  ```javaScript
+  let a = 1;
+  let b = 2;
+  [a, b] = [b, a];
+  ```
+
+* 객체 구조 분해   
+기본적으로 배열 구조 분해와 활용이 같다
+  * 다른점: 할당 변수(key)의 순서는 중요하지 않음
 
 ##### [목록보기](#자바스크립트의-필수-개념들)
 ----------------------
