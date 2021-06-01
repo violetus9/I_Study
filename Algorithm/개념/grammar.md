@@ -68,6 +68,79 @@
   isNaN(3)    // false
   ```
 
+* **.slice(n, m)** : n부터 m까지 반환
+
+* **.substr(n, m)** : n부터 m개 가져옴
+
+* **.repeat(n)** : n번 반복
+
+* **.splice(n, m, x)** : n시작, m개수 지움, x추가
+  ```javaScript
+  let arr = [0, 1, 2];
+  arr.splice(1, 0, 'a', 'b'); // [0, 'a', 'b', 1, 2]
+  ```
+
+* **.splice()** : 삭제된 요소 반환
+  ```javaScript
+  let arr = [1, 2, 3, 4, 5];
+  let res = arr.splice(1, 2);
+  console.log(arr);   // [1, 4, 5]
+  console.log(res);   // [2, 3]
+  ```
+
+* **.slice(n, m)** : n부터 m까지 반환
+  ```javaScript
+  let arr = [1, 2, 3, 4, 5];
+  arr.slice(1, 4);    // [2, 3, 4]
+  ```
+  * *공괄호 입력 시 배열 복사*
+
+* **.forEach((ele, idx, arr) => {})**
+
+* **.find(fn), findIndex(fn)**
+  ```javaScript
+  let arr = [1, 2, 3, 4, 5];
+  const res = arr.find((item) => {
+    return item % 2 === 0;    // 2
+  })
+
+  // indexOf로 찾기 힘든 객체서 활용 가능
+  let userList = [
+    { name: 'K', age: 30 },
+    { name: 'N', age: 20 },
+    { name: 'H', age: 10 },
+  ];
+  const res = userList.findIndex((user) => {
+    if (user.age < 19) {
+      return true;
+    }
+    return false;
+  });
+  console.log(res);   // 2
+  ```
+
+* **.filter(fn)** : 만족하는 모든 요소 배열 반환
+
+* **.map(fn)** : 함수 받아 기능 수행 후 배열 반환
+  ```javaScript
+  // 위의 findIndex의 객체 사용
+  let newUserList = userList.map((user, idx) => {
+    return Object.assign({}, user, {
+      isAdult: user.age > 19,
+    });
+  });
+  console.log(newUserList);
+  /*  (3) [{..}, {..}, {..}], length: 3
+      0: {name: 'K', age: 30, isAdult: true}
+      1: {name: 'N', age: 20, isAdult: true}
+      2: {name: 'H', age: 10, isAdult: false}
+  */
+  ```
+  * *매핑 개념, 원본 손상 않음*
+
+
+
+
 <br>
 -------------------
 -------------------
