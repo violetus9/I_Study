@@ -6,6 +6,7 @@
 4. [Symbol](#Symbol)   
 5. [Number, Math](#Number,-Math-method)   
 6. [Destructuring assignment](#Destructuring-assignment)   
+7. [Closure](#Closure)   
 
 
 <br>
@@ -260,6 +261,33 @@
 * 객체 구조 분해   
 기본적으로 배열 구조 분해와 활용이 같다
   * 다른점: 할당 변수(key)의 순서는 중요하지 않음
+
+##### [목록보기](#자바스크립트의-필수-개념들)
+----------------------
+
+## Closure
+
+* Lexical Environment
+  ```javaScript
+  // 코드가 실행되면 Lexical 환경에 one과 addOne이 등록
+  // one: 초기화 X, 반면 addOne은 사용 가능한 상태
+  let one;
+  // one: undefined (사용은 가능)
+  one = 1;
+  // one: 1
+  function addOne(n) {
+    console.log(one + n);
+  }
+  addOne(5);
+  // 새로운 Lexical 환경 생성, n: 5
+  // 함수가 넘겨받은 매개변수와 지역변수가 저장된다(내부 Lexical)
+  ```
+  * 위의 상황에서 내부 Lexical 환경은 전역 Lexical에 대한 참조이다
+  * one이 내부에 존재하지 않으니 외부로 가서 찾게된다
+
+**Closure** : 함수와 렉시컬 환경의 조합, 함수가 생성될 당시의 외부 변수를 기억하여 생성 이후에도 계속 접근이 가능하다
+
+-외부 함수의 실행이 끝나도 내부함수는 외부로의 접근이 가능-
 
 ##### [목록보기](#자바스크립트의-필수-개념들)
 ----------------------
