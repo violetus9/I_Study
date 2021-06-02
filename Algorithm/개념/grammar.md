@@ -138,8 +138,48 @@
   ```
   * *매핑 개념, 원본 손상 않음*
 
+* **.sort()** : 정렬시 요소를 문자열 취급(사전식)
+  ```javaScript
+  let arr = [27, 8, 5, 13];
+  arr.sort((a, b) => {
+    console.log(a, b);
+    /* console
+        8 27 5 13
+        5 8 27 13
+        5 8 13 27
+    */
+    return a - b;
+  })
+  ```
+  * 정렬 로직을 담은 함수를 직접 구현해야 하기에 실무에서는 **Lodash**를 많이 사용한다
 
+* **.reduce()**
+  ```javaScript
+  let arr = [1, 2, 3, 4, 5];
+  const result = arr.reduce((pre, cur) => {
+    return pre + cur;
+  }, 0) // 0 -> initial
+  ```
+  * 좀 더 실용적인 예제
+  ```javaScript
+  let userList = [
+    { name: 'A', age: 10 },
+    { name: 'B', age: 20 },
+    { name: 'C', age: 30 },
+    { name: 'D', age: 40 },
+    { name: 'E', age: 50 },
+    { name: 'F', age: 60 },
+  ]
 
+  let result = userList.reduce((pre, cur) => {
+    if(cur.age > 19){
+      pre.push(cur.name);
+    }
+    return pre;
+  }, []);
+  console.log(result);
+  // [over 19 elements]
+  ```
 
 <br>
 -------------------
