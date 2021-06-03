@@ -7,6 +7,8 @@
 5. [Number, Math](#Number,-Math-method)   
 6. [Destructuring assignment](#Destructuring-assignment)   
 7. [Closure](#Closure)   
+8. [Rest parameters, Spread syntax](#Rest-parameters,-Spread-syntax)   
+9. [call, apply, bind](#call,-apply,-bind)   
 
 
 <br>
@@ -292,6 +294,142 @@
 ##### [목록보기](#자바스크립트의-필수-개념들)
 ----------------------
 
+## Rest parameters, Spread syntax
+
+* 인자 전달 & Rest parameter
+  ```javaScript
+  function showName(name){
+    console.log(name);
+  }
+  showName('A');  // 'A'
+  showName('A', 'B');  // 
+  showName();  // undefined
+  ```
+  name이 인자를 받음에 있어 기본적으로 갯수의 제한이 없다. 통상 다음의 두가지 방법이 있다
+  * arguments
+    * 함수로 넘어 온 모든 인수에 접근
+    * 함수내에서 이용 가능한 지역변수
+    * length/ index
+    * 배열의 내장 메서드 없음 (forEach, map)
+  ```javaScript
+  function showName(name){
+    console.log(arguments.length);
+    console.log(arguments[1]);
+  }
+  showName('A', 'B'); // 2 \n 'B'
+  ```
+<br>
+
+  * rest parameters를 사용한다(ES6이상 환경에서 권장)   
+    * 정해지지 않은 갯수에 대한 입력시
+  ```javaScript
+  function add(...nums){
+    let result = nums.reduce((pre, cur) => pre + cur);
+  }
+  console(1, 2, 3, 4, 5);   // 15  
+  ```
+
+    * 다른 예(생성자 함수를 만들것, 생성자 함수 첫글자 대문자는 국룰)
+  ```javaScript
+  function User(name, age, ...skills){
+    this.name = name;
+    this.age = age;
+    this.skills = skills;
+  }
+  
+  cosnt user1 = new User('A', 30, 'html', 'css');
+  cosnt user2 = new User('B', 20, 'JS', 'React');
+  cosnt user3 = new User('C', 10, 'css');
+  ```
+  *나머지 매개변수는 항상 파라미터 맨 뒤에 위치해야 한다(당연)*
+<br>
+
+* Spread syntax : 배열, 복제
+  ```javaScript
+  let arr = [1, 2, 3];
+  let result = [0, ...arr, 4, 5];   // [0, 1, 2, 3, 4, 5]
+  ```
+
+  * 실용 예
+  ```javaScript
+  let arr1 = [1, 2, 3];
+  let arr2 = [4, 5, 6];
+  arr2.reverse().forEach((num) => {
+    arr1.unshift(num);
+  })
+  console.log(arr1);    // [4, 5, 6, 1, 2, 3]
+  arr1 = [...arr2, ...arr1] // [4, 5, 6, 1, 2, 3] 간편!
+  ```
+  * Spread syntax는 객체에도 적용이 가능하다
+
+##### [목록보기](#자바스크립트의-필수-개념들)
+----------------------
+
+## call, apply, bind
+
+함수 호출 방식과 관계없이 this 지정 가능   
+
+* call : 모든 함수에서 사용할 수 있으며, this를 특정 값으로 지정 가능
+  ```javaScript
+  const mike = { name: 'Mike' };
+  const tom = { name: 'Tom' };
+  function showThisName(){
+    console.log(this.name);
+  }
+  showThisName(); // this > window, 그렇기에 빈 문자열 출력
+  showThisName.call(mike);  // 'Mike'
+  ```
+  * .call(this로 사용할 객체) : 해당 함수가 주어진 객체의 메서드인것양 사용 가능
+<br>
+
+  * update
+  ```javaScript
+  function update(birth, occupation){
+    this.birth = birth;
+    this.occupation = occupation;
+  }
+  update.call(mike, 1999, "singer");
+  console.log(mike);    // 결과를 보면 두개의 정보가 업데이트 되었씀
+  ```
+<br>
+
+* apply : 매개변수를 배열로 받는다는 점을 제외하면 call과 동일
+  ```javaScript
+  update.apply(mike, [1999, 'bagger']);
+
+  // 차이를 보자
+  const nums = [3, 10, 1, 6, 4];
+  const minN = Math.min.apply(null, nums);
+  // = Math.min.apply(null, [3, 10, 1, 6, 4]);
+  const maxN = Math.max.call(null, ...nums);
+  // = Math.max.apply(null, 3, 10, 1, 6, 4);
+  ```
+<br>
+
+* bind : 함수의 this값을 영구히 바꿀 수 있음
+  ```javaScript
+  const user = {
+    name: 'A'
+    showName: function(){
+      console.log(`hihi, ${this.name}!!`);
+    },
+  };
+  user.showName();  // hihi A!!
+
+  let fn = user.showName;
+  fn(); // hihi, !!
+  // user.showName 에서 user가 this가 된다.
+  // 호출 시 메서드만 호출하기에 this는 부재하게 되므로 hihi, !!
+
+  fn.call(user);    // hihi, A!!
+  fn.apply(user);   // hihi, A!!
+
+  let boundFn = fn.bind(user);
+  boundFn();        // hihi, A!!
+  ```
+  
+##### [목록보기](#자바스크립트의-필수-개념들)
+----------------------
 
 
 
