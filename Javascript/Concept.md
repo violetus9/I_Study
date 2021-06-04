@@ -9,6 +9,7 @@
 7. [Closure](#Closure)   
 8. [Rest parameters, Spread syntax](#Rest-parameters,-Spread-syntax)   
 9. [call, apply, bind](#call,-apply,-bind)   
+10. [상속, prototype](#상속,-prototype)   
 
 
 <br>
@@ -430,6 +431,104 @@
   
 ##### [목록보기](#자바스크립트의-필수-개념들)
 ----------------------
+
+## 상속, prototype
+
+```javaScript
+const car = {   // 공통인 부분을 따로 뺐다.
+  wheels: 4,
+  drive(){
+    console.log('drive..');
+  },
+}
+const bmw = {
+  color: 'red',
+  navigation: 1,
+};
+const benz = {
+  color: 'black',
+};
+
+bmw.__proto__ = car;
+benz.__proto__ = car; // car가 각 객체의 프로토 타입이 된다.
+// bmw, benz는 car의 상속을 받는다 라고 할 수 있다.
+```
+*property에 값이 없다면 prototype을 확인한다*
+<br>
+
+* 상속은 계속 이어질 수 있다.(prototype chain)
+```javaScript
+const x5 = {
+  color: 'white',
+  name: 'x5',
+};
+x5.__proto__ = bmw;
+/*
+  x5 {color: 'white', name: 'x5'}
+    __proto__ > bmw {color: 'red', navigation: 1}
+      __proto__ >> car {wheels: 4, drive()}
+
+  이런 방식으로 상속이 이루어진다. : prototype chain
+*/
+```
+<br>
+
+* 생성자 함수
+```javaScript
+const Bmw = function(color) {
+  this.color = color;
+};
+const x5 = new Bmw('red');
+const z4 = new Bmw('blue');
+
+x5.__proto__ = car;
+z4.__proto__ = car;
+```
+*위처럼 만들어도 되지만 매번 이렇게 만들기엔 귀찮다*
+<br>
+
+생성자 함수의 장점이 간편함임을 이용하자
+```javaScript
+const Bmw = function(color) {
+  this.color = color;
+};
+Bmw.prototype.wheels = 4;
+Bmw.prototype.drive = function(){
+  console.log('drive...');
+};
+x5.wheels; // 4, 잘 나온다.
+```
+*한번만 작업 해놓으면 생성자로 만들어진 함수를 일일히 작업하지 않아도 된다*
+
+* instanceof
+```javaScript
+z4 instanceof Bmw;    // true, z4는 Bmw로 생성되었다.(bmw의 instance)
+
+z4.constructor === Bmw;   // true, z4의 생성자는 Bmw이다.
+```
+<br>
+
+* closure
+```javaScript
+x5.color = 'silver';    // 임의로 누군가 바꿔버릴 수 있다
+```
+*바람직하게 바꿔보자*
+  ```javaScript
+  const Bmw = function (color) {
+    const c = color;
+    this.getColor = function() {
+      console.log(c);
+    };
+  };
+  const x5 = new Bmw('red');
+
+  x5.getColor();    // red, 생성 당시의 context를 기억하게 된다
+  ```
+  
+##### [목록보기](#자바스크립트의-필수-개념들)
+----------------------
+
+
 
 
 
