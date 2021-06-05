@@ -118,6 +118,7 @@ parcelRequire = (function (modules, cache, entry, globalName) {
 
   return newRequire;
 })({"app.js":[function(require,module,exports) {
+// 화면처리 > 라우터 (중계기) : 상황별 화면을 중계하는 역할
 // 중복이 되는 요소는 유지보수에 유용하지 못하다, 묶어주자
 var container = document.getElementById('root');
 var ajax = new XMLHttpRequest();
@@ -131,31 +132,45 @@ function getData(url) {
 
   ajax.send();
   return JSON.parse(ajax.response);
-} // data 처리(response to Object)
+}
 
+function newsFeed() {
+  // data 처리(response to Object)
+  var newsFeed = getData(NEWS_URL);
+  var newsList = [];
+  newsList.push('<ul>');
 
-var newsFeed = getData(NEWS_URL);
-var ul = document.createElement('ul');
-window.addEventListener('hashchange', function () {
+  for (var i = 0; i < 10; i++) {
+    // 아이러니하게도 DOM 사용에 대한 직관성 결여의 해결은 DOM 사용을 자제하는것. (문자열을 이용하자!)
+    // 설령 양이 좀 늘어나게 되더라도 가독성이 좋은 것이 좋은 듯 하다.
+    newsList.push("\n  <li>\n    <a href=\"#".concat(newsFeed[i].id, "\">\n      ").concat(newsFeed[i].title, " (").concat(newsFeed[i].comments_count, ")\n    </a>\n  </li>\n  "));
+  }
+
+  newsList.push('</ul>');
+  container.innerHTML = newsList.join('');
+}
+
+function newsDetail() {
   var id = location.hash.substr(1);
   var newsContent = getData(CONTENT_URL.replace('@id', id));
   var title = document.createElement('h1');
+  container.innerHTML = "\n    <h1>".concat(newsContent.title, "</h1>\n\n    <div>\n      <a href=\"#\">\uBAA9\uB85D\uC73C\uB85C</a>\n    </div>\n  ");
   title.innerHTML = newsContent.title;
   content.appendChild(title); // console.log(newsContent);
-});
-
-for (var i = 0; i < 10; i++) {
-  var div = document.createElement('div');
-  var li = document.createElement('li');
-  var a = document.createElement('a'); // 아이러니하게도 DOM 사용에 대한 직관성 결여의 해결은 DOM 사용을 자제하는것. (문자열을 이용하자!)
-  // 설령 양이 좀 늘어나게 되더라도 가독성이 좋은 것이 좋은 듯 하다.
-
-  div.innerHTML = "\n  <li>\n    <a href=\"#".concat(newsFeed[i].id, "\">\n      ").concat(newsFeed[i].title, " (").concat(newsFeed[i].comments_count, ")\n    </a>\n  </li>\n  ");
-  ul.appendChild(div.children[0]); // or div.firstElementChild
 }
 
-container.appendChild(ul);
-container.appendChild(content);
+function router() {
+  var routePath = location.hash;
+
+  if (routePath === '') {
+    newsFeed();
+  } else {
+    newsDetail();
+  }
+}
+
+window.addEventListener('hashchange', router);
+router();
 },{}],"../../../../Users/all98/AppData/Roaming/npm/node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
 var global = arguments[3];
 var OVERLAY_ID = '__parcel__error__overlay__';
@@ -184,7 +199,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "14093" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "13846" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
