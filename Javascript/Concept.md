@@ -10,6 +10,7 @@
 8. [Rest parameters, Spread syntax](#Rest-parameters,-Spread-syntax)   
 9. [call, apply, bind](#call,-apply,-bind)   
 10. [상속, prototype](#상속,-prototype)   
+11. [Class](#Class)   
 
 
 <br>
@@ -525,6 +526,74 @@ x5.color = 'silver';    // 임의로 누군가 바꿔버릴 수 있다
   x5.getColor();    // red, 생성 당시의 context를 기억하게 된다
   ```
   
+##### [목록보기](#자바스크립트의-필수-개념들)
+----------------------
+
+## Class   
+ES6에 추가된 스펙
+
+```javaScript
+class User {
+  constructor(name, age) {  // 객체를 만들어주는 생성자메서드
+    this.name = name;
+    this.age = age;
+  }
+  showName() {  // 클래스 내부 메서드는 prototype에 정의된다
+    console.log(this.name);
+  }
+}
+const A = new User('A', 20);  // new 없이 실행될 수 없다(TypeError)
+```
+<br>
+
+* 상속(extends)
+
+```javaScript
+class Car {
+  constructor(color){
+    this.color = color;
+    this.wheels = 4;
+  }
+  drive(){
+    console.log('brrr...');
+  }
+  stop(){
+    console.log('sToP');
+  }
+}
+class Bmw extends Car {
+  park(){
+    console.log('PaRk');
+  }
+}
+const z4 = new Bmw('blue');
+```
+<br>
+
+* method overriding   
+보통의 overriding처럼 덮어씌우게 된다, 부모클래스의 메서드를 사용코자 한다면 super.method()를 이용하자   
+
+* constructor overriding   
+부모 생성자를 반드시 먼저 호출해야한다.   
+이유인즉, Class의 생성자는 빈객체로 this를 통해 가르킨다. 반면 상속받는 클래스는 이 작업을 건너뛰게 된다.   
+super();로 부모의 생성자를 먼저 실행해줘야 한다.
+  ```javaScript
+  class Bmw extends Car {
+    constructor(color){
+      super(color);
+      this.navigation = 1;
+    }
+  }
+
+  // 만약 Bmw에 constructor 없다면, 내부적으로 동작은 아래와 같다
+  class Bmw extends Car {
+    constructor(...args){
+      super(...args);
+    }
+  } // 항상 부모의 것을 물려받아야 한다는 것.
+  ```
+<br>
+
 ##### [목록보기](#자바스크립트의-필수-개념들)
 ----------------------
 
