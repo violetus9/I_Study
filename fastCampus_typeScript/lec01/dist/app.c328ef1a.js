@@ -121,35 +121,37 @@ parcelRequire = (function (modules, cache, entry, globalName) {
 // 중복이 되는 요소는 유지보수에 유용하지 못하다, 묶어주자
 var container = document.getElementById('root');
 var ajax = new XMLHttpRequest();
-var content = document.createElement('div'); // 변경의 여지가 있는 것은 변수로 빼두는 것이 좋다
+var content = document.createElement('div'); // 변경의 여지가 있는 것은 변수로 빼두는 것이 좋다 (data)
 
 var NEWS_URL = 'https://api.hnpwa.com/v0/news/1.json';
 var CONTENT_URL = 'https://api.hnpwa.com/v0/item/@id.json';
-ajax.open('GET', NEWS_URL, false); // data 가져옴
 
-ajax.send(); // data 처리(response to Object)
+function getData(url) {
+  ajax.open('GET', url, false); // data 가져옴
 
-var newsFeed = JSON.parse(ajax.response);
+  ajax.send();
+  return JSON.parse(ajax.response);
+} // data 처리(response to Object)
+
+
+var newsFeed = getData(NEWS_URL);
 var ul = document.createElement('ul');
 window.addEventListener('hashchange', function () {
   var id = location.hash.substr(1);
-  ajax.open('GET', CONTENT_URL.replace('@id', id), false);
-  ajax.send();
-  var newsContent = JSON.parse(ajax.response);
+  var newsContent = getData(CONTENT_URL.replace('@id', id));
   var title = document.createElement('h1');
   title.innerHTML = newsContent.title;
-  content.appendChild(title);
-  console.log(newsContent);
+  content.appendChild(title); // console.log(newsContent);
 });
 
 for (var i = 0; i < 10; i++) {
+  var div = document.createElement('div');
   var li = document.createElement('li');
-  var a = document.createElement('a');
-  a.href = "#".concat(newsFeed[i].id);
-  a.innerHTML = "".concat(newsFeed[i].title, " (").concat(newsFeed[i].comments_count, ")");
-  a.addEventListener('click', function () {});
-  li.appendChild(a);
-  ul.appendChild(li);
+  var a = document.createElement('a'); // 아이러니하게도 DOM 사용에 대한 직관성 결여의 해결은 DOM 사용을 자제하는것. (문자열을 이용하자!)
+  // 설령 양이 좀 늘어나게 되더라도 가독성이 좋은 것이 좋은 듯 하다.
+
+  div.innerHTML = "\n  <li>\n    <a href=\"#".concat(newsFeed[i].id, "\">\n      ").concat(newsFeed[i].title, " (").concat(newsFeed[i].comments_count, ")\n    </a>\n  </li>\n  ");
+  ul.appendChild(div.children[0]); // or div.firstElementChild
 }
 
 container.appendChild(ul);
@@ -182,7 +184,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "2521" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "14093" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
