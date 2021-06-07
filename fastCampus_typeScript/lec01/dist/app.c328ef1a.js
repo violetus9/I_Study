@@ -125,7 +125,11 @@ var ajax = new XMLHttpRequest();
 var content = document.createElement('div'); // 변경의 여지가 있는 것은 변수로 빼두는 것이 좋다 (data)
 
 var NEWS_URL = 'https://api.hnpwa.com/v0/news/1.json';
-var CONTENT_URL = 'https://api.hnpwa.com/v0/item/@id.json';
+var CONTENT_URL = 'https://api.hnpwa.com/v0/item/@id.json'; // 공유 상태값
+
+var store = {
+  currentPage: 1
+};
 
 function getData(url) {
   ajax.open('GET', url, false); // data 가져옴
@@ -140,21 +144,22 @@ function newsFeed() {
   var newsList = [];
   newsList.push('<ul>');
 
-  for (var i = 0; i < 10; i++) {
+  for (var i = (store.currentPage - 1) * 10; i < store.currentPage * 10; i++) {
     // 아이러니하게도 DOM 사용에 대한 직관성 결여의 해결은 DOM 사용을 자제하는것. (문자열을 이용하자!)
     // 설령 양이 좀 늘어나게 되더라도 가독성이 좋은 것이 좋은 듯 하다.
-    newsList.push("\n  <li>\n    <a href=\"#".concat(newsFeed[i].id, "\">\n      ").concat(newsFeed[i].title, " (").concat(newsFeed[i].comments_count, ")\n    </a>\n  </li>\n  "));
+    newsList.push("\n  <li>\n    <a href=\"#/show/".concat(newsFeed[i].id, "\">\n      ").concat(newsFeed[i].title, " (").concat(newsFeed[i].comments_count, ")\n    </a>\n  </li>\n  "));
   }
 
   newsList.push('</ul>');
+  newsList.push("\n    <div>\n      <a href=\"#/page/".concat(store.currentPage > 1 ? store.currentPage - 1 : 1, "\">\uC774\uC804 \uD398\uC774\uC9C0</a>\n      <a href=\"#/page/").concat(store.currentPage + 1, "\">\uB2E4\uC74C \uD398\uC774\uC9C0</a>\n    </div>\n  "));
   container.innerHTML = newsList.join('');
 }
 
 function newsDetail() {
-  var id = location.hash.substr(1);
+  var id = location.hash.substr(7);
   var newsContent = getData(CONTENT_URL.replace('@id', id));
   var title = document.createElement('h1');
-  container.innerHTML = "\n    <h1>".concat(newsContent.title, "</h1>\n\n    <div>\n      <a href=\"#\">\uBAA9\uB85D\uC73C\uB85C</a>\n    </div>\n  ");
+  container.innerHTML = "\n    <h1>".concat(newsContent.title, "</h1>\n\n    <div>\n      <a href=\"#/page/").concat(store.currentPage, "\">\uBAA9\uB85D\uC73C\uB85C</a>\n    </div>\n  ");
   title.innerHTML = newsContent.title;
   content.appendChild(title); // console.log(newsContent);
 }
@@ -163,6 +168,9 @@ function router() {
   var routePath = location.hash;
 
   if (routePath === '') {
+    newsFeed();
+  } else if (routePath.indexOf('#/page/') >= 0) {
+    store.currentPage = Number(routePath.substr(7));
     newsFeed();
   } else {
     newsDetail();
@@ -199,7 +207,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "13846" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "11433" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
