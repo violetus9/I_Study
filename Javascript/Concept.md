@@ -599,6 +599,20 @@ super();로 부모의 생성자를 먼저 실행해줘야 한다.
 
 
 
+T0D0!
+함수, 객체
+JS> single thread
+비동기 개념, event driven programming
+callback, promise, async/await
+call stack, event loop, **실행 context(this...)
+JS는 class아닌 prototype 기반!
+
++a (하다보면 되는 것들! 달달 금지)
+DOM
+class(보단 prototype 우선)
+design pattern(책같은거 읽어보면 되는거임)
+functional programming > 선택적!
+배열(실무서 2차원 많이 쓴대 + map, filter, reduce)
 
 
 <br><br><br><br><br>
