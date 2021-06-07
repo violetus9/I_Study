@@ -31,6 +31,68 @@ JS는 동적인 배열, Java는 정적인 배열
 --------------
 <br>
 
+## Queue
+FIFO(First In First Out), LILO(Last ~), 먼저 넣은 데이터를 가장 먼저 꺼낼 수 있는 구조
+
+* Enqueue: 큐에 데이터 넣는 기능
+* Dequeue: 큐에서 데이터 꺼내는 기능
+* python에서 queue lib을 제공한다
+  * Queue(), LifoQueue(), PriorityQueue() 외에도 여러 정책 적용된 큐들이 있씀
+<br>
+
+  * 간단한 사용 예를 봅시다
+  ```python
+  import queue
+  data_queue = queue.Queue()
+  data_queue.put('one')
+  data_queue.put(2)
+  data_queue.size()   # 2
+  data_queue.get()    # 'one'
+  data_queue.size()   # 1
+  ```
+
+  * LifoQueue(), PriorityQueue()
+  ```python
+  import queue
+  data_queue = queue.LifoQueue()
+  data_queue.put('one')
+  data_queue.put(2)
+  data_queue.get()    # 2
+
+  data_queue_Pri = queue.PriorityQueue()
+  data_queue_Pri.put((1, 'one'))  # 튜플로 입력해! 우선순위, 자료 순으로
+  data_queue_Pri.put((5, 2))
+  data_queue_Pri.put((10, 3))
+  data_queue_Pri.get()  # (1, 'one')
+  ```
+<br>
+
+* *큐는 어디에 많이 사용될까?*   
+멀티 태스킹을 위한 프로세스 스케줄링 방식을 구현하기 위해 많이 사용됨(OS)
+<br>
+
+* list로 구현해보기
+```python
+queue_list = list()
+def enqueue(data)
+  queue_list.append(data)
+def dequeue()
+  data = queue_list[0]
+  del queue_list[0]
+  return data
+
+for idx in range(10):
+  enqueue(idx)
+len(queue_list)   # 10
+dequeue()         # 1
+dequeue()         # 2
+```
+
+<br>
+
+--------------
+<br>
+
 ## 해시 테이블
 Key, Value 쌍으로 데이터가 저장됨   
 키는 유니크, 키하나에 밸류하나 매핑   
