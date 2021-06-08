@@ -1,6 +1,6 @@
-// 21T, 밑에 모듈에도 또 있엉
+// 21T(1/2)
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-// 72G
+// 72G(1/2)
 const port = process.env.PORT || 3000;
 
 module.exports = {
@@ -32,13 +32,13 @@ module.exports = {
       },
     ],
   },
-  // 21T
+  // 21T(2/2)
   plugins: [
     new HtmlWebpackPlugin({
       template: 'public/index.html',
     })  // public/index.html을 템플릿으로 지정
   ],
-  // 72G
+  // 72G(2/2)
   devServer: {
     host: 'localhost',  // 개발 서버의 url
     port: port,   // basically 3000
