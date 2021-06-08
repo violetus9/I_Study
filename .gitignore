@@ -1,4 +1,4 @@
-# .gitignore
+.gitignore
 .vscode
 
 
@@ -8,7 +8,11 @@ Javascript
 KH
 NodeReact_inflearn
 react_practice
+fastCampus_typeScript
+webpack_test
 
+# 학석박
+coursera
 
 # 업 노노노노
 NOTEPAD
