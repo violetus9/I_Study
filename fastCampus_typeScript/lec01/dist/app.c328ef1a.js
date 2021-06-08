@@ -142,24 +142,25 @@ function newsFeed() {
   // data 처리(response to Object)
   var newsFeed = getData(NEWS_URL);
   var newsList = [];
-  newsList.push('<ul>');
+  var template = "\n  <div class=\"bg-gray-600 min-h-screen\">\n  <div class=\"bg-white text-xl\">\n    <div class=\"mx-auto px-4\">\n      <div class=\"flex justify-between items-center py-6\">\n        <div class=\"flex justify-start\">\n          <h1 class=\"font-extrabold\">Hacker News</h1>\n        </div>\n        <div class=\"items-center justify-end\">\n          <a href=\"#/page/{{__prev_page__}}\" class=\"text-gray-500\">\n            Previous\n          </a>\n          <a href=\"#/page/{{__next_page__}}\" class=\"text-gray-500 ml-4\">\n            Next\n          </a>\n        </div>\n      </div> \n    </div>\n  </div>\n  <div class=\"p-4 text-2xl text-gray-700\">\n    {{__news_feed__}}        \n  </div>\n</div>\n  ";
 
   for (var i = (store.currentPage - 1) * 10; i < store.currentPage * 10; i++) {
     // 아이러니하게도 DOM 사용에 대한 직관성 결여의 해결은 DOM 사용을 자제하는것. (문자열을 이용하자!)
     // 설령 양이 좀 늘어나게 되더라도 가독성이 좋은 것이 좋은 듯 하다.
-    newsList.push("\n  <li>\n    <a href=\"#/show/".concat(newsFeed[i].id, "\">\n      ").concat(newsFeed[i].title, " (").concat(newsFeed[i].comments_count, ")\n    </a>\n  </li>\n  "));
+    newsList.push("\n    <div class=\"p-6 ".concat(newsFeed[i].read ? 'bg-red-500' : 'bg-white', " mt-6 rounded-lg shadow-md transition-colors duration-500 hover:bg-green-100\">\n    <div class=\"flex\">\n      <div class=\"flex-auto\">\n        <a href=\"#/show/").concat(newsFeed[i].id, "\">").concat(newsFeed[i].title, "</a>  \n      </div>\n      <div class=\"text-center text-sm\">\n        <div class=\"w-10 text-white bg-green-300 rounded-lg px-0 py-2\">").concat(newsFeed[i].comments_count, "</div>\n      </div>\n    </div>\n    <div class=\"flex mt-3\">\n      <div class=\"grid grid-cols-3 text-sm text-gray-500\">\n        <div><i class=\"fas fa-user mr-1\"></i>").concat(newsFeed[i].user, "</div>\n        <div><i class=\"fas fa-heart mr-1\"></i>").concat(newsFeed[i].points, "</div>\n        <div><i class=\"far fa-clock mr-1\"></i>").concat(newsFeed[i].time_ago, "</div>\n      </div>  \n    </div>\n  </div>\n  "));
   }
 
-  newsList.push('</ul>');
-  newsList.push("\n    <div>\n      <a href=\"#/page/".concat(store.currentPage > 1 ? store.currentPage - 1 : 1, "\">\uC774\uC804 \uD398\uC774\uC9C0</a>\n      <a href=\"#/page/").concat(store.currentPage + 1, "\">\uB2E4\uC74C \uD398\uC774\uC9C0</a>\n    </div>\n  "));
-  container.innerHTML = newsList.join('');
+  template = template.replace('{{__news_feed__}}', newsList.join(''));
+  template = template.replace('{{__prev_page__}}', store.currentPage > 1 ? store.currentPage - 1 : 1);
+  template = template.replace('{{__next_page__}}', store.currentPage + 1);
+  container.innerHTML = template;
 }
 
 function newsDetail() {
   var id = location.hash.substr(7);
   var newsContent = getData(CONTENT_URL.replace('@id', id));
-  var title = document.createElement('h1');
-  container.innerHTML = "\n    <h1>".concat(newsContent.title, "</h1>\n\n    <div>\n      <a href=\"#/page/").concat(store.currentPage, "\">\uBAA9\uB85D\uC73C\uB85C</a>\n    </div>\n  ");
+  var template = "\n    <div class=\"bg-gray-600 min-h-screen pb-8\">\n      <div class=\"bg-white text-xl\">\n        <div class=\"mx-auto px-4\">\n          <div class=\"flex justify-between items-center py-6\">\n            <div class=\"flex justify-start\">\n              <h1 class=\"font-extrabold\">Hacker News</h1>\n            </div>\n            <div class=\"items-center justify-end\">\n              <a href=\"#/page/".concat(store.currentPage, "\" class=\"text-gray-500\">\n                <i class=\"fa fa-times\"></i>\n              </a>\n            </div>\n          </div>\n        </div>\n      </div>\n\n      <div class=\"h-full border rounded-xl bg-white m-6 p-4 \">\n        <h2>").concat(newsContent.title, "</h2>\n        <div class=\"text-gray-400 h-20\">\n          ").concat(newsContent.content, "\n        </div>\n        {{__comments__}}\n      </div>\n    </div>\n  ");
+  container.innerHTML = template;
   title.innerHTML = newsContent.title;
   content.appendChild(title); // console.log(newsContent);
 }
@@ -207,7 +208,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "11433" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "8796" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
