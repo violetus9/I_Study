@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Tooltip, Icon } from 'antd'
 import axios from 'axios'
 
@@ -27,7 +27,7 @@ function LikeDislikes(props) {
 
           // 내가 이미 좋아요 눌렀는지
           response.data.likes.map(like => {
-            if (liker.userId === props.userId) {
+            if (like.userId === props.userId) {
               setLikeAction('liked')
             }
           })
@@ -45,7 +45,7 @@ function LikeDislikes(props) {
 
           // 내가 이미 싫어요 눌렀는지
           response.data.dislikes.map(dislike => {
-            if (liker.userId === props.userId) {
+            if (dislike.userId === props.userId) {
               setDisLikeAction('disliked')
             }
           })
