@@ -10,10 +10,11 @@ CPU에서 가져오는 것보다 월등히 빠르기 때문
 
 - - -
 
-[배열]](#배열)   
+[배열](#배열)   
 [Queue](#Queue)   
 [Stack](#Stack)   
 [Hash table](#해시-테이블)   
+[Linked List](#Linked-List)   
 
 ----------------
 <br>
@@ -149,10 +150,201 @@ data_stack.append(1)
 data_stack.append(2)
 data_stack.pop()
 ```
+<br>
 
+--------------
+<br>
 
+## Linked List
 
+떨어진 곳에 존재하는 데이터를 화살표로 연결해서 관리하는 데이터 구조, 배열의 개선
 
+* 용어
+
+  * Node: 데이터 저장 단위 (데이터값, 포인터)
+  * Pointer: 각 노드 안에서 다음이나 이전의 노드와의 연결 정보를 가지고 있는 공간
+
+* 구현
+```python
+class Node:
+  def __init__(self, data, next=None):
+    self.data = data
+    self.next = next
+
+def add(data):
+  node = head
+  while node.next:
+    node = node.next
+  node.next = Node(data)
+
+node1 = Node(1)
+node2 = Node(2)
+node1.next = node2
+head = node1
+for idx in range(1, 10):
+  add(idx)
+```
+<br>
+
+* 장점
+
+  * 미리 데이터 공간을 할당하지 않아도 됨
+
+* 단점
+
+  * 연결을 위한 별도의 데이터 공간이 필요, 저장공간 효율 이 높지 않음   
+  * 연결 정보를 찾는 시간이 필요, 접근이 느림
+  * 중간 데이터 삭제시 연결을 재구성해야 함
+<br>
+
+* 노드의 추가
+
+```python
+node3 = Node(1.5)
+
+node = head
+search = True
+while search:
+  if node.data == 1:
+    search = False
+  else:
+    node = node.next
+
+node_next = node.next
+node.next = node3
+node3.next = node_next
+```
+<br>
+
+* 객체지향적으로 linked list 구현하기
+
+```python
+class Node:
+  def __init__(self, data, next=None):
+    self.data = data
+    self.next = next
+
+class NodeMgmt:
+  def __init__(self, data):
+    self.head = Node(data)
+
+  def add(self, data):
+    if self.head == '':
+      self.head = Node(data)
+    else:
+      node = self.head
+      while node.next:
+        node = node.next
+      node.next = Node(data)
+
+  def desc(self):
+    node = self.head
+    while node:
+      print(node.data)
+      node = node.next
+```
+
+* 노드의 삭제
+
+```python
+def delete(self, data):
+  if self.head == '':
+    print('해당 값을 가진 노드가 없어')
+    return
+  if self.head.data == data:
+    temp = self.head
+    self.head = self.head.next
+    del temp
+  else:
+    node = self.head
+    while node.next:
+      if node.next.data:
+        temp = node.next
+        node.next = node.next.next
+        del temp
+        return
+      else:
+        node = node.next
+```
+<br>
+
+* 다양한 linked list의 구조
+
+  * Double Linked List: 항상 앞에서의 접근인 단점을 개선
+  ```python
+  class Node:
+    def __init__(self, data, prev=None, next=None):
+      self.prev = prev
+      self.data = data
+      self.next = next
+
+  class NodeMgmt:
+    def __init__(self, data):
+      self.head = Node(data)
+      self.tail = self.head
+
+    def insert(self, data):
+      if self.head == None:
+        self.head = Node(data)
+        self.tail = self.head
+      else:
+        node = self.head
+        while node.next:
+          node = node.next
+        new = Node(data)
+        node.next = new
+        new.prev = node
+        self.tail = new
+
+    def desc(self):
+      node = self.head
+      while node:
+        print(node.data)
+        node = node.next
+
+    def search_from_head(self, data):
+      if self.head == None:
+        return False
+        
+      node = self.head
+      while node:
+        if node.data == data:
+          return node
+        else:
+          node = node.next
+      return False
+      
+    def search_from_tail(self, data):
+      if self.head == None:
+        return False
+
+      node = self.tail
+      while node:
+        if node.data == data:
+          return node
+        else:
+          node = node.prev
+      return False
+    
+    # 기존 노드 앞에 추가하는
+    def insert_before(self, data, before_data):
+      if self.head == None:
+        self.head = Node(data)
+        return True
+      else:
+        node = self.tail
+        while node.data != before_data:
+          node = node.prev
+          if node == None:
+            return False
+        new = Node(data)
+        before_new = node.prev
+        before_new.next = new
+        new.prev = before_new
+        new.next = node
+        node.prev = new
+        return True
+  ```
 <br>
 
 --------------
