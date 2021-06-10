@@ -8,6 +8,13 @@ CPU에서 가져오는 것보다 월등히 빠르기 때문
 
 <br>
 
+- - -
+
+[배열]](#배열)   
+[Queue](#Queue)   
+[Stack](#Stack)   
+[Hash table](#해시-테이블)   
+
 ----------------
 <br>
 
@@ -87,6 +94,64 @@ len(queue_list)   # 10
 dequeue()         # 1
 dequeue()         # 2
 ```
+
+<br>
+
+--------------
+<br>
+
+## Stack
+데이터를 제한적으로 접근할 수 있는 구조   
+한쪽 끝에서만 자료를 넣거나 빼는 구조   
+LIFO or FILO
+
+* 쓰임   
+  컴퓨터 내부 프로세스 구조의 함수 동작 방식
+  ```python
+  def recursive(data):
+    if data < 0:
+      print('ended')
+    else:
+      print(data)
+      recursive(data - 1)
+      print('returned', data)
+  
+  recursive(2)
+  # 2
+  # 1
+  # 0
+  # ended
+  # returned 0
+  # returned 1
+  # returned 2
+  ```
+
+* 주요 기능
+
+  * push(): 데이터를 스택에 넣기
+  * pop(): 데이터를 스택에서 빼기
+
+* 장점
+
+  * 구조 단순, 구현이 쉬움
+  * 데이터 저장/읽기 속도가 빠름
+
+* 단점
+
+  * 데이터 최대 갯수를 미리 정해야 한다   
+    (파이썬 재귀는 1000번까지 호출이 가능)
+  * 저장 공간의 낭비가 심할 수 있음   
+
+* list로 구현해보기
+```python
+data_stack = list()
+data_stack.append(1)
+data_stack.append(2)
+data_stack.pop()
+```
+
+
+
 
 <br>
 
