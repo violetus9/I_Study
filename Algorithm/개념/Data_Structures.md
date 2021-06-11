@@ -13,7 +13,7 @@ CPU에서 가져오는 것보다 월등히 빠르기 때문
 [배열](#배열)   
 [Queue](#Queue)   
 [Stack](#Stack)   
-[Hash table](#해시-테이블)   
+[Hash table](#Hash-table)   
 [Linked List](#Linked-List)   
 
 ----------------
@@ -350,29 +350,208 @@ def delete(self, data):
 --------------
 <br>
 
-## 해시 테이블
-Key, Value 쌍으로 데이터가 저장됨   
-키는 유니크, 키하나에 밸류하나 매핑   
+## Hash table
+Key, Value 쌍으로 데이터가 저장됨<br>
+키는 유니크, 키하나에 밸류하나 매핑<br>
+검색, 삽입, 삭제, 조회 모두 빠름<br>
+근데 주소 할당이 다소 무작위적임<br>
+python => dictionary!
+<br>
 
+* 용어
+
+  * Hash: 임의 값을 고정 길이로 변환하는 것
+  * Hashing Function: Key에 대해 산술연산을 이용해 데이터 위치를 찾을 수 있는 함수
+  * Hash Value | Hash Address: Key를 해싱함수로 연산해서 해시 값을 알아내고 이를 기반으로 해시 테이블에서 해당 Key에 대한 데이터 위치를 일관성 있게 찾을 수 있음
+  * Slot: 한 개의 데이터를 저장할 수 있는 공간
+  * 저장할 데이터에 대해 Key를 추출할 수 있는 별도 함수도 존재할 수 있음
+
+* 간단 예
+
+  * Hash table
+    ```python
+    hash_table = list([i for i in range(10)]) # list comprehension
+    hash_table
+    ```
+  * Hash function(Division법 사용)
+    ```python
+    def hash_func(key):
+      return key % 5
+    ```
+  * Hash table로 저장
+    * 데이터에 따라 필요시 key 생성 방법 정의가 필요함
+    ```python
+    data1 = 'A'
+    print(ord(data1[0]))  # ord(): 문자의 ASCII
+
+    def storage_data(data, value):
+      key = ord(data[0])
+      hash_address = hash_func(key)
+      hash_table[hash_address] = value
+    ```
+    * data를 저장하고 불러보자
+    ```python
+    storage_data('A', '991199')
+
+    def get_data(data):
+      key = ord(data[0])
+      hash_address = hash_func(key)
+      return hash_table[hash_address]
+
+    get_data('A')   # '991199'
+    ```
+<br>
+
+* 장점
+
+  * 데이터 저장/읽기 속도가 빠름
+  * 키에 대한 데이터가 있는지 중복 확인이 쉽다
+
+* 단점
+
+  * 저장공간을 좀 더 필요로 한다
+  * 해시충돌을 해결하기 위한 추가적 자료구조 필요
+
+* 주요 사용
+
+  * 검색이 많이 필요한 경우
+  * 저장, 삭제, 읽기가 빈번한 경우
+  * 캐시 구현시(중복 확인이 쉬움!)
+
+* list 변수를 활용한 hash table
+
+```python
+hash_table = list([0 for i in range(8)])
+
+def get_key(data):
+  return hash(data)   # hash()란 내장함수를 이용
+
+def hash_function(key):
+  return key % 8
+
+def save_data(data, value):
+  hash_address = hash_function(get_key(data))
+  hash_table[hash_address] = value
+
+def read_data(data):
+  hash_address = hash_function(get_key(data))
+  return hash_table[hash_address]
+```
+<br>
 
 * 해시 충돌   
 서로 다른 키가 같은 해시를 가지면 발생
-완벽한 조건을 만족시켜주는 해시함수를 구현하기 어렵(거의 불가능)당   
-기본적으로 키 사이즈에 비해 hash map의 사이즈가 작아서 충돌이 날 수 밖에없다   
+완벽한 조건을 만족시켜주는 해시함수를 구현하기 어렵(거의 불가능),      
+기본적으로 키 사이즈에 비해 hash map의 사이즈가 작아서 충돌이 날 수 밖에없다
+<br>
 
-* 해결 방법
-  * Separate chaning   
-  : Linked list로 연결연결...
-  * Open addressing   
-  : 비어있는 공간 활용
+* Collision(충돌) 해결 알고리즘(좋은 해시 함수 사용하기)
+  
+  * Chaining(개발해싱 | Open Hashing 기법중 하나): linked List 사용
+    ```python
+    def get_key(data):
+      return hash(data)
 
-### **정리**
-검색, 삽입, 삭제, 조회 모두 빠름<br>
-근데 주소 할당이 다소 무작위적임
+    def hash_function(key):
+      return key % 8
 
+    def save_data(data, value):
+      index_key = get_key(data)
+      hash_address = hash_function(index_key)
+      if hash_table[hash_address] != 0:
+        for index in range(len(hash_table[hash_address])):
+          if hash_table[hash_address][index][0] == index_key:
+            hash_table[hash_address][index][1] = value
+            return
+        hash_table[hash_address].append([index_key.value])
+      else:
+        hash_table[hash_address] = [[index_key.value]]
+
+    def read_data(data):
+      idx_key = get_key(data)
+      hash_address = hash_function(idx_key)
+      if hash_table[hash_address] != 0:
+        for idx in range(len(hash_table[hash_address])):
+          if hash_table[hash_address][idx][0] == idx_key:
+            return hash_table[hash_address][idx][1]
+        return None
+      else:
+        return None
+    ```
+
+  * Linear Probing(폐쇄 해싱 | Close Hashing 기법중 하나): 저장공간 활용
+    ```python
+    def get_key(data):
+      return hash(data)
+
+    def hash_function(key):
+      return key % 8
+
+    def save_data(data, value):
+      index_key = get_key(data)
+      hash_address = hash_function(index_key)
+      if hash_table[hash_address] != 0:
+        for index in range(hash_address, len(hash_table)):
+          if hash_table[index] == 0:
+            hash_table[index] = [index_key, value]
+            return
+          elif hash_table[index][0] = index_key:
+            hash_table[index][1] = value
+            return
+      else:
+        hash_table[hash_address] = [index_key, value]
+
+    def read_data(data):
+      idx_key = get_key(data)
+      hash_address = hash_function(idx_key)
+      if hash_table[hash_address] != 0:
+        for idx in range(hash_address, len(hash_table)):
+          if hash_table[idx] == 0:
+            return None
+          elif hash_table[idx][0] == idx_key:
+            return hash_table[idx][1]
+      else:
+        return None
+    ```
+
+  * 빈번한 충돌을 개선하는 기법(함수재정의 or 해시테이블 저장공간 확대)
+    ```python
+    # 데이터 수에 비례하게 늘리는 것
+    hash_table = list([None for i in range(16)])
+    def hash_function(key):
+      return key % 16
+    ```
+
+* 해시 함수롸 키 생성 함수(참고)
+
+  * SHA(Secure Hash Algorithm)
+
+    * SHA-1
+      ```python
+      import hashlib
+      data = 'test'.encode()
+      hash_object = hashlib.sha1()
+      hash_object.update(b'test')    # 바이트로 변환
+      hex_dig = hash_object.hexdigest() # 보통 16진수로 많이 추출
+      print(hex_dig)  # 16진수 결과 도출
+      ```
+    * SHA-256
+      * 다 같은데 hashlib.sha256()
+
+* 시간 복잡도 일반적으로 O(1)을 기대, 그러나 충돌이 있으면 좀 늘어날 수 있음(모두 충돌인 경우) O(n)
 <br>
 
 ----------------
+<br>
+
+##
+
+
+
+<br>
+
+--------------
+<br>
 
 
 <br><br><br><br><br>
