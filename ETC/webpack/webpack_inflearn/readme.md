@@ -20,6 +20,8 @@
 
 * 패키지 내려받기: npm i(install)
 
+<br>
+
 ## npm
 
 * Sementic Version
@@ -36,3 +38,20 @@
     ex) ^1.2.3: 1.2.3부터 2.0.0미만까지 포함
 
 <!-- https://github.com/jeonghwan-kim/lecture-frontend-dev-env -->
+
+<br>
+
+## babel   
+
+일반적으로 쓰던 방식으로 코딩하되, 여러 브라우저의 호환성을 맞춰준다
+
+* 여러 개의 플러그인들을 모은 세트를 preset이라 하며 ECMAScript 환경은 env preset을 사용
+
+* core: 파싱과 출력을 담당
+
+* plugin: 변환을 처리
+
+* babel이 변환할 수 없는 코드는 폴리필이라 하는 코드 조각을 불러와 결과물에 로딩하여 해결
+
+* 웹팩과 통합하여 사용하는 것이 일반적, loader 형태로 제공된다
+  > babel-loader를 통해 단순하고 자동화된 프론트엔드 개발 환경을 갖추자

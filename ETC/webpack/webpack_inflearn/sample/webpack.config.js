@@ -8,7 +8,7 @@ const webpack = require('webpack')
 module.exports = {
   mode: 'development',
   entry: {    // 시작점
-    main: './src/app.js'
+    main: './app.js'
   },
   output: {   // 번들링 결과
     path: path.resolve('./dist'),
@@ -32,6 +32,11 @@ module.exports = {
           publicPath: './dist/',
           name: '[name].[ext]?[hash]'
         }
+      },
+      {
+        test: /\.js$/,
+        loader: 'babel-loader',
+        exclude: /node_modules/
       }
     ]
   },
