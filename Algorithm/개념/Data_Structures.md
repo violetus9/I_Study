@@ -13,8 +13,10 @@ CPU에서 가져오는 것보다 월등히 빠르기 때문
 [배열](#배열)   
 [Queue](#Queue)   
 [Stack](#Stack)   
-[Hash table](#Hash-table)   
 [Linked List](#Linked-List)   
+[Hash table](#Hash-table)   
+[Tree](#Tree)   
+
 
 ----------------
 <br>
@@ -522,7 +524,7 @@ def read_data(data):
       return key % 16
     ```
 
-* 해시 함수롸 키 생성 함수(참고)
+* 해시 함수와 키 생성 함수(참고)
 
   * SHA(Secure Hash Algorithm)
 
@@ -544,8 +546,209 @@ def read_data(data):
 ----------------
 <br>
 
-##
+## Tree   
 
+Node 와 Branch 를 이용한 사이클을 이루지 않도록 구성한 데이터 구조   
+이진트리(Binary)가 많이 사용되며, 탐색에서 많이 사용 됨
+
+* 용어
+
+  * Node: 트리에서 데이터를 저장하는 기본 요소(Branch 정보 포함)
+  * Root Node: 최상위 노드
+  * Level: 최상위를 0으로, 하위로의 깊이
+  * Parent Node, Child Node
+  * Leaf Node(Terminal Node): Child Node 가 하나도 없는 노드
+  * Sibling(Brother Node): 동일한 Parent Node를 가진 노드
+  * Depth: 트리에서 Node가 가질 수 있는 최대 Level
+
+* Binary Tree | Binary Search Tree (BST)
+
+  * 노드의 최대 Branch가 2인 트리
+  * BST: 왼쪽 노드는 해당 노드보다 작은, 오른쪽은 큰 값을 가진 트리
+
+* 자료 구조 이진 탐색 트리의 장점과 주요 용도
+
+  * 장점: 탐색 속도 개선 가능(검색에 주로 쓰임)
+
+* Linked list 를 통한 구현
+  ```python
+  class Node:
+    def __init__(self, value):
+      self.value = value
+      self.left = None
+      self.right = None
+
+  class NodeMgmt:
+    def __init__(self, head):
+      self.head = head
+
+    def insert(self, value):
+      self.current_node = self.head
+      while True:
+        if value < self.current_node.value:
+          if self.current_node.left != None:
+            self.current_node = self.current_node.left
+          else:
+            self.current_node.left = Node(value)
+            break
+        else:
+          if self.current_node.right != None:
+            self.current_node = self.current_node.right
+          else:
+            self.current_node.right = Node(value)
+            break
+  ```
+
+  * 데이터 입력
+    ```python
+      head = Node(1)
+      BST = NodeMgmt(head)
+      BST.insert(2)
+    ```
+
+  * 이진 탐색 트리 탐색
+    ```python
+    def search(self, value):
+      self.current_node = self.head
+      while self.current_node:
+        if self.current_node.value == value:
+          return True
+        elif value < self.current_node.value:
+          self.current_node = self.current_node.left
+        else:
+          self.current_node = self.current_node.right
+      return False
+    ```
+
+  * 이진 탐색 트리 삭제(복잡할 수도 있으니까 다음처럼 나눠 생각해보자)
+
+    * Leaf Node 삭제
+    * Child Node 가 하나인 Node 삭제
+    * Child Node 가 두개인 Node 삭제
+
+  * 이진 탐색 트리 삭제 코드 구현과 분석
+    ```python
+    def delete(self, value):
+      searched = False
+      self.current_node = self.head
+      self.parent = self.head
+      while self.current_node:
+        if self.current_node.value == value:
+          searched = True
+          break
+        elif value < self.current_node.value:
+          self.parent = self.current_node
+          self.current_node = self.current_node.left
+        else:
+          self.parent = self.current_node
+          self.current_node = self.current_node.right
+
+      if searched == False:
+        return False
+    
+    ## 이후부터 Case에 맞는 코드 작성
+    ```
+    <br>
+
+    * case 1. 삭제할 Node가 leaf Node   
+      > self.current_node가 삭제할 Node, self.parent는 삭제할 Node의 Parent Node인 상태
+      ```python
+      if self.current_node.left == None and self.current_node.right == None:
+        if value < self.parent.value:
+          self.parent.left = None
+        else:
+          self.parent.right = None
+        del self.current_node
+      ```
+
+    * case 2. 삭제할 Node가 Child Node를 가지고 있는 경우
+      ```python
+      if self.current_node.left != None and self.current_node.right == None:
+        if value < self.parent.value:
+          self.parent.left = self.current_node.left
+        else:
+          self.parent.right = self.current_node.left
+      elif self.current_node.left == None and self.current_node.right != None:
+        if value < self.parent.value:
+          self.parent.left = self.current_node.right
+        else:
+          self.parent.right = self.current_node.right
+      ```
+
+    * case 3. 삭제할 Node가 Child Node를 두 개 가지고 있는 경우   
+      > 삭제할 Node가 Parent Node의 왼쪽에 있을 때
+      ```python
+      if self.current_node.left != None and self.current_node.right != None:  #case3
+        if value < self.parent.value:   #3-1
+          self.change_node = self.current_node.right
+          self.change_node_parent = self.current_node.right
+          while self.change_node.left != None:
+            self.change_node_parent = self.change_node
+            self.change_node = self.change_node.left
+          if self.change_node.right != None:
+            self.change_node_parent.left = self.change_node.right
+          else:
+            self.change_node_parent.left = None
+          self.parent.left = self.change_node
+          self.change_node.right = self.current_node.right
+          self.change_node.left = self.current_node.left
+      ```
+
+      > 삭제할 Node가 Parent Node의 오른쪽에 있을 때
+      ```python
+      else:   #3-2
+        self.change_node = self.current_node.right
+        self.change_node_parent = self.current_node.right
+        while self.change_node.left != None:
+          self.change_node_parent = self.change_node
+          self.change_node = self.change_node.left
+        if self.change_node.right != None:
+          self.change_node_parent.left = self.change_node.right
+        else:
+          self.change_node_parent.left = None
+        self.parent.right = self.change_node
+        self.change_node.left = self.current_node.left
+        self.change_node.right = self.current_node.right
+      ```
+
+* random lib를 활용한 test code   
+0~999 중 임의 100개 추출, 이진탐색트리에 입력, 검색, 삭제
+  ```python
+  import random
+  bst_nums = set()
+  while len(bst_nums) != 100:
+    bst_nums.add(random.randint(0, 999))
+
+  # 선택 된 100개의 숫자를 이진 탐색 트리에 입력, 임의로 루트노드 500
+  head = Node(500)
+  binary_tree = NodeMgmt(head)
+  for num in bst_nums:
+    binary_tree.insert(num)
+
+  # 입력한 100개의 숫자 검색 (검색 기능 확인)
+  for num in bst_nums:
+    if binary_tree.search(num) == False:
+      print('search failed', num)
+
+  # 입력한 100개의 숫자 중 10개의 숫자 랜덤 선택
+  delete_nums = set()
+  bst_nums = list(bst_nums)
+  while len(delete_nums) != 10:
+    delete_nums.add(bst_nums[random.randint(0, 99)])
+
+  # 선택된 10개 삭제 (삭제 기능 확인)
+  for del_num in delete_nums:
+    if binary_tree.delete(del_num) == False:
+      print('delete failed', del_num)
+  ```
+<br>
+
+* 시간 복잡도와 단점
+
+  * n개의 노드를 가진다면 O(logn)
+    > 한 번 실행시 50%의 실행시간을 단축한다는 의미
+
+  * 트리 구조가 depth = node인 경우 배열과 다를 것이 없다
 
 
 <br>

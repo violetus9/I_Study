@@ -4,7 +4,7 @@
 
 [Sort](#Sort)   
 [Recursive call](#Recursive-call)   
-[Tree](#Tree)   
+
 
 - - -
 
@@ -124,89 +124,9 @@ def factorial(num):
 
 <br>
 
-## Tree   
 
-Node 와 Branch 를 이용한 사이클을 이루지 않도록 구성한 데이터 구조   
-이진트리(Binary)가 많이 사용되며, 탐색에서 많이 사용 됨
 
-* 용어
 
-  * Node: 트리에서 데이터를 저장하는 기본 요소(Branch 정보 포함)
-  * Root Node: 최상위 노드
-  * Level: 최상위를 0으로, 하위로의 깊이
-  * Parent Node, Child Node
-  * Leaf Node(Terminal Node): Child Node 가 하나도 없는 노드
-  * Sibling(Brother Node): 동일한 Parent Node를 가진 노드
-  * Depth: 트리에서 Node가 가질 수 있는 최대 Level
-
-* Binary Tree | Binary Search Tree (BST)
-
-  * 노드의 최대 Branch가 2인 트리
-  * BST: 왼쪽 노드는 해당 노드보다 작은, 오른쪽은 큰 값을 가진 트리
-
-* 자료 구조 이진 탐색 트리의 장점과 주요 용도
-
-  * 장점: 탐색 속도 개선 가능(검색에 주로 쓰임)
-
-* Linked list 를 통한 구현
-  ```python
-  class Node:
-    def __init__(self, value):
-      self.value = value
-      self.left = None
-      self.right = None
-
-  class NodeMgmt:
-    def __init__(self, head):
-      self.head = head
-
-    def insert(self, value):
-      self.current_node = self.head
-      while True:
-        if value < self.current_node.value:
-          if self.current_node.left != None:
-            self.current_node = self.current_node.left
-          else:
-            self.current_node.left = Node(value)
-            break
-        else:
-          if self.current_node.right != None:
-            self.current_node = self.current_node.right
-          else:
-            self.current_node.right = Node(value)
-            break
-  ```
-
-  * 데이터 입력
-    ```python
-      head = Node(1)
-      BST = NodeMgmt(head)
-      BST.insert(2)
-    ```
-
-  * 이진 탐색 트리 탐색
-    ```python
-    def search(self, value):
-      self.current_node = self.head
-      while self.current_node:
-        if self.current_node.value == value:
-          return True
-        elif value < self.current_node.value:
-          self.current_node = self.current_node.left
-        else:
-          self.current_node = self.current_node.right
-      return False
-    ```
-
-  * 이진 탐색 트리 삭제(복잡할 수도 있으니까 다음처럼 나눠 생각해보자)
-
-    * Leaf Node 삭제
-    * Child Node 가 하나인 Node 삭제
-    * Child Node 가 두개인 Node 삭제
-
-  * 이진 탐색 트리 삭제 코드 구현과 분석
-
-  
 
 <br>
 
