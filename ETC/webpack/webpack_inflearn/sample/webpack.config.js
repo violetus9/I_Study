@@ -5,14 +5,26 @@ const path = require('path')
 const { CleanPlugin } = require('webpack')
 const webpack = require('webpack')
 
+// 최적화
+const mode = process.env.NODE_ENV || "development";
+
 module.exports = {
-  mode: 'development',
+  mode,
   entry: {    // 시작점
     main: './app.js'
   },
   output: {   // 번들링 결과
     path: path.resolve('./dist'),
     filename: '[name].js'
+  },
+  devServer: {
+    overlay: true,
+    stats: "errors-only",
+    // proxy: {
+    //   "/api": "http://localhost:8081"
+    // },
+    port: 8081,
+    hot: true,  // 핫 모듈 replacement (변경 모듈만 화면에 반영)
   },
   module: {
     rules: [

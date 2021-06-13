@@ -55,3 +55,28 @@
 
 * 웹팩과 통합하여 사용하는 것이 일반적, loader 형태로 제공된다
   > babel-loader를 통해 단순하고 자동화된 프론트엔드 개발 환경을 갖추자
+
+## sass
+
+* 'sass' to 'css'
+
+<br>
+
+## Lint
+
+* 코드의 가독성 + 런타임 버그 예방
+
+* ESLint
+
+  * 포매팅
+  * 코드 품질
+
+* *Prettier*
+
+  * 코드를 더 예쁘게, but 코드 품질은 관여 않음
+
+* advanced
+
+  * api con
+  * hot loading
+  * optimization
