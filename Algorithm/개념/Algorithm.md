@@ -4,6 +4,7 @@
 
 [Sort](#Sort)   
 [Recursive call](#Recursive-call)   
+[DP, DC](#동적-계획법,-분할-정복)   
 
 
 - - -
@@ -124,7 +125,47 @@ def factorial(num):
 
 <br>
 
+## 동적 계획법, 분할 정복
 
+* Dynamic Programming
+
+  * 상향식 접근법
+  * 입력 크기가 작은 부분 문제를 해결 후 이 해를 활용한 큰 문제의 해결
+  * Memorization 기법 활용
+    * Memorization: 이전 계산 값을 저장, 다시 계산하지 않도록 하는 기술로 전체 실행 속도를 빠르게 한다
+
+* Divide and Conquer
+
+  * 하향식 접근법
+  * 문제를 나눌 수 없을 때까지 나누어 각각을 풀며 다시 합병하며 해를 구함
+    
+    * 재귀로 구현
+  
+* 차이점
+
+  * DP: 부분 문제는 중복, 상위 문제 접근시 재활용, Memorization O
+  * DC: 부분 문제는 중복되지 않음, Memorization X
+
+* DP 예
+
+  * 피보나치 수열
+    ```python
+    # 재귀를 활용
+    def fibo(num):
+      if num <= 1:
+        return num
+      return fibo(num - 1) + fibo(num - 2)
+
+    # DP 활용
+    def fibo_dp(num):
+      cache = [0 for index in range(num + 1)]
+      cache[0] = 0
+      cache[1] = 1
+
+      for index in range(2, num + 1):
+        cache[index] = cache[index - 1] + cache[index - 2]
+      return cache[num]
+    ```
 
 
 
