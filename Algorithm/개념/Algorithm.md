@@ -61,6 +61,85 @@ def insertion_sort(data):
 ```
 <br>
 
+> 중요!
+* **Quick sort**: 기준점(pivot)을 정해 보다 작은 데이터는 왼쪽, 큰 데이터는 오른쪽으로 모으는 함수를 작성, 재귀를 이용, 함수의 리턴은 left + pivot + right
+
+```python
+def quick_sort(data):
+  if len(data) <= 1:
+    return data
+   
+  left, right = list(), list()
+  pivot = data[0] 
+
+  for index in range(1, len(data)):
+    if pivot > data[index]:
+      left.append(data[index])
+    else:
+      right.append(data[index])
+
+  return quick_sort(left) + [pivot] + quick_sort(right)
+```
+
+  * use list comprehension
+    
+    ```python
+    def qsort(data):
+      if len(data) <= 1:
+        return data
+      
+      pivot = data[0]
+
+      left = [item for item in data[1:] if pivot > item]
+      right = [item for item in data[1:] if pivot <= item]
+
+      return qsort(left) + [pivot] + qsort(right)
+    ```
+<br>
+
+* 병합정렬과 유사, 시간 복잡도는 O(n log n)
+> 극단적인 경우 O(n^2)
+<br>
+
+* **Merge sort**: 재귀를 활용, 리스트를 반으로 size=1까지 자름, 정렬 불능까지 재귀, 이후 각 부분에 대한 병합 시행
+
+```python
+def mergesplit(data):
+  if len(data) <= 1:
+    return data
+  medium = int(len(data) / 2)
+  left = mergesplit(data[:medium])
+  right = mergesplit(data[medium:])
+  return merge(left, right)
+
+def merge(left, right):
+  merged = list()
+  left_point, right_point = 0, 0
+
+  # case1: left/right 아직 남아있다
+  while len(left) > left_point and len(right) > right_point:
+    if left[left_point] > right[right_point]:
+      merged.append(right[right_point])
+      right_point += 1
+    else:
+      merged.append(right[left_point])
+      left_point += 1
+
+  # case2: left 남은 경우
+  while len(left) > left_point:
+    merged.append(right[left_point])
+    left_point += 1
+
+  # case3: right 남은 경우
+  while len(right) > right_point:
+    merged.append(right[right_point])
+    right_point += 1
+
+  return merged
+```
+
+<br>
+
 - - -
 
 <br>
