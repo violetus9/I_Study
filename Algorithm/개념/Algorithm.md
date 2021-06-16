@@ -2,10 +2,11 @@
 
 <br>
 
-[Sort](#Sort)   
-[Recursive call](#Recursive-call)   
-[DP, DC](#동적-계획법,-분할-정복)   
-[Search](#Search)   
+[Sort](#Sort)    
+[Recursive call](#Recursive-call)    
+[DP, DC](#동적-계획법,-분할-정복)    
+[Search](#Search)    
+[Graph](#Graph)    
 
 
 - - -
@@ -254,7 +255,6 @@ def factorial(num):
 
 ## Search
 
-
 * Sequential search
 
   * 앞에서부터 하나씩~
@@ -299,10 +299,50 @@ def sequencial(data_list, search_data):
 
 <br>
 
+## Graph
 
+* Node: 위치, 정점(Vertex)
 
+* Edge: 위치간의 관계를 표시한 선(link, branch)
 
+* 처음과 끝이 중복된다면? > '단순 경로'
 
+* 방향에 대한 제시는 <> 로 한다.
+    방향 존재: <A, B>, 방향 무: (A, B)
+
+> 그래프의 종류는 매우 많다. 하지만 그 용어는 일일히 다 외우지말자, 사견이긴 하지만 파생되는 용어가 많다는건 그만큼 원리가 중요하다는 것!
+    
+* 그래프와 앞서 배운 트리의 차이를 생각 해보자!
+
+* BFS, DFS
+
+  * BFS(Breadth First Search)
+    너비 우선 탐색: 정점들과 같은 레벨에 있는 노드들(형제 노드)을 먼저 탐색하는 방식
+
+    * visited queue, need_visited queue 로 나누어 생각한다.
+    > 방문했는지, 방문했는게 다른 무언가의 방문이 필요한지
+
+    ```python
+    def bfs(graph, start_node):
+      visited = list()
+      need_visit = list()
+
+      need_visit.append(start_node)
+
+      while need_visit:
+        node = need_visit.pop(0)
+        if node not in visited:
+          visited.append(node)
+          need_visit.extend() # extend: 데이터를 붙이는 개념(in js: concat?)
+
+      return visited
+    ```
+    * 노드와 간선을 V, E 라 본다면 O(V + E)의 시간 복잡도를 가진다.
+    <br>
+    <br>
+
+  * DFS(Depth First Search)
+    정점의 자식들을 먼저 탐색하는 방식(형제의 자식을 타며 순회)
 
 
 
