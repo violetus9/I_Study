@@ -5,6 +5,7 @@
 [Sort](#Sort)   
 [Recursive call](#Recursive-call)   
 [DP, DC](#동적-계획법,-분할-정복)   
+[Search](#Search)   
 
 
 - - -
@@ -245,6 +246,63 @@ def factorial(num):
         cache[index] = cache[index - 1] + cache[index - 2]
       return cache[num]
     ```
+<br>
+
+- - -
+
+<br>
+
+## Search
+
+
+* Sequential search
+
+  * 앞에서부터 하나씩~
+
+```python
+def sequencial(data_list, search_data):
+  for idx in range(len(data_list)):
+    if data_list[idx] == search_data:
+      return idx
+  return -1
+```
+<br>
+
+* Binary search
+
+  * 데이터가 정렬되어 있다는 가정 하에 순차탐색보다 월등히 빠름
+
+  ```python
+  def binary_search(data, search):
+    if len(data) == 1 and search == data[0]:
+      return True
+    if len(data) == and search != data[0]:
+      return False
+    if len(data) == 0
+      return False
+
+    medium = len(data) // 2
+    if search == data[mediun]:
+      return True
+    else:
+      if search > data[medium]:
+        return binary_search(data[medium:], search)
+      else:
+        return binary_search(data[:medium], search)
+  ```
+
+  * O(logn)
+  > 순차탐색의 경우 O(n)
+<br>
+
+- - -
+
+<br>
+
+
+
+
+
 
 
 
