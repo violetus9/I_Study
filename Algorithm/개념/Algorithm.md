@@ -314,6 +314,23 @@ def sequencial(data_list, search_data):
     
 * 그래프와 앞서 배운 트리의 차이를 생각 해보자!
 
+  * graph 표현
+    ```python
+    graph = dict()
+
+    graph['A'] = ['B', 'C']
+    graph['B'] = ['A', 'D']
+    graph['C'] = ['A', 'G', 'H', 'I']
+    graph['D'] = ['B', 'E', 'F']
+    graph['E'] = ['D']
+    graph['F'] = ['D']
+    graph['G'] = ['C']
+    graph['H'] = ['C']
+    graph['I'] = ['C', 'J']
+    graph['J'] = ['I']
+    ```
+    <br>
+
 * BFS, DFS
 
   * BFS(Breadth First Search)
@@ -337,13 +354,27 @@ def sequencial(data_list, search_data):
 
       return visited
     ```
-    * 노드와 간선을 V, E 라 본다면 O(V + E)의 시간 복잡도를 가진다.
-    <br>
     <br>
 
   * DFS(Depth First Search)
     정점의 자식들을 먼저 탐색하는 방식(형제의 자식을 타며 순회)
 
+    ```python
+    def dfs(graph, start_node):
+      visited, need_visit = list(), list()
+      need_visit.append(start_node)
+
+      while need_visit
+      node = need_visit.pop()
+      if node not in visited:
+        visited.append(node)
+        need_visited.extend(graph[node])
+
+      return visited
+    ```
+<br>
+
+* 노드와 간선을 V, E 라 본다면 두 알고리즘 모두 O(V + E)의 시간 복잡도를 가진다.
 
 
 <br>
