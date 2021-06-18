@@ -4,9 +4,11 @@
 
 [Sort](#Sort)    
 [Recursive call](#Recursive-call)    
-[DP, DC](#동적-계획법,-분할-정복)    
+[DP,DC](#동적-계획법,-분할-정복)    
 [Search](#Search)    
 [Graph](#Graph)    
+[Greedy](#Greedy)    
+[그래프 고급](#그래프-고급)    
 
 
 - - -
@@ -375,6 +377,78 @@ def sequencial(data_list, search_data):
 <br>
 
 * 노드와 간선을 V, E 라 본다면 두 알고리즘 모두 O(V + E)의 시간 복잡도를 가진다.
+<br>
+
+- - -
+
+<br>
+
+## Greedy
+
+* 매 순간의 최적해를 찾는 방식으로 진행
+> 하지만 모든 경우에 최적인 알고리즘은 아니다(반례가 더러 있기에)
+
+* 대표적 예
+
+  * 동전 문제: 지불해야 하는 값이 4720일 때, 1, 50, 100, 500 동전으로 동전 수가 가장 적게 지불하시오
+    ```python
+    coin_list = [500, 100, 50, 1]
+
+    def min_coin_count(value, coin_list):
+      total_count = 0
+      details = list()
+      coin_list.sort(reverse=True)
+      for coin in coin_list:
+        coin_num = value // coin
+        total_coin_count += coin_num
+        value -= coin_num * coin
+        details.append([coin, coin_num])
+      return total_coin_count, details
+    ```
+<br>
+
+  * 부분 베낭 문제: 무게 제한이 있는 베낭이 최대 가치를 가지도록 물건을 넣는 문제
+    ```python
+    # 무게w와 가치v로 표현 가능
+    data_list = [(10, 10), (15, 12), (20, 10), (25, 8), (30, 5)]
+
+    def get_max_value(data_list, capacity):
+      data_list = sorted(data_list, key = lambda x: x[1] / x[0], reverse = True)
+      total_value = 0
+      details = list()
+
+      for data in data_list:
+        if capacity - data[0] >= 0:
+          capacity -= data[0]
+          total_value += data[1]
+          details.append([data[0], data[1], 1])
+        else:
+          fraction = capacity / data[0]
+          total_value += data[1] * fraction
+          details.append([data[0], data[1], fraction])
+          break
+      return total_value, details
+    ```
+<br>
+
+- - -
+
+<br>
+
+## 그래프 고급   
+
+* 최단 경로 알고리즘: 두 노드를 잇는 가장 짧은 경로를 찾는 문제
+
+* 종류
+
+  * 전체 쌍 최단 경로: 모든 노드 쌍에 대한 최단 경로를 찾는 문제
+
+  * 단일 출발: 그래프 내 특정 노드와 타 모든 노드 각각의 가장 짧은 경로를 찾는 문제
+    * 다익스트라 알고리즘(BFS와 유사, 우선순위 큐 활용할 것임)   
+      * 첫 정점을 기준으로 연결 된 정점들 추가하며 최단 거리 갱신하는 기법
+      1. 초기화
+        첫 정점 기준 배열 선언, 각 정점까지 거리를 저장, 우선순위 큐에 첫 정점, 거리0 넣는다
+      2. 우선순위 큐에서 추출한 값 기반, 인접 노드 거리 계산, 업데이트(반복)
 
 
 <br>
