@@ -10,6 +10,7 @@ CPU에서 가져오는 것보다 월등히 빠르기 때문
 
 - - -
 
+[python 기본](#python-기본)   
 [배열](#배열)   
 [Queue](#Queue)   
 [Stack](#Stack)   
@@ -19,6 +20,97 @@ CPU에서 가져오는 것보다 월등히 빠르기 때문
 
 
 ----------------
+<br>
+
+## python 기본
+
+* int
+    ```python
+    3 / 3   # 1.0
+    type(3 // 3)    # int
+    ```
+  * 유리수 연산이 필요하다면 tuple로 분자 분모를 따로 처리하자
+<br>
+
+* string
+
+  * immutable
+
+    * list로 변환하여 사용할 것
+
+  * +, * 연산 조심!
+    > join() method를 활용하자(속도가 빠름)
+
+  * slicing을 사용할 때는 새 객체를 생성하게되므로 효율적으로 사용할 것
+
+  * chr(), ord() 활용
+    ```python
+    chr(65)
+    ord('A')  
+    ```
+<br>
+
+* boolean
+
+  * if ~ and ~ or
+<br>
+
+* List
+
+  * list comprehension 활용하기, append보다 속도가 빠르기도 함, set등의 자료에도 적용 가능한 방법
+    ```python
+    list_arr = [i for i in range(100) if i%2 == 0]
+    ```
+
+  * sort, sorted
+    : sort는 원본을 훼손
+    : sorted는 정렬된 복사본을 리턴
+
+  * len, sum, max, min 활용
+
+  * slicing, [-1]음수인덱스 활용
+
+  * reduce, filter 활용
+<br>
+
+* Tuple
+
+  * 초기 상태 표현시 코드가 길어지는 것 방지
+    ```python
+    a, b, c = 1, 2, 3
+    ```
+    <br>
+
+  * Map과 함께 사용하여 입력 받기
+    ```python
+    a, b = map(int, input().split())
+    ```
+    <br>
+
+  * 돈시에 변해야 하는 객체에 효율적 표현 가능
+    ```python
+    a, b = b, a (swap)
+    ```
+<br>
+
+* Dictionary
+
+  * key, value 활용
+<br>
+
+* Set
+
+  * 중복 체크(set(list)) 활용
+    ```python
+    def isChk(lst):
+      return len(lst) == len(set(lst))
+    ```
+
+  * 집합류의 연산에 활용 가능하나, 시간복잡도가 크다
+<br>
+
+- - -
+
 <br>
 
 ## 배열
