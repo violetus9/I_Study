@@ -6,9 +6,12 @@
 [(10539)수빈이와 수열](#수빈이와-수열)   
 [(17269)이름궁합 테스트](#이름궁합-테스트)   
 [(17389)보너스 점수](#보너스-점수)   
+[(1920) 수 찾기](#수-찾기)   
+[(16165)걸그룹 마스터 준석이](#걸그룹-마스터-준석이)   
 [(2920) 음계](#음계)   
 [(2798) 블랙잭](#블랙잭)   
 [(1874) 스택 수열](#스택-수열)   
+[(1966) 프린터 큐](#프린터-큐)   
 
 
 <br>
@@ -103,11 +106,47 @@ print(score)
 
 <br>
 
+## 수 찾기
+> 1920
+
+```python
+n, a = int(input()), {i: 1 for i in map(int, input().split())}
+m = input()
+
+for i in list(map(int, input().split())):
+    print(a.get(i, 0))
+```
 <br>
 
 - - -
 
 <br>
+
+## 걸그룹 마스터 준석이
+> 16165
+
+```python
+N, M = map(int, input().split())
+
+team_mem, mem_team = {}, {}
+
+for i in range(N):
+    team_name, mem_num = input(), int(input())
+    team_mem[team_name] = []
+    for j in range(mem_num):
+        name = input()
+        team_mem[team_name].append(name)
+        mem_team[name] = team_name
+
+for i in range(M):
+    name, q = input(), int(input())
+    if q:
+        print(mem_team[name])
+    else:
+        for mem in sorted(team_mem[name]):
+            print(mem)
+```
+
 
 <br>
 
@@ -143,7 +182,6 @@ elif des:
 else:
     print('mixed')
 ```
-
 <br>
 
 - - -
@@ -169,7 +207,6 @@ for i in range(0, leng):
                 
 print(answer)
 ```
-
 <br>
 
 - - -
@@ -181,10 +218,23 @@ print(answer)
 
 ```python
 n = int(input())
-cnt = 1
+count = 1
 stack = []
 stack_answer = []
 
+for i in range(1, n + 1):
+  data = int(input())
+  while count <= data:
+    stack.append(count)
+    count += 1
+    stack_answer.append('+')
+  if stack[-1] == data:
+    stack.pop()
+    stack_answer.append('-')
+  else:
+    print('NO')
+    exit(0)
+print('\n'.join(stack_answer))
 ```
 
 <br>
@@ -192,6 +242,30 @@ stack_answer = []
 - - -
 
 <br>
+
+## 프린터 큐
+> 1966
+
+```python
+cases = int(input())
+
+for _ in range(cases):
+    n, m = map(int, input().split())
+    queue = list(map(int, input().split()))
+    queue = [(i, idx) for idx, i in enumerate(queue)]
+
+    cnt = 0
+    while True:
+        if queue[0][0] == max(queue, key=lambda x: x[0])[0]:
+            cnt += 1
+            if queue[0][1] == m:
+                print(cnt)
+                break
+            else:
+                queue.pop(0)
+        else:
+            queue.append(queue.pop(0))
+```
 
 
 <br>
