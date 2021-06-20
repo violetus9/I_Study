@@ -12,6 +12,9 @@
 [(2798) 블랙잭](#블랙잭)   
 [(1874) 스택 수열](#스택-수열)   
 [(1966) 프린터 큐](#프린터-큐)   
+[(5397) 키로거](#키로거)   
+[(5397) SHA-256](#SHA256)   
+[(4195) 친구 네트워크](#친구-네트워크)   
 
 
 <br>
@@ -266,8 +269,105 @@ for _ in range(cases):
         else:
             queue.append(queue.pop(0))
 ```
+<br>
+
+- - -
+
+<br>
+
+## 키로거
+> 5397
+
+```python
+N = int(input())
+
+for _ in range(N):
+    l_stack = []
+    r_stack = []
+    data = input()
+    for i in data:
+      if i == '-':
+        if l_stack:
+          l_stack.pop()
+      elif i == '<':
+        if l_stack:
+          r_stack.append(l_stack.pop())
+      elif i == '>':
+        if r_stack:
+          l_stack.append(r_stack.pop())
+      else:
+        l_stack.append(i)
+    l_stack.extend(reversed(r_stack))
+    print(''.join(l_stack))
+```
+<br>
+
+- - -
+
+<br>
+
+## SHA256
+> 10930
+
+```python
+import hashlib
+
+data = input()
+hash_data = data.encode()
+result = hashlib.sha256(hash_data).hexdigest()
+print(result)
+```
+<br>
+
+- - -
+
+<br>
+
+## 친구 네트워크
+> 4195
+
+```python
+def find(x):
+  if x == parent[x]:
+    return x
+  else:
+    p = find(parent[x])
+    parent[x] = p
+    return p
 
 
+def union(x, y):
+  x = find(x)
+  y = find(y)
+  if x != y:
+    parent[y] = x
+    number[x] += number[y]
+
+
+cases = int(input())
+
+for _ in range(cases):
+  parent = dict()
+  number = dict()
+  f = int(input())
+
+  for _ in range(f):
+    x, y = input().split()
+    if x not in parent:
+      parent[x] = x
+      number[x] = 1
+    if y not in parent:
+      parent[y] = y
+      number[y] = 1
+
+    union(x, y)
+    print(number[find(x)])
+```
+<br>
+
+- - -
+
+<br>
 <br>
 
 - - -
