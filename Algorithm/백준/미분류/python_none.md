@@ -15,7 +15,9 @@
 [(5397) 키로거](#키로거)   
 [(5397) SHA-256](#SHA256)   
 [(4195) 친구 네트워크](#친구-네트워크)   
-[(1932) 정수 삼각형](#정수-삼각형)   
+[(1932) 정수 삼각형](#정수-삼각형)    
+[(2750) 수 정렬하기](#수-정렬하기)    
+[(1427) 소트인사이드](#소트인사이드)    
 
 
 <br>
@@ -156,35 +158,7 @@ for i in range(M):
 
 <br>
 
-## 정수 삼각형
-> 1932
 
-```python
-N = int(input())
-A = [[0 for _ in range(N+1)] for i in range(N+1)]
-DP = [[0 for _ in range(N+1)] for i in range(N+1)]
-
-for i in range(1, N+1):
-    tmp = list(map(int, input().split()))
-    for j in range(1, i+1):
-        A[i][j] = tmp[j-1]
-
-for i in range(1, N+1):
-    for j in range(1, i+1):
-        DP[i][j] = max(DP[i-1][j-1], DP[i-1][j]) + A[i][j]
-
-print(max(DP[-1]))
-```
-<br>
-
-- - -
-
-<br>
-<br>
-
-- - -
-
-<br>
 <br>
 
 - - -
@@ -401,6 +375,98 @@ for _ in range(cases):
 - - -
 
 <br>
+
+## 정수 삼각형
+> 1932
+
+```python
+N = int(input())
+A = [[0 for _ in range(N+1)] for i in range(N+1)]
+DP = [[0 for _ in range(N+1)] for i in range(N+1)]
+
+for i in range(1, N+1):
+    tmp = list(map(int, input().split()))
+    for j in range(1, i+1):
+        A[i][j] = tmp[j-1]
+
+for i in range(1, N+1):
+    for j in range(1, i+1):
+        DP[i][j] = max(DP[i-1][j-1], DP[i-1][j]) + A[i][j]
+
+print(max(DP[-1]))
+```
+<br>
+
+- - -
+
+<br>
+
+## 수 정렬하기
+> 2750
+
+```python
+n = int(input())
+
+tmp_li = []
+
+for i in range(n):
+    nums = int(input())
+    tmp_li.append(nums)
+
+tmp_li.sort()
+for i in tmp_li:
+    print(i)
+
+# 선택 정렬
+n = int(input())
+array = list()
+
+for _ in range(n):
+    array.append(int(input()))
+
+for i in range(n):
+    min_index = i
+    for j in range(i + 1, n):
+        if array[min_index] > array[j]:
+            min_index = i
+    array[i], array[min_index] = array[min_index], array[i]
+
+for i in array:
+    print(i)
+```
+<br>
+
+- - -
+
+<br>
+
+## 소트인사이드
+> 1427
+
+```python
+tmp_li = [int(s) for s in str(input())]
+tmp_li.sort(reverse=True)
+answer = ''
+
+for s in tmp_li:
+    answer += str(s)
+
+print(answer)
+
+# 다른 풀이
+array = input()
+for i in range(9, -1, -1):
+    for j in array:
+        if int(j) == i:
+            print(i, end='')
+```
+<br>
+
+- - -
+
+<br>
+
+
 <br>
 
 - - -
