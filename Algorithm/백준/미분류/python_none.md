@@ -18,6 +18,7 @@
 [(1932) 정수 삼각형](#정수-삼각형)    
 [(2750) 수 정렬하기](#수-정렬하기)    
 [(1427) 소트인사이드](#소트인사이드)    
+[(10814)나이순 정렬](#나이순-정렬)    
 
 
 <br>
@@ -466,7 +467,23 @@ for i in range(9, -1, -1):
 
 <br>
 
+## 나이순 정렬
+> 10814
 
+```python
+n = int(input())
+
+tmp_li = []
+
+for _ in range(n):
+    data = input().split()
+    tmp_li.append((int(data[0]), data[1]))
+
+tmp_li = sorted(tmp_li, key=lambda x: x[0])
+
+for i in tmp_li:
+    print(i[0], i[1])
+```
 <br>
 
 - - -
