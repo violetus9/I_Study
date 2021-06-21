@@ -17,6 +17,7 @@ CPU에서 가져오는 것보다 월등히 빠르기 때문
 [Linked List](#Linked-List)   
 [Hash table](#Hash-table)   
 [Tree](#Tree)   
+[Heap](#Heap)   
 
 
 ----------------
@@ -841,12 +842,91 @@ Node 와 Branch 를 이용한 사이클을 이루지 않도록 구성한 데이�
     > 한 번 실행시 50%의 실행시간을 단축한다는 의미
 
   * 트리 구조가 depth = node인 경우 배열과 다를 것이 없다
-
-
 <br>
 
 --------------
 <br>
+
+## Heap
+데이터에서 최대값과 최소값을 빠르게 찾기 위해 고안된 완전 이진 트리(Complete Binary Tree)
+> 배열의 최대최소는 O(n), 힙은 O(logn)
+<br>
+
+* Max Heap
+
+  * 각 노드의 값은 해당 노드의 자식 노드가 가진 값보다 크거나 같음
+
+* Min Heap
+
+  * 최대힙의 걍 반대
+
+* 이진 트리와의 차이
+
+  * Heap은 각 노드의 값이 자식 노드보다 크거나 같음(Max Heap의 경우)
+
+  * 이진 탐색 트리는 왼쪽 자식 노드의 값이 가장 작고, 그 다음 부모 노드, 그 다음 오른쪽 자식 노드 값이 가장 큼
+
+  * 이진 탐색 트리는 탐색을 위한, 힙은 최대/최소 검색을 위한 구조라고 생각하면 된다.
+
+* Heap 구현
+
+  * 보통 배열로 많이 표현함(root노드를 1부터 지정하면 편하다)
+  ```python
+  5 // 2  # 2로 나눈 몫이 부모의 인덱스
+  2 * 2 # 2로 곱한 값이 왼쪽 자식 인덱스
+  2 * 2 + 1 # 오른쪽 자식 인덱스
+  # 완전 이진 트리 이기에 가능한 방법!
+  ```
+<br>
+
+  * 데이터 삽입
+    ```python
+    class Heap:
+      def __init__(self, data):
+        self.heap_array = list()
+        self.heap_array.append(None)
+        self.heap_array.append(data)
+
+      def move_up(self, inserted_idx):
+        if inserted_idx <= 1:
+          return False
+        
+        parent_idx = inserted_idx // 2
+        if self.heap_array[inserted_idx] > self.heap_array[parent_idx]:
+          return True
+        else:
+          return False
+
+      def insert(self, data):
+        if len(self.heap_array) == 0:
+          self.heap_array.append(None)
+          self.heap_array.append(data)
+          return True
+
+        self.heap_array.append(data)
+
+        inserted_idx = len(self.heap_array) - 1
+
+        while self.move_up(inserted_idx):
+          parent_idx = inserted_idx // 2
+          self.heap_array[inserted_idx], self.heap_array[parent_idx] = self.heap_array[parent_idx], self.heap_array[inserted_idx]
+          inserted_idx = parent_idx
+
+        return True
+    ```
+  <br>
+
+  * test
+    ```python
+    heap = Heap(15)
+    heap.insert(10)
+    heap.insert(8)
+    heap.insert(5)
+    heap.insert(4)
+    heap.insert(20)
+    print(heap.heap_array)
+    ```
+
 
 
 <br><br><br><br><br>
