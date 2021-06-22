@@ -1,4 +1,5 @@
 ## 미분류 문제들
+> 나중에 많아지면 사전순이나 번호순 정렬 만들면 조흘듯
 
 <br>
 
@@ -19,6 +20,9 @@
 [(2750) 수 정렬하기](#수-정렬하기)    
 [(1427) 소트인사이드](#소트인사이드)    
 [(10814)나이순 정렬](#나이순-정렬)    
+[(11650)좌표 정렬하기](#좌표-정렬하기)    
+[(10989)수 정렬하기3](#수-정렬하기3)    
+[(2747) 피보나치 수](#피보나치-수)    
 
 
 <br>
@@ -484,6 +488,83 @@ tmp_li = sorted(tmp_li, key=lambda x: x[0])
 for i in tmp_li:
     print(i[0], i[1])
 ```
+<br>
+
+- - -
+
+<br>
+
+## 좌표 정렬하기
+> 11650
+
+```python
+n = int(input())
+
+tmp_li = []
+
+for _ in range(n):
+    x, y = map(int, input().split())
+    tmp_li.append((x, y))
+
+tmp_li = sorted(tmp_li)
+for i in tmp_li:
+    print(i[0], i[1])
+```
+<br>
+
+- - -
+
+<br>
+
+## 수 정렬하기3
+> 10989
+
+```python
+import sys
+n = int(sys.stdin.readline())
+tmp_li = [0] * 10001
+
+for _ in range(n):
+    data = int(sys.stdin.readline())
+    tmp_li[data] += 1
+
+for i in range(10001):
+    if tmp_li[i] != 0:
+        for j in range(tmp_li[i]):
+            print(i)
+```
+<br>
+
+- - -
+
+<br>
+
+## 피보나치 수
+> 2747
+
+```python
+n = int(input())
+a, b = 0, 1
+while n:
+    a, b = b, a+b
+    n -= 1
+
+print(a)
+
+#
+def fibo(n, a, b):
+    if n == 1:
+        return print(a)
+    return fibo(n-1, b, a+b)
+
+
+print(fibo(int(input()), 0, 1))
+```
+<br>
+
+- - -
+
+<br>
 <br>
 
 - - -
