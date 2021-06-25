@@ -618,3 +618,21 @@ functional programming > 선택적!
 <br><br><br><br><br>
 --------------------------
 
+
+
+
+
+### memo
+
+> event bubbling
+> 일급 함수
+> optional chaining
+> dom/dom-tree
+> rendering
+> virtual-dom
+> async/await
+> promise
+> event loop
+> life cycle
+> data type
+>
