@@ -10,6 +10,7 @@
 [(1920) 수 찾기](#수-찾기)   
 [(16165)걸그룹 마스터 준석이](#걸그룹-마스터-준석이)    
 [(17224)APC는 왜 서브태스크 대회가 되었을까?](#APC는-왜-서브태스크-대회가-되었을까?)    
+[(9037) The candy war](#The-candy-war)    
 [(2920) 음계](#음계)   
 [(2798) 블랙잭](#블랙잭)   
 [(1874) 스택 수열](#스택-수열)   
@@ -194,6 +195,44 @@ print(ans)
 - - -
 
 <br>
+
+## The candy war
+> 9037
+
+```python
+def check(N, candy):
+    for i in range(N):
+        if candy[i] % 2 == 1:
+            candy[i] += 1
+    return len(set(candy)) == 1
+
+
+def teacher(N, candy):
+    tmp_list = [0 for i in range(N)]
+    for idx in range(N):
+        if candy[idx] % 2:
+            candy[idx] += 1
+        candy[idx] //= 2
+        tmp_list[(idx+1) % N] = candy[idx]
+
+    for idx in range(N):
+        candy[idx] += tmp_list[idx]
+    return candy
+
+
+def process():
+    N, candy = int(input()), list(map(int, input().split()))
+    cnt = 0
+    while not check(N, candy):
+        cnt += 1
+        candy = teacher(N, candy)
+    print(cnt)
+
+
+for i in range(int(input())):
+    process()
+```
+*N이 별로 크지 않다? >> 단순 구현일 가능성이 크다*
 <br>
 
 - - -
