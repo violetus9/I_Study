@@ -11,6 +11,7 @@
 [(16165)걸그룹 마스터 준석이](#걸그룹-마스터-준석이)    
 [(17224)APC는 왜 서브태스크 대회가 되었을까?](#APC는-왜-서브태스크-대회가-되었을까?)    
 [(9037) The candy war](#The-candy-war)    
+[(16769)Mixing Milk](#Mixing-Milk)    
 [(2920) 음계](#음계)   
 [(2798) 블랙잭](#블랙잭)   
 [(1874) 스택 수열](#스택-수열)   
@@ -233,6 +234,31 @@ for i in range(int(input())):
     process()
 ```
 *N이 별로 크지 않다? >> 단순 구현일 가능성이 크다*
+<br>
+
+- - -
+
+<br>
+
+## Mixing Milk
+> 16769
+
+```python
+C, M = list(), list()
+
+for i in range(3):
+    a, b = map(int, input().split())
+    C.append(a)
+    M.append(b)
+
+for i in range(100):
+    idx = i % 3
+    nxt = (idx+1) % 3
+    M[idx], M[nxt] = max(M[idx] - (C[nxt] - M[nxt]), 0), min(C[nxt], M[nxt] + M[idx])
+
+for i in M:
+    print(i)
+```
 <br>
 
 - - -
