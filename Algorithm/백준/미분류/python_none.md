@@ -690,6 +690,23 @@ def solution(n, x, y):
 result = 0
 N, X, Y = map(int, input().split())
 solution(2 ** N, 0, 0)
+
+## solve.2 ##
+N, r, c = map(int, input().split())
+# Z : 0,0 기준 x, y의 숫자
+
+
+def Z(sz, x, y):
+    if sz == 1:
+        return 0
+    sz //= 2
+    for i in range(2):
+        for j in range(2):
+            if x < sz * (i+1) and y < sz * (j+1):
+                return (i*2+j) * sz*sz + Z(sz, y-sz*i, y-sz*j)
+
+
+print(Z(2**N, r, c))
 ```
 <br>
 
