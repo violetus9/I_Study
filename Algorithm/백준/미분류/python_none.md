@@ -12,6 +12,7 @@
 [(17224)APC는 왜 서브태스크 대회가 되었을까?](#APC는-왜-서브태스크-대회가-되었을까?)    
 [(9037) The candy war](#The-candy-war)    
 [(16769)Mixing Milk](#Mixing-Milk)    
+[(2480) 주사위 세개](#주사위-세개)    
 [(2920) 음계](#음계)   
 [(2798) 블랙잭](#블랙잭)   
 [(1874) 스택 수열](#스택-수열)   
@@ -258,6 +259,25 @@ for i in range(100):
 
 for i in M:
     print(i)
+```
+<br>
+
+- - -
+
+<br>
+
+## 주사위 세개
+> 2480
+
+```python
+li = sorted(list(map(int, input().split())))
+
+if len(set(li)) == 1:
+    print(10000 + li[0] * 1000)
+elif len(set(li)) == 2:
+    print(1000 + 100 * li[1])
+else:
+    print(li[2] * 100)
 ```
 <br>
 
