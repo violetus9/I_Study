@@ -322,7 +322,7 @@ def money():
             return 2000 + (li[1] + li[2]) * 500
     for i in range(3):
         if li[i] == li[i+1]:
-            return 1000 * li[i] * 100
+            return 1000 + li[i] * 100
     return li[-1] * 100
 
 
