@@ -1,55 +1,59 @@
 ## 미분류 문제들
+
 > 나중에 많아지면 사전순이나 번호순 정렬 만들면 조흘듯
 
 <br>
 
-[(15969)행복](#행복)   
-[(10539)수빈이와 수열](#수빈이와-수열)   
-[(17269)이름궁합 테스트](#이름궁합-테스트)   
-[(17389)보너스 점수](#보너스-점수)   
-[(1920) 수 찾기](#수-찾기)   
-[(16165)걸그룹 마스터 준석이](#걸그룹-마스터-준석이)    
-[(17224)APC는 왜 서브태스크 대회가 되었을까?](#APC는-왜-서브태스크-대회가-되었을까?)    
-[(9037) The candy war](#The-candy-war)    
-[(16769)Mixing Milk](#Mixing-Milk)    
-[(2480) 주사위 세개](#주사위-세개)    
-[(2920) 음계](#음계)   
-[(2798) 블랙잭](#블랙잭)   
-[(1874) 스택 수열](#스택-수열)   
-[(1966) 프린터 큐](#프린터-큐)   
-[(5397) 키로거](#키로거)   
-[(5397) SHA-256](#SHA256)   
-[(4195) 친구 네트워크](#친구-네트워크)   
-[(1932) 정수 삼각형](#정수-삼각형)    
-[(2750) 수 정렬하기](#수-정렬하기)    
-[(1427) 소트인사이드](#소트인사이드)    
-[(10814)나이순 정렬](#나이순-정렬)    
-[(11650)좌표 정렬하기](#좌표-정렬하기)    
-[(10989)수 정렬하기3](#수-정렬하기3)    
-[(2747) 피보나치 수](#피보나치-수)    
-[(1074) Z](#Z)    
-
+[(15969)행복](#행복)  
+[(10539)수빈이와 수열](#수빈이와-수열)  
+[(17269)이름궁합 테스트](#이름궁합-테스트)  
+[(17389)보너스 점수](#보너스-점수)  
+[(1920) 수 찾기](#수-찾기)  
+[(16165)걸그룹 마스터 준석이](#걸그룹-마스터-준석이)  
+[(17224)APC는 왜 서브태스크 대회가 되었을까?](#APC는-왜-서브태스크-대회가-되었을까?)  
+[(9037) The candy war](#The-candy-war)  
+[(16769)Mixing Milk](#Mixing-Milk)  
+[(2480) 주사위 세개](#주사위-세개)  
+[(2484) 주사위 네개](#주사위-네개)  
+[(2920) 음계](#음계)  
+[(2798) 블랙잭](#블랙잭)  
+[(1874) 스택 수열](#스택-수열)  
+[(1966) 프린터 큐](#프린터-큐)  
+[(5397) 키로거](#키로거)  
+[(5397) SHA-256](#SHA256)  
+[(4195) 친구 네트워크](#친구-네트워크)  
+[(1932) 정수 삼각형](#정수-삼각형)  
+[(2750) 수 정렬하기](#수-정렬하기)  
+[(1427) 소트인사이드](#소트인사이드)  
+[(10814)나이순 정렬](#나이순-정렬)  
+[(11650)좌표 정렬하기](#좌표-정렬하기)  
+[(10989)수 정렬하기3](#수-정렬하기3)  
+[(2747) 피보나치 수](#피보나치-수)  
+[(1074) Z](#Z)
 
 <br>
 
-- - -
+---
 
 <br>
 
 ## 행복
+
 > 15969
 
 ```python
 n, score = int(input()), list(map(int, input().split()))
 print(max(score) - min(score))
 ```
+
 <br>
 
-- - -
+---
 
 <br>
 
 ## 수빈이와 수열
+
 > 10539
 
 ```python
@@ -58,17 +62,19 @@ answer = [li[0]]
 
 for i in range(1, n):
     answer.append(li[i] * (i + 1) - sum(answer))
-    
+
 for i in answer:
     print(i, end=' ')
 ```
+
 <br>
 
-- - -
+---
 
 <br>
 
 ## 이름궁합 테스트
+
 > 17269
 
 ```python
@@ -93,13 +99,15 @@ for i in range(n + m - 2):
 
 print("{}%".format(answer_li[0] % 10*10 + answer_li[1] % 10))
 ```
+
 <br>
 
-- - -
+---
 
 <br>
 
 ## 보너스 점수
+
 > 17389
 
 ```python
@@ -116,13 +124,15 @@ for idx, OX in enumerate(s):
 
 print(score)
 ```
+
 <br>
 
-- - -
+---
 
 <br>
 
 ## 수 찾기
+
 > 1920
 
 ```python
@@ -132,13 +142,15 @@ m = input()
 for i in list(map(int, input().split())):
     print(a.get(i, 0))
 ```
+
 <br>
 
-- - -
+---
 
 <br>
 
 ## 걸그룹 마스터 준석이
+
 > 16165
 
 ```python
@@ -162,13 +174,15 @@ for i in range(M):
         for mem in sorted(team_mem[name]):
             print(mem)
 ```
+
 <br>
 
-- - -
+---
 
 <br>
 
 ## APC는 왜 서브태스크 대회가 되었을까?
+
 > 17224
 
 ```python
@@ -192,13 +206,15 @@ if hard < K:
 
 print(ans)
 ```
+
 <br>
 
-- - -
+---
 
 <br>
 
 ## The candy war
+
 > 9037
 
 ```python
@@ -234,14 +250,16 @@ def process():
 for i in range(int(input())):
     process()
 ```
-*N이 별로 크지 않다? >> 단순 구현일 가능성이 크다*
+
+_N이 별로 크지 않다? >> 단순 구현일 가능성이 크다_
 <br>
 
-- - -
+---
 
 <br>
 
 ## Mixing Milk
+
 > 16769
 
 ```python
@@ -260,13 +278,15 @@ for i in range(100):
 for i in M:
     print(i)
 ```
+
 <br>
 
-- - -
+---
 
 <br>
 
 ## 주사위 세개
+
 > 2480
 
 ```python
@@ -279,13 +299,45 @@ elif len(set(li)) == 2:
 else:
     print(li[2] * 100)
 ```
+
 <br>
 
-- - -
+---
+
+<br>
+
+## 주사위 네개
+
+> 2484
+
+```python
+def money():
+    li = sorted(list(map(int, input().split())))
+    if len(set(li)) == 1:
+        return li[0] * 5000 + 50000
+    if len(set(li)) == 2:
+        if li[1] == li[2]:
+            return 10000 + li[1] * 1000
+        else:
+            return 2000 + (li[1] + li[2]) * 500
+    for i in range(3):
+        if li[i] == li[i+1]:
+            return 1000 * li[i] * 100
+    return li[-1] * 100
+
+
+N = int(input())
+print(max(money() for i in range(N)))
+```
+
+<br>
+
+---
 
 <br>
 
 ## 음계
+
 > 2920
 
 ```python
@@ -307,13 +359,15 @@ elif des:
 else:
     print('mixed')
 ```
+
 <br>
 
-- - -
+---
 
 <br>
 
 ## 블랙잭
+
 > 2798
 
 ```python
@@ -329,16 +383,18 @@ for i in range(0, leng):
             sum_n = li[i] + li[j] + li[k]
             if sum_n <= b:
                 answer = max(sum_n, answer)
-                
+
 print(answer)
 ```
+
 <br>
 
-- - -
+---
 
 <br>
 
 ## 스택 수열
+
 > 1874
 
 ```python
@@ -364,11 +420,12 @@ print('\n'.join(stack_answer))
 
 <br>
 
-- - -
+---
 
 <br>
 
 ## 프린터 큐
+
 > 1966
 
 ```python
@@ -391,13 +448,15 @@ for _ in range(cases):
         else:
             queue.append(queue.pop(0))
 ```
+
 <br>
 
-- - -
+---
 
 <br>
 
 ## 키로거
+
 > 5397
 
 ```python
@@ -422,13 +481,15 @@ for _ in range(N):
     l_stack.extend(reversed(r_stack))
     print(''.join(l_stack))
 ```
+
 <br>
 
-- - -
+---
 
 <br>
 
 ## SHA256
+
 > 10930
 
 ```python
@@ -439,13 +500,15 @@ hash_data = data.encode()
 result = hashlib.sha256(hash_data).hexdigest()
 print(result)
 ```
+
 <br>
 
-- - -
+---
 
 <br>
 
 ## 친구 네트워크
+
 > 4195
 
 ```python
@@ -485,13 +548,15 @@ for _ in range(cases):
     union(x, y)
     print(number[find(x)])
 ```
+
 <br>
 
-- - -
+---
 
 <br>
 
 ## 정수 삼각형
+
 > 1932
 
 ```python
@@ -510,13 +575,15 @@ for i in range(1, N+1):
 
 print(max(DP[-1]))
 ```
+
 <br>
 
-- - -
+---
 
 <br>
 
 ## 수 정렬하기
+
 > 2750
 
 ```python
@@ -549,13 +616,15 @@ for i in range(n):
 for i in array:
     print(i)
 ```
+
 <br>
 
-- - -
+---
 
 <br>
 
 ## 소트인사이드
+
 > 1427
 
 ```python
@@ -575,13 +644,15 @@ for i in range(9, -1, -1):
         if int(j) == i:
             print(i, end='')
 ```
+
 <br>
 
-- - -
+---
 
 <br>
 
 ## 나이순 정렬
+
 > 10814
 
 ```python
@@ -598,13 +669,15 @@ tmp_li = sorted(tmp_li, key=lambda x: x[0])
 for i in tmp_li:
     print(i[0], i[1])
 ```
+
 <br>
 
-- - -
+---
 
 <br>
 
 ## 좌표 정렬하기
+
 > 11650
 
 ```python
@@ -620,13 +693,15 @@ tmp_li = sorted(tmp_li)
 for i in tmp_li:
     print(i[0], i[1])
 ```
+
 <br>
 
-- - -
+---
 
 <br>
 
 ## 수 정렬하기3
+
 > 10989
 
 ```python
@@ -643,13 +718,15 @@ for i in range(10001):
         for j in range(tmp_li[i]):
             print(i)
 ```
+
 <br>
 
-- - -
+---
 
 <br>
 
 ## 피보나치 수
+
 > 2747
 
 ```python
@@ -670,13 +747,15 @@ def fibo(n, a, b):
 
 print(fibo(int(input()), 0, 1))
 ```
+
 <br>
 
-- - -
+---
 
 <br>
 
 ## Z
+
 > 1074
 
 ```python
@@ -728,19 +807,9 @@ def Z(sz, x, y):
 
 print(Z(2**N, r, c))
 ```
-<br>
-
-- - -
 
 <br>
 
+---
 
-
-
-
-
-
-
-
-
-
+<br>
