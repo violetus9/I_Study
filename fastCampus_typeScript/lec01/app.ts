@@ -1,17 +1,41 @@
 // 화면처리 > 라우터 (중계기) : 상황별 화면을 중계하는 역할
 
 // 중복이 되는 요소는 유지보수에 유용하지 못하다, 묶어주자
-const container = document.getElementById('root');
-const ajax = new XMLHttpRequest();
+const container: HTMLElement | null = document.getElementById('root');
+const ajax: XMLHttpRequest = new XMLHttpRequest();
 const content = document.createElement('div');
 // 변경의 여지가 있는 것은 변수로 빼두는 것이 좋다 (data)
 const NEWS_URL = 'https://api.hnpwa.com/v0/news/1.json';
 const CONTENT_URL = 'https://api.hnpwa.com/v0/item/@id.json';
+// 객체 데이터 형태의 유형을 정의
+type Store = {
+  currentPage: number;
+  feeds: NewsFeed[];
+}
+type NewsFeed = {
+  id: number;
+  comments_count: number;
+  url: string;
+  user: string;
+  time_ago: string;
+  points: number;
+  title: string;
+  read?: boolean; // optional한 type이기에 '?'
+}
 // 공유 상태값
-const store = {
+const store: Store = {
   currentPage: 1,
   feeds: [],
 };
+
+// 타입가드 코드를 항상 작성하는 습관을 들이자, 이 경우 null 체크
+function updateView(html){
+  if(container){
+    container.innerHTML = html;
+  } else{
+    console.error('최상위 컨테이너가 없어 UI를 진행하지 못합니다')
+  }
+}
 
 function getData(url) {
   ajax.open('GET', url, false);
@@ -21,6 +45,7 @@ function getData(url) {
   return JSON.parse(ajax.response);
 }
 
+// 타입추론: ts가 코드상 상황을 인지하여 i는 number겠거니 추론하여 내부적으로 자동으로 타입지정
 function makeFeeds(feeds) {
   for (let i = 0; i < feeds.length; i++) {
     feeds[i].read = false;
@@ -31,7 +56,7 @@ function makeFeeds(feeds) {
 
 function newsFeed() {
   // data 처리(response to Object)
-  let newsFeed = store.feeds;
+  let newsFeed: NewsFeed[] = store.feeds;
   const newsList = [];
   let template = `
   <div class="bg-gray-600 min-h-screen">
@@ -92,7 +117,7 @@ function newsFeed() {
   template = template.replace('{{__prev_page__}}', store.currentPage > 1 ? store.currentPage - 1 : 1);
   template = template.replace('{{__next_page__}}', store.currentPage + 1);
 
-  container.innerHTML = template;
+  updateView(template);
 }
 
 function newsDetail() {
@@ -155,7 +180,7 @@ function newsDetail() {
     return commentString.join('');
   }
 
-  container.innerHTML = template.replace('{{__comments__}}', makeComment(newsContent.comments));
+  updateView(template.replace('{{__comments__}}', makeComment(newsContent.comments)));
 }
 
 function router() {

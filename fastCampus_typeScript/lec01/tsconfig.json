@@ -1,0 +1,14 @@
+{
+  "compilerOptions": {
+    "strict": true, // ts의 기능을 얼마나 엄격히 적용할 것인지
+    "target": "ES5", // js의 어느 버전을 사용할 것인지, 타겟 브라우저에 맞게 세팅하는 것이 맞다
+    "module": "CommonJS", // 모듈과 관련한 부분이다
+    "alwaysStrict": true,
+    "noImplicitAny": true, // Any를 쓰지 않겠다, 명확히 타입을 지정하게 만든다
+    "noImplicitThis": true,
+    "sourceMap": true, // 브라우저 실행시 ts는 브라우저가 인식하지 않아, 브라우저상에서 app.ts를 보이며 이를 통한 문제점 발견 용이(개발,실행환경 일치)
+    "downlevelIteration": true,
+  }
+}
+
+// 이후 디테일은 document에서 확인하고 바꾸며 배울것
