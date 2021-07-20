@@ -15,6 +15,8 @@
 [(16769)Mixing Milk](#Mixing-Milk)  
 [(2480) 주사위 세개](#주사위-세개)  
 [(2484) 주사위 네개](#주사위-네개)  
+[(16675)두 개의 손](#두-개의-손)  
+[(17413)단어 뒤집기2](#단어-뒤집기2)  
 [(2920) 음계](#음계)  
 [(2798) 블랙잭](#블랙잭)  
 [(1874) 스택 수열](#스택-수열)  
@@ -328,6 +330,65 @@ def money():
 
 N = int(input())
 print(max(money() for i in range(N)))
+```
+
+<br>
+
+---
+
+<br>
+
+## 두 개의 손
+
+> 16675
+
+```python
+ML, MR, TL, TR = ('SPR'.index(i) for i in input().split())
+
+if ML == MR and (ML+2)%3 in [TL, TR]:
+    print('TK')
+elif TL == TR and (TL+2)%3 in [ML, MR]:
+    print('MS')
+else:
+    print('?')
+```
+
+_문자를 숫자로 매핑해서쓰는 방법_
+<br>
+
+---
+
+<br>
+
+## 단어 뒤집기2
+
+> 17413
+
+```python
+S, tmp = input(), ''
+flag = False
+
+for i in S:
+    if i == ' ':
+        if not flag:
+            print(tmp[::-1], end=' ')
+            tmp = ''
+        else:
+            print(" ", end='')
+    elif i in '<':
+        flag = True
+        print(tmp[::-1] + '<', end='')
+        tmp = ''
+    elif i in '>':
+        flag = False
+        print('>', end='')
+    else:
+        if flag:
+            print(i, end='')
+        else:
+            tmp += i
+
+print(tmp[::-1])
 ```
 
 <br>
