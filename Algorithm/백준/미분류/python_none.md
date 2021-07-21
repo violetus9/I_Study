@@ -17,6 +17,7 @@
 [(2484) 주사위 네개](#주사위-네개)  
 [(16675)두 개의 손](#두-개의-손)  
 [(17413)단어 뒤집기2](#단어-뒤집기2)  
+[(16956)늑대와 양](#늑대와-양)  
 [(2920) 음계](#음계)  
 [(2798) 블랙잭](#블랙잭)  
 [(1874) 스택 수열](#스택-수열)  
@@ -389,6 +390,47 @@ for i in S:
             tmp += i
 
 print(tmp[::-1])
+```
+
+<br>
+
+---
+
+<br>
+
+## 늑대와 양
+
+> 16956
+
+```python
+R, C = map(int, input().split())
+# string이 immutable, 변환이 어려워 리스트로 받는다
+M = [list(input()) for i in range(R)]
+
+dx, dy = [0, 1, 0, -1], [1, 0, -1, 0]
+ck = False
+
+for i in range(R):
+    for j in range(C):
+        if M[i][j] == 'W':
+            for w in range(4):
+                ii, jj = i + dx[w], j + dy[w]
+                if ii < 0 or ii == R or jj < 0 or jj == C:
+                    continue
+                if M[ii][jj] == 'S':
+                    ck = True
+
+if ck:
+    print(0)
+else:
+    print(1)
+    for i in range(R):
+        for j in range(C):
+            if M[i][j] not in 'SW':
+                M[i][j] = 'D'
+
+for i in M:
+    print(''.join(i))
 ```
 
 <br>
