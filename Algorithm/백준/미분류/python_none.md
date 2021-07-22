@@ -18,6 +18,7 @@
 [(16675)두 개의 손](#두-개의-손)  
 [(17413)단어 뒤집기2](#단어-뒤집기2)  
 [(16956)늑대와 양](#늑대와-양)  
+[(14620)꽃길](#꽃길)  
 [(2920) 음계](#음계)  
 [(2798) 블랙잭](#블랙잭)  
 [(1874) 스택 수열](#스택-수열)  
@@ -431,6 +432,48 @@ else:
 
 for i in M:
     print(''.join(i))
+```
+
+<br>
+
+---
+
+<br>
+
+## 꽃길
+
+> 14620
+
+```python
+N = int(input())
+G = [list(map(int, input().split())) for i in range(N)]
+
+ans = 10000
+dx, dy = [0, 0, 0, 1, -1], [0, 1, -1, 0, 0]
+
+
+def ck(li):
+    ret = 0
+    flo = []
+    for flower in li:
+        x = flower // N
+        y = flower % N
+        if x == 0 or x == N-1 or y == 0 or y == N-1:
+            return 10000
+        for w in range(5):
+            flo.append((x+dx[w], y+dy[w]))
+            ret += G[x+dx[w]][y+dy[w]]
+    if len(set(flo)) != 15:
+        return 10000
+    return ret
+
+
+for i in range(N*N):
+    for j in range(N*N):
+        for k in range(N*N):
+            ans = min(ans, ck([i, j, k]))
+
+print(ans)
 ```
 
 <br>
