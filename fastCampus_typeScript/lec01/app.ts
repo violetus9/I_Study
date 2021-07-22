@@ -1,5 +1,35 @@
 // 화면처리 > 라우터 (중계기) : 상황별 화면을 중계하는 역할
 
+// 객체 데이터 형태의 유형을 정의
+type Store = {
+  currentPage: number;
+  feeds: NewsFeed[];
+}
+// 공통부를 따로 빼기
+type News = {
+  id: number;
+  time_ago: string;
+  title: string;
+  url: string;
+  user: string;
+  content: string;
+}
+
+type NewsFeed = News & {
+  comments_count: number;
+  points: number;
+  read?: boolean; // optional한 type이기에 '?'
+}
+
+type NewsDetail = News & {
+  comments: NewsComment[];
+}
+
+type NewsComment = News & {
+  comments: NewsComment[];
+  level: number;
+}
+
 // 중복이 되는 요소는 유지보수에 유용하지 못하다, 묶어주자
 const container: HTMLElement | null = document.getElementById('root');
 const ajax: XMLHttpRequest = new XMLHttpRequest();
@@ -7,54 +37,41 @@ const content = document.createElement('div');
 // 변경의 여지가 있는 것은 변수로 빼두는 것이 좋다 (data)
 const NEWS_URL = 'https://api.hnpwa.com/v0/news/1.json';
 const CONTENT_URL = 'https://api.hnpwa.com/v0/item/@id.json';
-// 객체 데이터 형태의 유형을 정의
-type Store = {
-  currentPage: number;
-  feeds: NewsFeed[];
-}
-type NewsFeed = {
-  id: number;
-  comments_count: number;
-  url: string;
-  user: string;
-  time_ago: string;
-  points: number;
-  title: string;
-  read?: boolean; // optional한 type이기에 '?'
-}
 // 공유 상태값
 const store: Store = {
   currentPage: 1,
   feeds: [],
 };
 
-// 타입가드 코드를 항상 작성하는 습관을 들이자, 이 경우 null 체크
-function updateView(html){
-  if(container){
-    container.innerHTML = html;
-  } else{
-    console.error('최상위 컨테이너가 없어 UI를 진행하지 못합니다')
-  }
-}
-
-function getData(url) {
+// getData는 두가지 리턴 타입을 가지게 된다, 허나 사용하는 측에선 뭐가 올 지 모호한 상황이다.
+// Generic을 이용해보자
+// 사용 전 function getData(url: string): NewsFeed[] | NewsDetail
+function getData<AjaxResponse>(url: string): AjaxResponse {
   ajax.open('GET', url, false);
   // data 가져옴
   ajax.send();
-
   return JSON.parse(ajax.response);
 }
 
 // 타입추론: ts가 코드상 상황을 인지하여 i는 number겠거니 추론하여 내부적으로 자동으로 타입지정
-function makeFeeds(feeds) {
+function makeFeeds(feeds: NewsFeed[]): NewsFeed[] {
   for (let i = 0; i < feeds.length; i++) {
     feeds[i].read = false;
   }
-
+  
   return feeds;
 }
 
-function newsFeed() {
+// 타입가드 코드를 항상 작성하는 습관을 들이자, 이 경우 null 체크
+function updateView(html: string): void {
+  if(container){
+    container.innerHTML = html;
+  } else{
+    console.error('최상위 컨테이너가 없어 UI를 진행하지 못합니다');
+  }
+}
+
+function newsFeed(): void {
   // data 처리(response to Object)
   let newsFeed: NewsFeed[] = store.feeds;
   const newsList = [];
@@ -85,7 +102,7 @@ function newsFeed() {
 
   if (newsFeed.length === 0) {
     // 요 문법 연속해서 대입하는거 봐두자
-    newsFeed = store.feeds = makeFeeds(getData(NEWS_URL));
+    newsFeed = store.feeds = makeFeeds(getData<NewsFeed[]>(NEWS_URL));
   }
 
   for (let i = (store.currentPage - 1) * 10; i < store.currentPage * 10; i++) {
@@ -114,16 +131,15 @@ function newsFeed() {
   }
 
   template = template.replace('{{__news_feed__}}', newsList.join(''));
-  template = template.replace('{{__prev_page__}}', store.currentPage > 1 ? store.currentPage - 1 : 1);
-  template = template.replace('{{__next_page__}}', store.currentPage + 1);
+  template = template.replace('{{__prev_page__}}', String(store.currentPage > 1 ? store.currentPage - 1 : 1));
+  template = template.replace('{{__next_page__}}', String(store.currentPage + 1));
 
   updateView(template);
 }
 
-function newsDetail() {
+function newsDetail(): void {
   const id = location.hash.substr(7);
-
-  const newsContent = getData(CONTENT_URL.replace('@id', id));
+  const newsContent = getData<NewsDetail>(CONTENT_URL.replace('@id', id));
   let template = `
     <div class="bg-gray-600 min-h-screen pb-8">
       <div class="bg-white text-xl">
@@ -158,32 +174,33 @@ function newsDetail() {
     }
   }
 
-  function makeComment(comments, called = 0) {
-    const commentString = [];
-
-    for (let i = 0; i < comments.length; i++) {
-      commentString.push(`
-        <div style="padding-left: ${called * 40}px;" class="mt-4">
-          <div class="text-gray-400">
-            <i class="fa fa-sort-up mr-2"></i>
-            <strong>${comments[i].user}</strong> ${comments[i].time_ago}
-          </div>
-          <p class="text-gray-700">${comments[i].content}</p>
-        </div>      
-      `);
-
-      if (comments[i].comments.length > 0) {
-        commentString.push(makeComment(comments[i].comments, called + 1));
-      }
-    }
-
-    return commentString.join('');
-  }
-
   updateView(template.replace('{{__comments__}}', makeComment(newsContent.comments)));
 }
 
-function router() {
+function makeComment(comments: NewsComment[]): string {
+  const commentString = [];
+
+  for (let i = 0; i < comments.length; i++) {
+    const comment: NewsComment = comments[i]; // 역시나 중복 코드는 묶어
+    commentString.push(`
+      <div style="padding-left: ${comment.level * 40}px;" class="mt-4">
+        <div class="text-gray-400">
+          <i class="fa fa-sort-up mr-2"></i>
+          <strong>${comment.user}</strong> ${comment.time_ago}
+        </div>
+        <p class="text-gray-700">${comment.content}</p>
+      </div>      
+    `);
+
+    if (comment.comments.length > 0) {
+      commentString.push(makeComment(comment.comments));
+    }
+  }
+
+  return commentString.join('');
+}
+
+function router(): void {
   const routePath = location.hash;
 
   if (routePath === '') {

@@ -131,14 +131,23 @@ var CONTENT_URL = 'https://api.hnpwa.com/v0/item/@id.json'; // 공유 상태값
 var store = {
   currentPage: 1,
   feeds: []
-};
+}; // 타입가드 코드를 항상 작성하는 습관을 들이자, 이 경우 null 체크
+
+function updateView(html) {
+  if (container) {
+    container.innerHTML = html;
+  } else {
+    console.error('최상위 컨테이너가 없어 UI를 진행하지 못합니다');
+  }
+}
 
 function getData(url) {
   ajax.open('GET', url, false); // data 가져옴
 
   ajax.send();
   return JSON.parse(ajax.response);
-}
+} // 타입추론: ts가 코드상 상황을 인지하여 i는 number겠거니 추론하여 내부적으로 자동으로 타입지정
+
 
 function makeFeeds(feeds) {
   for (var i = 0; i < feeds.length; i++) {
@@ -168,7 +177,7 @@ function newsFeed() {
   template = template.replace('{{__news_feed__}}', newsList.join(''));
   template = template.replace('{{__prev_page__}}', store.currentPage > 1 ? store.currentPage - 1 : 1);
   template = template.replace('{{__next_page__}}', store.currentPage + 1);
-  container.innerHTML = template;
+  updateView(template);
 }
 
 function newsDetail() {
@@ -201,7 +210,7 @@ function newsDetail() {
     return commentString.join('');
   }
 
-  container.innerHTML = template.replace('{{__comments__}}', makeComment(newsContent.comments));
+  updateView(template.replace('{{__comments__}}', makeComment(newsContent.comments)));
 }
 
 function router() {
@@ -247,7 +256,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "14937" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "8021" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
