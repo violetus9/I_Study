@@ -1,33 +1,33 @@
 // 화면처리 > 라우터 (중계기) : 상황별 화면을 중계하는 역할
 
 // 객체 데이터 형태의 유형을 정의
-type Store = {
+interface Store {
   currentPage: number;
   feeds: NewsFeed[];
 }
 // 공통부를 따로 빼기
-type News = {
-  id: number;
-  time_ago: string;
-  title: string;
-  url: string;
-  user: string;
-  content: string;
+interface News {
+  readonly id: number;
+  readonly time_ago: string;
+  readonly title: string;
+  readonly url: string;
+  readonly user: string;
+  readonly content: string;
 }
 
-type NewsFeed = News & {
-  comments_count: number;
-  points: number;
+interface NewsFeed extends News {
+  readonly comments_count: number;
+  readonly points: number;
   read?: boolean; // optional한 type이기에 '?'
 }
 
-type NewsDetail = News & {
-  comments: NewsComment[];
+interface NewsDetail extends News {
+  readonly comments: NewsComment[];
 }
 
-type NewsComment = News & {
-  comments: NewsComment[];
-  level: number;
+interface NewsComment extends News {
+  readonly comments: NewsComment[];
+  readonly level: number;
 }
 
 // 중복이 되는 요소는 유지보수에 유용하지 못하다, 묶어주자

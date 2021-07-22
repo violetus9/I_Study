@@ -1,4 +1,8 @@
 
+# Rest Client Expansion
+# 간단하게 request를 보내 결과를 확인할 수 있음! 브라우저 굳이 안켜도
+# 타입 지정할 때 유용하게 써먹읍시다
+
 ###
 GET https://api.hnpwa.com/v0/news/1.json HTTP/1.1
 
