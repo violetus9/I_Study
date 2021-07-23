@@ -19,6 +19,7 @@
 [(17413)단어 뒤집기2](#단어-뒤집기2)  
 [(16956)늑대와 양](#늑대와-양)  
 [(14620)꽃길](#꽃길)  
+[(1012) 유기놈 배추](#유기농-배추)  
 [(2920) 음계](#음계)  
 [(2798) 블랙잭](#블랙잭)  
 [(1874) 스택 수열](#스택-수열)  
@@ -475,6 +476,60 @@ for i in range(N*N):
 
 print(ans)
 ```
+
+<br>
+
+---
+
+<br>
+
+## 유기농 배추
+
+> 1012
+
+```python
+import sys
+sys.setrecursionlimit(10000)
+
+B, ck = [], []
+dx, dy = [1, 0, -1, 0], [0, 1, 0, -1]
+
+
+def dfs(x, y):
+    global B, ck
+    if ck[x][y] == 1:
+        return
+    ck[x][y] = 1
+    for i in range(4):
+        xx, yy = x + dx[i], y + dy[i]
+        if B[xx][yy] == 0 or ck[xx][yy] == 1:
+            continue
+        dfs(xx, yy)
+
+
+def process():
+    global B, ck
+    M, N, K = map(int, input().split())
+    B = [[0 for i in range(M+2)] for _ in range(N+2)]
+    ck = [[0 for i in range(M+2)] for _ in range(N+2)]
+    for _ in range(K):
+        X, Y = map(int, input().split())
+        B[Y+1][X+1] = 1
+        ans = 0
+    for i in range(1, N+1):
+        for j in range(1, M+1):
+            if B[i][j] == 0 or ck[i][j] == 1:
+                continue
+            dfs(i, j)
+            ans += 1
+    print(ans)
+
+
+for _ in range(input()):
+    process()
+```
+
+_재귀함수 깊이가 제한되지 않으면 터질 수 있기에 깊이를 제한하는 것이 필요함_
 
 <br>
 
