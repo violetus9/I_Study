@@ -146,10 +146,26 @@ var __extends = this && this.__extends || function () {
 
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
   };
-}(); // 중복이 되는 요소는 유지보수에 유용하지 못하다, 묶어주자
+}();
+
+var __values = this && this.__values || function (o) {
+  var s = typeof Symbol === "function" && Symbol.iterator,
+      m = s && o[s],
+      i = 0;
+  if (m) return m.call(o);
+  if (o && typeof o.length === "number") return {
+    next: function next() {
+      if (o && i >= o.length) o = void 0;
+      return {
+        value: o && o[i++],
+        done: !o
+      };
+    }
+  };
+  throw new TypeError(s ? "Object is not iterable." : "Symbol.iterator is not defined.");
+}; // 중복이 되는 요소는 유지보수에 유용하지 못하다, 묶어주자
 
 
-var container = document.getElementById('root');
 var ajax = new XMLHttpRequest();
 var content = document.createElement('div'); // 변경의 여지가 있는 것은 변수로 빼두는 것이 좋다 (data)
 
@@ -159,20 +175,30 @@ var CONTENT_URL = 'https://api.hnpwa.com/v0/item/@id.json'; // 공유 상태값
 var store = {
   currentPage: 1,
   feeds: []
-};
+}; // 유연성이 필요한 프로젝트의 경우 app의 상황을 보아 class와 mixin기법중 선택하여 사용한대
+
+function applyApiMixins(targetClass, baseClasses) {
+  baseClasses.forEach(function (baseClass) {
+    Object.getOwnPropertyNames(baseClass.prototype).forEach(function (name) {
+      var descriptor = Object.getOwnPropertyDescriptor(baseClass.prototype, name);
+
+      if (descriptor) {
+        Object.defineProperty(targetClass.prototype, name, descriptor);
+      }
+    });
+  });
+}
 
 var Api =
 /** @class */
 function () {
-  function Api(url) {
-    this.url = url;
-    this.ajax = new XMLHttpRequest();
-  }
+  function Api() {}
 
-  Api.prototype.getRequest = function () {
-    this.ajax.open('GET', this.url, false);
-    this.ajax.send();
-    return JSON.parse(this.ajax.response);
+  Api.prototype.getRequest = function (url) {
+    var ajax = new XMLHttpRequest();
+    ajax.open('GET', url, false);
+    ajax.send();
+    return JSON.parse(ajax.response);
   };
 
   return Api;
@@ -180,135 +206,255 @@ function () {
 
 var NewsFeedApi =
 /** @class */
-function (_super) {
-  __extends(NewsFeedApi, _super);
-
-  function NewsFeedApi() {
-    return _super !== null && _super.apply(this, arguments) || this;
-  }
+function () {
+  function NewsFeedApi() {}
 
   NewsFeedApi.prototype.getData = function () {
-    return this.getRequest();
+    return this.getRequest(NEWS_URL);
   };
 
   return NewsFeedApi;
-}(Api);
+}();
 
 var NewsDetailApi =
 /** @class */
-function (_super) {
-  __extends(NewsDetailApi, _super);
+function () {
+  function NewsDetailApi() {}
 
-  function NewsDetailApi() {
-    return _super !== null && _super.apply(this, arguments) || this;
-  }
-
-  NewsDetailApi.prototype.getData = function () {
-    return this.getRequest();
+  NewsDetailApi.prototype.getData = function (id) {
+    return this.getRequest(CONTENT_URL.replace('@id', id));
   };
 
   return NewsDetailApi;
-}(Api); // getData는 두가지 리턴 타입을 가지게 된다, 허나 사용하는 측에선 뭐가 올 지 모호한 상황이다.
+}();
+
+;
+; // getData는 두가지 리턴 타입을 가지게 된다, 허나 사용하는 측에선 뭐가 올 지 모호한 상황이다.
 // Generic을 이용해보자
 // 사용 전 function getData(url: string): NewsFeed[] | NewsDetail
-
 
 function getData(url) {
   ajax.open('GET', url, false); // data 가져옴
 
   ajax.send();
   return JSON.parse(ajax.response);
-} // 타입추론: ts가 코드상 상황을 인지하여 i는 number겠거니 추론하여 내부적으로 자동으로 타입지정
-
-
-function makeFeeds(feeds) {
-  for (var i = 0; i < feeds.length; i++) {
-    feeds[i].read = false;
-  }
-
-  return feeds;
-} // 타입가드 코드를 항상 작성하는 습관을 들이자, 이 경우 null 체크
-
-
-function updateView(html) {
-  if (container) {
-    container.innerHTML = html;
-  } else {
-    console.error('최상위 컨테이너가 없어 UI를 진행하지 못합니다');
-  }
 }
 
-function newsFeed() {
-  var api = new NewsFeedApi(NEWS_URL); // data 처리(response to Object)
+applyApiMixins(NewsFeedApi, [Api]);
+applyApiMixins(NewsDetailApi, [Api]);
 
-  var newsFeed = store.feeds;
-  var newsList = [];
-  var template = "\n  <div class=\"bg-gray-600 min-h-screen\">\n  <div class=\"bg-white text-xl\">\n    <div class=\"mx-auto px-4\">\n      <div class=\"flex justify-between items-center py-6\">\n        <div class=\"flex justify-start\">\n          <h1 class=\"font-extrabold\">Hacker News</h1>\n        </div>\n        <div class=\"items-center justify-end\">\n          <a href=\"#/page/{{__prev_page__}}\" class=\"text-gray-500\">\n            Previous\n          </a>\n          <a href=\"#/page/{{__next_page__}}\" class=\"text-gray-500 ml-4\">\n            Next\n          </a>\n        </div>\n      </div> \n    </div>\n  </div>\n  <div class=\"p-4 text-2xl text-gray-700\">\n    {{__news_feed__}}        \n  </div>\n</div>\n  ";
+var View =
+/** @class */
+function () {
+  function View(containerId, template) {
+    var containerElement = document.getElementById(containerId); // 타입가드 코드를 항상 작성하는 습관을 들이자, 이 경우 null 체크
 
-  if (newsFeed.length === 0) {
-    // 요 문법 연속해서 대입하는거 봐두자
-    newsFeed = store.feeds = makeFeeds(api.getData());
-  }
-
-  for (var i = (store.currentPage - 1) * 10; i < store.currentPage * 10; i++) {
-    // 아이러니하게도 DOM 사용에 대한 직관성 결여의 해결은 DOM 사용을 자제하는것. (문자열을 이용하자!)
-    // 설령 양이 좀 늘어나게 되더라도 가독성이 좋은 것이 좋은 듯 하다.
-    newsList.push("\n    <div class=\"p-6 " + (newsFeed[i].read ? 'bg-red-500' : 'bg-white') + " mt-6 rounded-lg shadow-md transition-colors duration-500 hover:bg-green-100\">\n    <div class=\"flex\">\n      <div class=\"flex-auto\">\n        <a href=\"#/show/" + newsFeed[i].id + "\">" + newsFeed[i].title + "</a>  \n      </div>\n      <div class=\"text-center text-sm\">\n        <div class=\"w-10 text-white bg-green-300 rounded-lg px-0 py-2\">" + newsFeed[i].comments_count + "</div>\n      </div>\n    </div>\n    <div class=\"flex mt-3\">\n      <div class=\"grid grid-cols-3 text-sm text-gray-500\">\n        <div><i class=\"fas fa-user mr-1\"></i>" + newsFeed[i].user + "</div>\n        <div><i class=\"fas fa-heart mr-1\"></i>" + newsFeed[i].points + "</div>\n        <div><i class=\"far fa-clock mr-1\"></i>" + newsFeed[i].time_ago + "</div>\n      </div>  \n    </div>\n  </div>\n  ");
-  }
-
-  template = template.replace('{{__news_feed__}}', newsList.join(''));
-  template = template.replace('{{__prev_page__}}', String(store.currentPage > 1 ? store.currentPage - 1 : 1));
-  template = template.replace('{{__next_page__}}', String(store.currentPage + 1));
-  updateView(template);
-}
-
-function newsDetail() {
-  var id = location.hash.substr(7);
-  var api = new NewsDetailApi(CONTENT_URL.replace('@id', id));
-  var newsContent = api.getData();
-  var template = "\n    <div class=\"bg-gray-600 min-h-screen pb-8\">\n      <div class=\"bg-white text-xl\">\n        <div class=\"mx-auto px-4\">\n          <div class=\"flex justify-between items-center py-6\">\n            <div class=\"flex justify-start\">\n              <h1 class=\"font-extrabold\">Hacker News</h1>\n            </div>\n            <div class=\"items-center justify-end\">\n              <a href=\"#/page/" + store.currentPage + "\" class=\"text-gray-500\">\n                <i class=\"fa fa-times\"></i>\n              </a>\n            </div>\n          </div>\n        </div>\n      </div>\n\n      <div class=\"h-full border rounded-xl bg-white m-6 p-4 \">\n        <h2>" + newsContent.title + "</h2>\n        <div class=\"text-gray-400 h-20\">\n          " + newsContent.content + "\n        </div>\n        {{__comments__}}\n      </div>\n    </div>\n  ";
-
-  for (var i = 0; i < store.feeds.length; i++) {
-    if (store.feeds[i].id === Number(id)) {
-      store.feeds[i].read = true;
-      break;
+    if (!containerElement) {
+      throw '최상위 컨테이너가 없어 UI를 진행하지 못합니다.';
     }
+
+    this.container = containerElement;
+    this.template = template;
+    this.renderTemplate = template;
+    this.htmlList = [];
   }
 
-  updateView(template.replace('{{__comments__}}', makeComment(newsContent.comments)));
-}
+  View.prototype.updateView = function () {
+    this.container.innerHTML = this.renderTemplate;
+    this.renderTemplate = this.template;
+  };
 
-function makeComment(comments) {
-  var commentString = [];
+  View.prototype.addHtml = function (htmlString) {
+    this.htmlList.push(htmlString);
+  };
 
-  for (var i = 0; i < comments.length; i++) {
-    var comment = comments[i]; // 역시나 중복 코드는 묶어
+  View.prototype.getHtml = function () {
+    var snapshot = this.htmlList.join('');
+    this.clearHtmlList();
+    return snapshot;
+  };
 
-    commentString.push("\n      <div style=\"padding-left: " + comment.level * 40 + "px;\" class=\"mt-4\">\n        <div class=\"text-gray-400\">\n          <i class=\"fa fa-sort-up mr-2\"></i>\n          <strong>" + comment.user + "</strong> " + comment.time_ago + "\n        </div>\n        <p class=\"text-gray-700\">" + comment.content + "</p>\n      </div>      \n    ");
+  View.prototype.setTemplateData = function (key, value) {
+    this.renderTemplate = this.renderTemplate.replace("{{__" + key + "__}}", value);
+  };
 
-    if (comment.comments.length > 0) {
-      commentString.push(makeComment(comment.comments));
+  View.prototype.clearHtmlList = function () {
+    this.htmlList = [];
+  };
+
+  return View;
+}();
+
+var Router =
+/** @class */
+function () {
+  function Router() {
+    window.addEventListener('hashchange', this.route.bind(this));
+    this.routeTable = [];
+    this.defaultRoute = null;
+  }
+
+  Router.prototype.setDefaultPage = function (page) {
+    this.defaultRoute = {
+      path: '',
+      page: page
+    };
+  };
+
+  Router.prototype.addRoutePath = function (path, page) {
+    this.routeTable.push({
+      path: path,
+      page: page
+    });
+  };
+
+  Router.prototype.route = function () {
+    var e_1, _a;
+
+    var routePath = location.hash;
+
+    if (routePath === '' && this.defaultRoute) {
+      this.defaultRoute.page.render();
     }
+
+    try {
+      for (var _b = __values(this.routeTable), _c = _b.next(); !_c.done; _c = _b.next()) {
+        var routeInfo = _c.value;
+
+        if (routePath.indexOf(routeInfo.path) >= 0) {
+          routeInfo.page.render();
+          break;
+        }
+      }
+    } catch (e_1_1) {
+      e_1 = {
+        error: e_1_1
+      };
+    } finally {
+      try {
+        if (_c && !_c.done && (_a = _b.return)) _a.call(_b);
+      } finally {
+        if (e_1) throw e_1.error;
+      }
+    }
+  };
+
+  return Router;
+}();
+
+var NewsFeedView =
+/** @class */
+function (_super) {
+  __extends(NewsFeedView, _super);
+
+  function NewsFeedView(containerId) {
+    var _this = this;
+
+    var template = "\n    <div class=\"bg-gray-600 min-h-screen\">\n    <div class=\"bg-white text-xl\">\n      <div class=\"mx-auto px-4\">\n        <div class=\"flex justify-between items-center py-6\">\n          <div class=\"flex justify-start\">\n            <h1 class=\"font-extrabold\">Hacker News</h1>\n          </div>\n          <div class=\"items-center justify-end\">\n            <a href=\"#/page/{{__prev_page__}}\" class=\"text-gray-500\">\n              Previous\n            </a>\n            <a href=\"#/page/{{__next_page__}}\" class=\"text-gray-500 ml-4\">\n              Next\n            </a>\n          </div>\n        </div> \n      </div>\n    </div>\n    <div class=\"p-4 text-2xl text-gray-700\">\n      {{__news_feed__}}        \n    </div>\n  </div>\n    ";
+    _this = _super.call(this, containerId, template) || this;
+    _this.api = new NewsFeedApi(); // data 처리(response to Object)
+
+    _this.feeds = store.feeds;
+
+    if (_this.feeds.length === 0) {
+      // 요 문법 연속해서 대입하는거 봐두자
+      _this.feeds = store.feeds = _this.api.getData();
+
+      _this.makeFeeds();
+    }
+
+    return _this;
   }
 
-  return commentString.join('');
-}
+  NewsFeedView.prototype.render = function () {
+    store.currentPage = Number(location.hash.substr(7) || 1);
 
-function router() {
-  var routePath = location.hash;
+    for (var i = (store.currentPage - 1) * 10; i < store.currentPage * 10; i++) {
+      var _a = this.feeds[i],
+          id = _a.id,
+          title = _a.title,
+          comments_count = _a.comments_count,
+          user = _a.user,
+          points = _a.points,
+          time_ago = _a.time_ago,
+          read = _a.read; // 아이러니하게도 DOM 사용에 대한 직관성 결여의 해결은 DOM 사용을 자제하는것. (문자열을 이용하자!)
+      // 설령 양이 좀 늘어나게 되더라도 가독성이 좋은 것이 좋은 듯 하다.
 
-  if (routePath === '') {
-    newsFeed();
-  } else if (routePath.indexOf('#/page/') >= 0) {
-    store.currentPage = Number(routePath.substr(7));
-    newsFeed();
-  } else {
-    newsDetail();
+      this.addHtml("\n        <div class=\"p-6 " + (read ? 'bg-red-500' : 'bg-white') + " mt-6 rounded-lg shadow-md transition-colors duration-500 hover:bg-green-100\">\n        <div class=\"flex\">\n          <div class=\"flex-auto\">\n            <a href=\"#/show/" + id + "\">" + title + "</a>  \n          </div>\n          <div class=\"text-center text-sm\">\n            <div class=\"w-10 text-white bg-green-300 rounded-lg px-0 py-2\">" + comments_count + "</div>\n          </div>\n        </div>\n        <div class=\"flex mt-3\">\n          <div class=\"grid grid-cols-3 text-sm text-gray-500\">\n            <div><i class=\"fas fa-user mr-1\"></i>" + user + "</div>\n            <div><i class=\"fas fa-heart mr-1\"></i>" + points + "</div>\n            <div><i class=\"far fa-clock mr-1\"></i>" + time_ago + "</div>\n          </div>  \n        </div>\n      </div>\n      ");
+    }
+
+    this.setTemplateData('news_feed', this.getHtml());
+    this.setTemplateData('prev_page', String(store.currentPage > 1 ? store.currentPage - 1 : 1));
+    this.setTemplateData('next_page', String(store.currentPage + 1));
+    this.updateView();
+  }; // 타입추론: ts가 코드상 상황을 인지하여 i는 number겠거니 추론하여 내부적으로 자동으로 타입지정
+
+
+  NewsFeedView.prototype.makeFeeds = function () {
+    for (var i = 0; i < this.feeds.length; i++) {
+      this.feeds[i].read = false;
+    }
+  };
+
+  return NewsFeedView;
+}(View);
+
+var NewsDetailView =
+/** @class */
+function (_super) {
+  __extends(NewsDetailView, _super);
+
+  function NewsDetailView(containerId) {
+    var _this = this;
+
+    var template = "\n    <div class=\"bg-gray-600 min-h-screen pb-8\">\n      <div class=\"bg-white text-xl\">\n        <div class=\"mx-auto px-4\">\n          <div class=\"flex justify-between items-center py-6\">\n            <div class=\"flex justify-start\">\n              <h1 class=\"font-extrabold\">Hacker News</h1>\n            </div>\n            <div class=\"items-center justify-end\">\n              <a href=\"#/page/{{__currentPage__}}\" class=\"text-gray-500\">\n                <i class=\"fa fa-times\"></i>\n              </a>\n            </div>\n          </div>\n        </div>\n      </div>\n\n      <div class=\"h-full border rounded-xl bg-white m-6 p-4 \">\n        <h2>{{__title__}}</h2>\n        <div class=\"text-gray-400 h-20\">\n          {{__content__}}\n        </div>\n        {{__comments__}}\n      </div>\n    </div>\n  ";
+    _this = _super.call(this, containerId, template) || this;
+    return _this;
   }
-}
 
-window.addEventListener('hashchange', router);
-router();
+  NewsDetailView.prototype.render = function () {
+    var id = location.hash.substr(7);
+    var api = new NewsDetailApi();
+    var newsDetail = api.getData(id);
+
+    for (var i = 0; i < store.feeds.length; i++) {
+      if (store.feeds[i].id === Number(id)) {
+        store.feeds[i].read = true;
+        break;
+      }
+    }
+
+    this.setTemplateData('comments', this.makeComment(newsDetail.comments));
+    this.setTemplateData('currentPage', String(store.currentPage));
+    this.setTemplateData('currentPage', newsDetail.title);
+    this.setTemplateData('currentPage', newsDetail.content);
+    this.updateView();
+  };
+
+  NewsDetailView.prototype.makeComment = function (comments) {
+    for (var i = 0; i < comments.length; i++) {
+      var comment = comments[i]; // 역시나 중복 코드는 묶어
+
+      this.addHtml("\n        <div style=\"padding-left: " + comment.level * 40 + "px;\" class=\"mt-4\">\n          <div class=\"text-gray-400\">\n            <i class=\"fa fa-sort-up mr-2\"></i>\n            <strong>" + comment.user + "</strong> " + comment.time_ago + "\n          </div>\n          <p class=\"text-gray-700\">" + comment.content + "</p>\n        </div>      \n      ");
+
+      if (comment.comments.length > 0) {
+        this.addHtml(this.makeComment(comment.comments));
+      }
+    }
+
+    return this.getHtml();
+  };
+
+  return NewsDetailView;
+}(View);
+
+var router = new Router();
+var newsFeedView = new NewsFeedView('root');
+var newsDetailView = new NewsDetailView('root');
+router.setDefaultPage(newsFeedView);
+router.addRoutePath('/page/', newsFeedView);
+router.addRoutePath('/show/', newsDetailView);
+router.route();
 },{}],"../../../../Users/all98/AppData/Roaming/npm/node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
 var global = arguments[3];
 var OVERLAY_ID = '__parcel__error__overlay__';
@@ -337,7 +483,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "10163" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "10300" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
