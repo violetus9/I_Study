@@ -43,33 +43,43 @@ const store: Store = {
   feeds: [],
 };
 
+// 유연성이 필요한 프로젝트의 경우 app의 상황을 보아 class와 mixin기법중 선택하여 사용한대
+function applyApiMixins(targetClass: any, baseClasses: any[]): void {
+  baseClasses.forEach(baseClass => {
+    Object.getOwnPropertyNames(baseClass.prototype).forEach(name => {
+      const descriptor = Object.getOwnPropertyDescriptor(baseClass.prototype, name);
+      if(descriptor){
+        Object.defineProperty(targetClass.prototype, name, descriptor);
+      }
+    });
+  });
+}
+
 class Api {
-  url: string;
-  ajax: XMLHttpRequest;
-  constructor(url: string) {
-    this.url = url;
-    this.ajax = new XMLHttpRequest();
-  }
+  getRequest<AjaxResponse>(url: string): AjaxResponse {
+    const ajax = new XMLHttpRequest();
+    ajax.open('GET', url, false);
+    ajax.send();
 
-  protected getRequest<AjaxResponse>(): AjaxResponse {
-    this.ajax.open('GET', this.url, false);
-    this.ajax.send();
-
-    return JSON.parse(this.ajax.response);
+    return JSON.parse(ajax.response);
   }
 }
 
-class NewsFeedApi extends Api {
+class NewsFeedApi {
   getData(): NewsFeed[] {
-    return this.getRequest<NewsFeed[]>();
+    return this.getRequest<NewsFeed[]>(NEWS_URL);
   }
 }
 
-class NewsDetailApi extends Api {
-  getData(): NewsDetail {
-    return this.getRequest<NewsDetail>();
+class NewsDetailApi {
+  getData(id: string): NewsDetail {
+    return this.getRequest<NewsDetail>(CONTENT_URL.replace('@id', id));
   }
 }
+
+// 코드상 아무런 연관관계가 없기에 두 클래스의 기능이 합성된다는 사실을 명시해주는 부분
+interface NewsFeedApi extends Api {};
+interface NewsDetailApi extends Api {};
 
 // getData는 두가지 리턴 타입을 가지게 된다, 허나 사용하는 측에선 뭐가 올 지 모호한 상황이다.
 // Generic을 이용해보자
@@ -80,6 +90,9 @@ function getData<AjaxResponse>(url: string): AjaxResponse {
   ajax.send();
   return JSON.parse(ajax.response);
 }
+
+applyApiMixins(NewsFeedApi, [Api]);
+applyApiMixins(NewsDetailApi, [Api]);
 
 // 타입추론: ts가 코드상 상황을 인지하여 i는 number겠거니 추론하여 내부적으로 자동으로 타입지정
 function makeFeeds(feeds: NewsFeed[]): NewsFeed[] {
@@ -100,7 +113,7 @@ function updateView(html: string): void {
 }
 
 function newsFeed(): void {
-  const api = new NewsFeedApi(NEWS_URL);
+  const api = new NewsFeedApi();
   // data 처리(response to Object)
   let newsFeed: NewsFeed[] = store.feeds;
   const newsList = [];
@@ -168,8 +181,8 @@ function newsFeed(): void {
 
 function newsDetail(): void {
   const id = location.hash.substr(7);
-  const api = new NewsDetailApi(CONTENT_URL.replace('@id', id))
-  const newsContent = api.getData();
+  const api = new NewsDetailApi();
+  const newsContent = api.getData(id);
   let template = `
     <div class="bg-gray-600 min-h-screen pb-8">
       <div class="bg-white text-xl">
