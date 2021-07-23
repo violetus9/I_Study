@@ -43,6 +43,34 @@ const store: Store = {
   feeds: [],
 };
 
+class Api {
+  url: string;
+  ajax: XMLHttpRequest;
+  constructor(url: string) {
+    this.url = url;
+    this.ajax = new XMLHttpRequest();
+  }
+
+  protected getRequest<AjaxResponse>(): AjaxResponse {
+    this.ajax.open('GET', this.url, false);
+    this.ajax.send();
+
+    return JSON.parse(this.ajax.response);
+  }
+}
+
+class NewsFeedApi extends Api {
+  getData(): NewsFeed[] {
+    return this.getRequest<NewsFeed[]>();
+  }
+}
+
+class NewsDetailApi extends Api {
+  getData(): NewsDetail {
+    return this.getRequest<NewsDetail>();
+  }
+}
+
 // getData는 두가지 리턴 타입을 가지게 된다, 허나 사용하는 측에선 뭐가 올 지 모호한 상황이다.
 // Generic을 이용해보자
 // 사용 전 function getData(url: string): NewsFeed[] | NewsDetail
@@ -72,6 +100,7 @@ function updateView(html: string): void {
 }
 
 function newsFeed(): void {
+  const api = new NewsFeedApi(NEWS_URL);
   // data 처리(response to Object)
   let newsFeed: NewsFeed[] = store.feeds;
   const newsList = [];
@@ -102,7 +131,7 @@ function newsFeed(): void {
 
   if (newsFeed.length === 0) {
     // 요 문법 연속해서 대입하는거 봐두자
-    newsFeed = store.feeds = makeFeeds(getData<NewsFeed[]>(NEWS_URL));
+    newsFeed = store.feeds = makeFeeds(api.getData());
   }
 
   for (let i = (store.currentPage - 1) * 10; i < store.currentPage * 10; i++) {
@@ -139,7 +168,8 @@ function newsFeed(): void {
 
 function newsDetail(): void {
   const id = location.hash.substr(7);
-  const newsContent = getData<NewsDetail>(CONTENT_URL.replace('@id', id));
+  const api = new NewsDetailApi(CONTENT_URL.replace('@id', id))
+  const newsContent = api.getData();
   let template = `
     <div class="bg-gray-600 min-h-screen pb-8">
       <div class="bg-white text-xl">
