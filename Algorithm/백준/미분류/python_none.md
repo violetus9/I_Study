@@ -20,6 +20,7 @@
 [(16956)늑대와 양](#늑대와-양)  
 [(14620)꽃길](#꽃길)  
 [(1012) 유기놈 배추](#유기농-배추)  
+[(16768)Mooyo Mooyo](#Mooyo-Mooyo)  
 [(2920) 음계](#음계)  
 [(2798) 블랙잭](#블랙잭)  
 [(1874) 스택 수열](#스택-수열)  
@@ -530,6 +531,85 @@ for _ in range(input()):
 ```
 
 _재귀함수 깊이가 제한되지 않으면 터질 수 있기에 깊이를 제한하는 것이 필요함_
+
+<br>
+
+---
+
+<br>
+
+## Mooyo Mooyo
+
+> 16768
+
+```python
+def new_array(N):
+    return [[False for i in range(10)] for _ in range(N)]
+
+
+N, K = map(int, input().split())
+M = [list(input()) for _ in range(N)]
+ck = new_array(N)
+ck2 = new_array(N)
+dx, dy = [0, 1, 0, -1], [1, 0, -1, 0]
+
+
+def dfs(x, y):
+    ck[x][y] = True
+    ret = 1
+    for i in range(4):
+        xx, yy = x + dx[i], y + dy[i]
+        if xx < 0 or xx >= N or yy < 0 or yy >= 10:
+            continue
+        if ck[xx][yy] or M[x][y] != M[xx][yy]:
+            continue
+        ret += dfs(xx, yy)
+    return ret
+
+
+def dfs2(x, y, val):
+    ck2[x][y] = True
+    M[x][y] = '0'
+    for i in range(4):
+        xx, yy = x + dx[i], y + dy[i]
+        if xx < 0 or xx >= N or yy < 0 or yy >= 10:
+            continue
+        if ck2[xx][yy] or M[xx][yy] != val:
+            continue
+        dfs2(xx, yy, val)
+
+
+def down():
+    for i in range(10):
+        tmp = []
+        for j in range(N):
+            if M[j][i] != '0':
+                tmp.append(M[j][i])
+        for j in range(N-len(tmp)):
+            M[j][i] = '0'
+        for j in range(N-len(tmp), N):
+            M[j][i] = tmp[j-N+len(tmp)]
+
+
+while True:
+    exist = False
+    ck = new_array(N)
+    ck2 = new_array(N)
+    for i in range(N):
+        for j in range(10):
+            if M[i][j] == '0' or ck[i][j]:
+                continue
+            res = dfs(i, j)
+            if res >= K:
+                dfs2(i, j, M[i][j])
+                exist = True
+    if not exist:
+        break
+    down()
+
+for i in M:
+    print(''.join(i))
+```
 
 <br>
 
