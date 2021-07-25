@@ -19,6 +19,5 @@ const newsDetailView = new NewsDetailView('root', store);
 
 router.setDefaultPage(newsFeedView);
 
-
 router.addRoutePath('/page/', newsFeedView, /page\/(\d+)/);
 router.addRoutePath('/show/', newsDetailView, /show\/(\d+)/);
