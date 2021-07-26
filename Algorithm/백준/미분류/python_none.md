@@ -2,6 +2,8 @@
 
 > 나중에 많아지면 사전순이나 번호순 정렬 만들면 조흘듯
 
+> > 문제를 본 후 뒤로가기를 누르면 다시 목록으로 올라와요
+
 <br>
 
 [(15969)행복](#행복)  
@@ -23,6 +25,7 @@
 [(16768)Mooyo Mooyo](#Mooyo-Mooyo)  
 [(12100)2048](#2048)  
 [(17406)배열 돌리기](#배열-돌리기)  
+[(11055)가장 큰 증가 부분 수열](#가장-큰-증가-부분-수열)  
 [(2920) 음계](#음계)  
 [(2798) 블랙잭](#블랙잭)  
 [(1874) 스택 수열](#스택-수열)  
@@ -720,6 +723,31 @@ def dfs(arr, qry):
 
 dfs(A, [0 for i in range(K)])
 print(ans)
+```
+
+<br>
+
+---
+
+<br>
+
+## 가장 큰 증가 부분 수열
+
+> 11055
+
+```python
+import copy
+
+N, A = int(input()), list(map(int, input().split()))
+
+DP = copy.deepcopy(A)
+
+for i in range(1, N):
+    for j in range(i):
+        if A[i] > A[j]:
+            DP[i] = max(A[i] + DP[j], DP[i])
+
+print(max(DP))
 ```
 
 <br>
