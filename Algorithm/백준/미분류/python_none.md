@@ -26,6 +26,7 @@
 [(12100)2048](#2048)  
 [(17406)배열 돌리기](#배열-돌리기)  
 [(11055)가장 큰 증가 부분 수열](#가장-큰-증가-부분-수열)  
+[(2167) 2차원 배열의 합](#2차원-배열의-합)  
 [(2920) 음계](#음계)  
 [(2798) 블랙잭](#블랙잭)  
 [(1874) 스택 수열](#스택-수열)  
@@ -748,6 +749,30 @@ for i in range(1, N):
             DP[i] = max(A[i] + DP[j], DP[i])
 
 print(max(DP))
+```
+
+<br>
+
+---
+
+<br>
+
+## 2차원 배열의 합
+
+> 2167
+
+```python
+N, M = map(int, input().split())
+A = [list(map(int, input().split())) for _ in range(N)]
+DP = [0 for i in range(M+1) for _ in range(N+1)]
+
+for i in range(N+1):
+    for j in range(1, M+1):
+        DP[i][j] = DP[i-1][j] + DP[i][j-1] - DP[i-1][j-1] + A[i-1][j-1]
+
+for _ in range(int(input())):
+    i, j, x, y = map(int, input().split())
+    print(DP[x][y] - DP[i-1][y] - DP[x][j-1] + DP[i-1][j-1])
 ```
 
 <br>
