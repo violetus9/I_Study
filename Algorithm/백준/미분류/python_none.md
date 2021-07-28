@@ -27,6 +27,8 @@
 [(17406)배열 돌리기](#배열-돌리기)  
 [(11055)가장 큰 증가 부분 수열](#가장-큰-증가-부분-수열)  
 [(2167) 2차원 배열의 합](#2차원-배열의-합)  
+[(1915) 가장 큰 정사각형](#가장-큰-정사각형)  
+[(12849)본대 산책](#본대-산책)  
 [(2920) 음계](#음계)  
 [(2798) 블랙잭](#블랙잭)  
 [(1874) 스택 수열](#스택-수열)  
@@ -774,6 +776,84 @@ for _ in range(int(input())):
     i, j, x, y = map(int, input().split())
     print(DP[x][y] - DP[i-1][y] - DP[x][j-1] + DP[i-1][j-1])
 ```
+
+<br>
+
+---
+
+<br>
+
+## 가장 큰 정사각형
+
+> 1915
+
+```python
+N, M = map(int, input().split())
+A = [[0 for _ in range(M+1)] for i in range(N+1)]
+# DP[i][j] i,j에서 가장 큰 정사각형 한 변의 길이
+DP = [[0 for _ in range(M+1)] for i in range(N+1)]
+
+for i in range(N):
+    for idx, j in enumerate(list(map(int, list(input())))):
+        A[i+1][idx+1] = j
+
+mx = 0
+
+for i in range(1, N+1):
+    for j in range(1, M+1):
+        if A[i][j]:
+            DP[i][j] = min(DP[i-1][j], DP[i-1][j-1], DP[i][j-1]) + 1
+
+print(max([max(i) for i in DP]) ** 2)
+```
+
+<br>
+
+---
+
+<br>
+
+## 본대 산책
+
+> 12849
+
+```python
+# 어느 지점까지 도착할 수 있는 0분의 상태
+# 0 정보과학관
+# 1 전상관
+# 2 미래관
+# 3 신양관
+# 4 한경직기념관
+# 5 진리관
+# 6 학생회관
+# 7 형남공학관
+DP = [1, 0, 0, 0, 0, 0, 0, 0]
+
+
+def nxt(state):
+    tmp = [0 for _ in range(8)]
+    tmp[0] = state[1] + state[2]
+    tmp[1] = state[0] + state[2] + state[3]
+    tmp[2] = state[0] + state[1] + state[3] + state[4]
+    tmp[3] = state[1] + state[2] + state[4] + state[5]
+    tmp[4] = state[2] + state[3] + state[5] + state[7]
+    tmp[5] = state[3] + state[4] + state[6]
+    tmp[6] = state[5] + state[7]
+    tmp[7] = state[4] + state[6]
+    # 나눗셈의 경우 다소 무거운 연산이기에 미리미리 해주는게 빠르다고함
+    for i in range(8):
+        tmp[i] %= 1000000007
+    return tmp
+
+
+for i in range(int(input())):
+    DP = nxt(DP)
+
+# 10억7의 경우 소수인데 나누는 이유는 각 연산에 대한 해시값을 구하고자 하는 것임
+# print(DP[0] % 1000000007)
+```
+
+_전형적인 DP_
 
 <br>
 
