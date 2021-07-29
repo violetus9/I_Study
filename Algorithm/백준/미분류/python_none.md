@@ -29,6 +29,10 @@
 [(2167) 2차원 배열의 합](#2차원-배열의-합)  
 [(1915) 가장 큰 정사각형](#가장-큰-정사각형)  
 [(12849)본대 산책](#본대-산책)  
+[(11066)파일 합치기](#파일-합치기)  
+[(1439) 뒤집기](#뒤집기)  
+[(16676)근우의 다이어리 꾸미기](#근우의-다이어리-꾸미기)  
+[(2437) 저울](#저울)  
 [(2920) 음계](#음계)  
 [(2798) 블랙잭](#블랙잭)  
 [(1874) 스택 수열](#스택-수열)  
@@ -854,6 +858,100 @@ for i in range(int(input())):
 ```
 
 _전형적인 DP_
+
+<br>
+
+---
+
+<br>
+
+## 파일 합치기
+
+> 11066
+
+```python
+def process():
+    N, A = int(input()), [0] + list(map(int, input().split()))
+    # S[i] 1부터 i까지 누적 합
+    S = [0 for _ in range(N+1)]
+    for i in range(1, N+1):
+        S[i] = S[i-1] + A[i]
+    # DP[i][j] : i서 j까지 합에 필요한 최소비
+    # DP[i][k] + DP[k+1][j] + sum(A[i]-A[j])
+    DP = [[0 for i in range(N+1)] for _ in range(N+1)]
+    for i in range(2, N+1):   # 부분 파일의 길이
+        for j in range(1, N+2-i): # 시작점
+            DP[j][j+i-1] = min([DP[j][j+k] + DP[j+k+1][j+i-1] for k in range(i-1)]) + (S[j+i-1] - S[j-1])
+    print(DP[1][N])
+
+
+for _ in range(int(input())):
+    process()
+```
+
+<br>
+
+---
+
+<br>
+
+## 뒤집기
+
+> 1439
+
+```python
+S, tot = input(), 0
+for i in range(1, len(S)):
+    if S[i] != S[i-1]:
+        tot += 1
+print((tot+1)//2)
+```
+
+<br>
+
+---
+
+<br>
+
+## 근우의 다이어리 꾸미기
+
+> 16676
+
+```python
+N = input()
+S = '1' * len(N)
+
+if len(N) == 1:
+    print(1)
+elif int(N) >= int(S):
+    print(len(N))
+else:
+    print(len(N) - 1)
+```
+
+<br>
+
+---
+
+<br>
+
+## 저울
+
+> 2437
+
+```python
+N, A = int(input()), sorted(list(map(int, input().split())))
+
+ans = 0
+
+for i in A:
+    if i <= ans + 1:
+        ans += i
+    else:
+        break
+
+print(ans + 1)
+```
 
 <br>
 
