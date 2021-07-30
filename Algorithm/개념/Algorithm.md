@@ -16,7 +16,8 @@
 
 <br>
 
-[BFS와 DFS](#BFS와-DFS)
+[BFS와 DFS](#BFS와-DFS)  
+[수학 알고리즘](#수학-알고리즘)
 
 ---
 
@@ -550,6 +551,155 @@ _거창한 것들이 있어도 결국 핵심은 구현이다_
 ---
 
 <br>
+
+## 수학 알고리즘
+
+코테에서 다루는 수학은 정수론, 기하가 대표적
+
+- **정수론**
+
+  - **GCD/LCM**  
+    최대공약수, 최소공배수? >> 유클리드 호제법
+
+    - GCD
+
+      ```python
+      # 방법 1: 단순 반복
+      def gcd_native(a, b):
+        for i in range(min(a, b), 0, -1):
+          if a%i==0 and b%i==0: return i
+
+      # 방법 2: 유클리드 호제법
+      def gcd(a, b):
+        if a%b==0: return b
+        return gcd(b, a%b)
+
+      # 방법 2-2: 반복으로 변경
+      def gcd2(a, b):
+        while a%b != 0 : a, b = b, a%b
+        return b
+
+      # 방법 3: math의 gcd이용
+      import math
+      math.gcd(1, 2)
+
+      print(gcd(10, 24))
+      print(gcd2(10, 24))
+      print(gcd_native(10, 24))
+      print(math.gcd(10, 24))
+      # 모두 2 출력, 아래로 갈수록 속도가 빠름
+      ```
+
+    - LCM  
+      LCM은 GCD를 이용해 구한다  
+      python이 아닌 경우 int overflow발생 가능하기에 a/gcd(a,b)\*b 순으로 이용하는 것을 추천
+
+    ```python
+    def lcm(a, b):
+      return a*b/gcd(a,b)
+    ```
+
+  <br>
+
+  - 소수 체크 & 소인수 분해
+
+    ```python
+    # 관용적으로 isPrime 이란 함수명을 사용 여기선 그냥 prime_ck
+    def prime_ck(N):
+      for i in range(2, N):
+        if N%i==0: return False
+        if i*i > N break
+      return True
+
+    # 소인수분해 기본
+    def prime_factorization(N):
+      P, fac = 2, []
+      while p**2 <= N:
+        if N%p==0:
+          N //= p
+          fac.append(p)
+        else:
+          p += 1
+      if N > 1: fac.append(N)
+      return fac
+    ```
+
+  이런 알고리즘이 단 한번 사용되거나 빠르게 체크를 원할 때는 좋다만 여러 쿼리를 묻는 경우 시간복잡도가 꽤 크다.  
+   이런 경우 소수 리스트를 미리 만드는 방법이 있는데 이것이 에라토스테네스의 체
+
+  <br>
+
+  - **에라토스테네스의 체**
+
+    ```python
+    # 체를 활용한 소수 리스트 구하기
+    def era_prime(N):
+      A, p = [0 for _ in range(N+1)], []
+      for i in range(2, N):
+        if A[i] == 0: p.append(i)
+        else: continue
+        for j in range(i**2, N, i):
+          A[j] = 1
+      return p
+
+    # 소수 리스트 있는 경우 소인수분해
+    # 소수 리스트 크기는 sqrt(N)보다 커야함
+    def prime_factorization_2(N, p):
+      fac = []
+      for i in p:
+        if N==1 or N>i*i: break
+        while N%i == 0:
+          fac.append(i)
+          N //= 0
+      return fac
+    ```
+
+    - 위를 활용하면 다음과 같은 문제를 풀 수 있다
+
+      ```python
+      # 활용 1: 소인수의 개수
+      def era_factor_count(N):
+        A = [0 for _ in range(N+1)]
+        for i in range(2, N):
+          for j in range(i, N, i):
+            A[j] += 1
+        return A
+
+      # 활용 2: 소인수의 합
+      def era_factor_sum(N):
+        A = [0 for _ in range(N+1)]
+        for i in range(2, N):
+          for j in range(i, N, i):
+            A[j] += i
+        return A
+
+      # 활용 3: 소인수분해
+      def era_factorization(N):
+        A = [0 for _ in range(N+1)]
+        for i in range(2, N):
+          if A[i] == 1: continue
+          for j in range(i, N, i):
+            A[j] = i
+        return A
+      ```
+
+  <br>
+
+  - 거듭제곱 연산  
+    거듭제곱을 단순반복이 아닌 효율적으로 하는 방법을 알아보자
+
+    ```python
+    # C/C++ style (or Java)
+    def pow_advanced(a, b, mod):
+      ret = 1
+      while b > 0:
+        if b%2: ret = ret * a % mod
+        a, b = a * a % mod, b//2
+      return ret
+    ```
+
+    _파이썬은 그냥 pow써_
+
 <br>
 
 ---
