@@ -33,6 +33,8 @@
 [(1439) 뒤집기](#뒤집기)  
 [(16676)근우의 다이어리 꾸미기](#근우의-다이어리-꾸미기)  
 [(2437) 저울](#저울)  
+[(1080) 행렬](#행렬)  
+[(2014) 소수의 곱](#소수의-곱)  
 [(2920) 음계](#음계)  
 [(2798) 블랙잭](#블랙잭)  
 [(1874) 스택 수열](#스택-수열)  
@@ -952,6 +954,78 @@ for i in A:
 
 print(ans + 1)
 ```
+
+<br>
+
+---
+
+<br>
+
+## 행렬
+
+> 1080
+
+```python
+N, M = map(int, input().split())
+
+
+def input_str():
+    return [list(map(int, list(input()))) for _ in range(N)]
+
+
+A, B = input_str(), input_str()
+ans = 0
+
+
+def flip(x, y, A):
+    for i in range(3):
+        for j in range(3):
+            A[x+i][y+j] ^= 1
+
+
+for i in range(N-2):
+    for j in range(M-2):
+        if A[i][j] != B[i][j]:
+            flip(i, j, A)
+            ans += 1
+
+print(ans if A==B else -1)
+```
+
+<br>
+
+---
+
+<br>
+
+## 소수의 곱
+
+> 2014
+
+```python
+import heapq
+import copy
+
+K, N = map(int, input().split())
+p_list = list(map(int, input().split()))
+lst, ck = copy.deepcopy(p_list), set()
+
+heapq.heapify(lst)
+ith = 0
+
+while ith < N:
+    mn = heapq.heappop(lst)
+    if mn in ck:
+        continue
+    ith += 1
+    ck.add(mn)
+    for i in p_list:
+        if mn * i < 2 ** 32: heapq.heappush(lst, mn*i)
+
+print(mn)
+```
+
+_그리디에서 어려운 유형에 속함, 힙써야대_
 
 <br>
 
