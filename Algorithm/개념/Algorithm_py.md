@@ -27,52 +27,52 @@
 
 - **Bubble sort** : 이어진 두 값을 비교 후 참일 때 자리 변경
 
-```python
-def bubblesort(data):
-  for i in range(len(data) - 1):
-    swap = False
-    for i2 in range(len(data) - i - 1):
-      if data[i2] > data[i2 + 1]:
-        data[i2], data[i2 + 1] = data[i2 + 1], data[i2]
-        swap = True
+  ```python
+  def bubblesort(data):
+    for i in range(len(data) - 1):
+      swap = False
+      for i2 in range(len(data) - i - 1):
+        if data[i2] > data[i2 + 1]:
+          data[i2], data[i2 + 1] = data[i2 + 1], data[i2]
+          swap = True
 
-    if swap == False:
-      break
-  return data
+      if swap == False:
+        break
+    return data
 
-import random
-print(bubble.sort(random.sample(range(100), 10)))
-```
+  import random
+  print(bubble.sort(random.sample(range(100), 10)))
+  ```
 
 <br>
 
 - **Selection sort** : 선택 후 순회하여 보다 작은 최소값을 선택 후 자리 변경
 
-```python
-def selection_sort(data):
-  for stand in range(len(data) - 1):
-    lowest = stand
-    for idx in range(stand + 1, len(data)):
-      if data[lowest] > data[idx]:
-        lowest = idx
-    data[lowest], data[stand] = data[stand], data[lowest]
-  return data
-```
+  ```python
+  def selection_sort(data):
+    for stand in range(len(data) - 1):
+      lowest = stand
+      for idx in range(stand + 1, len(data)):
+        if data[lowest] > data[idx]:
+          lowest = idx
+      data[lowest], data[stand] = data[stand], data[lowest]
+    return data
+  ```
 
 <br>
 
 - **Insertion sort** : 앞으로 가면서 대상과 비교 후 대소를 비교하여 사이로 삽입(1번 인덱스부터 순회한다는 것)
 
-```python
-def insertion_sort(data):
-  for idx in range(len(data) - 1):
-    for idx2 in range(idx + 1, 0, -1):
-      if data[idx2] < data[idx2 - 1]:
-        data[idx2], data[idx2 - 1] = data[idx2 - 1], data[idx2]
-      else:
-        break
-  return data
-```
+  ```python
+  def insertion_sort(data):
+    for idx in range(len(data) - 1):
+      for idx2 in range(idx + 1, 0, -1):
+        if data[idx2] < data[idx2 - 1]:
+          data[idx2], data[idx2 - 1] = data[idx2 - 1], data[idx2]
+        else:
+          break
+    return data
+  ```
 
 <br>
 
@@ -80,37 +80,37 @@ def insertion_sort(data):
 
 - **Quick sort**: 기준점(pivot)을 정해 보다 작은 데이터는 왼쪽, 큰 데이터는 오른쪽으로 모으는 함수를 작성, 재귀를 이용, 함수의 리턴은 left + pivot + right
 
-```python
-def quick_sort(data):
-  if len(data) <= 1:
-    return data
+  ```python
+  def quick_sort(data):
+    if len(data) <= 1:
+      return data
 
-  left, right = list(), list()
-  pivot = data[0]
+    left, right = list(), list()
+    pivot = data[0]
 
-  for index in range(1, len(data)):
-    if pivot > data[index]:
-      left.append(data[index])
-    else:
-      right.append(data[index])
+    for index in range(1, len(data)):
+      if pivot > data[index]:
+        left.append(data[index])
+      else:
+        right.append(data[index])
 
-  return quick_sort(left) + [pivot] + quick_sort(right)
-```
+    return quick_sort(left) + [pivot] + quick_sort(right)
+  ```
 
 - use list comprehension
 
-      ```python
-      def qsort(data):
-        if len(data) <= 1:
-          return data
+  ```python
+  def qsort(data):
+    if len(data) <= 1:
+      return data
 
-        pivot = data[0]
+    pivot = data[0]
 
-        left = [item for item in data[1:] if pivot > item]
-        right = [item for item in data[1:] if pivot <= item]
+    left = [item for item in data[1:] if pivot > item]
+    right = [item for item in data[1:] if pivot <= item]
 
-        return qsort(left) + [pivot] + qsort(right)
-      ```
+    return qsort(left) + [pivot] + qsort(right)
+  ```
 
   <br>
 
@@ -121,40 +121,40 @@ def quick_sort(data):
 
 - **Merge sort**: 재귀를 활용, 리스트를 반으로 size=1까지 자름, 정렬 불능까지 재귀, 이후 각 부분에 대한 병합 시행
 
-```python
-def mergesplit(data):
-  if len(data) <= 1:
-    return data
-  medium = int(len(data) / 2)
-  left = mergesplit(data[:medium])
-  right = mergesplit(data[medium:])
-  return merge(left, right)
+  ```python
+  def mergesplit(data):
+    if len(data) <= 1:
+      return data
+    medium = int(len(data) / 2)
+    left = mergesplit(data[:medium])
+    right = mergesplit(data[medium:])
+    return merge(left, right)
 
-def merge(left, right):
-  merged = list()
-  left_point, right_point = 0, 0
+  def merge(left, right):
+    merged = list()
+    left_point, right_point = 0, 0
 
-  # case1: left/right 아직 남아있다
-  while len(left) > left_point and len(right) > right_point:
-    if left[left_point] > right[right_point]:
-      merged.append(right[right_point])
-      right_point += 1
-    else:
+    # case1: left/right 아직 남아있다
+    while len(left) > left_point and len(right) > right_point:
+      if left[left_point] > right[right_point]:
+        merged.append(right[right_point])
+        right_point += 1
+      else:
+        merged.append(right[left_point])
+        left_point += 1
+
+    # case2: left 남은 경우
+    while len(left) > left_point:
       merged.append(right[left_point])
       left_point += 1
 
-  # case2: left 남은 경우
-  while len(left) > left_point:
-    merged.append(right[left_point])
-    left_point += 1
+    # case3: right 남은 경우
+    while len(right) > right_point:
+      merged.append(right[right_point])
+      right_point += 1
 
-  # case3: right 남은 경우
-  while len(right) > right_point:
-    merged.append(right[right_point])
-    right_point += 1
-
-  return merged
-```
+    return merged
+  ```
 
 <br>
 
@@ -257,16 +257,16 @@ _이 경우 시간복잡도, 공간복잡도 둘 모두 O(n)_
     return num
     return fibo(num - 1) + fibo(num - 2)
 
-        # DP 활용
-        def fibo_dp(num):
-          cache = [0 for index in range(num + 1)]
-          cache[0] = 0
-          cache[1] = 1
+    # DP 활용
+    def fibo_dp(num):
+      cache = [0 for index in range(num + 1)]
+      cache[0] = 0
+      cache[1] = 1
 
-          for index in range(2, num + 1):
-            cache[index] = cache[index - 1] + cache[index - 2]
-          return cache[num]
-        ```
+      for index in range(2, num + 1):
+        cache[index] = cache[index - 1] + cache[index - 2]
+      return cache[num]
+    ```
 
     <br>
     ````
@@ -362,42 +362,43 @@ def sequencial(data_list, search_data):
     너비 우선 탐색: 정점들과 같은 레벨에 있는 노드들(형제 노드)을 먼저 탐색하는 방식
 
     - visited queue, need_visited queue 로 나누어 생각한다.
+
       > 방문했는지, 방문했는게 다른 무언가의 방문이 필요한지
 
-    ```python
-    def bfs(graph, start_node):
-      visited = list()
-      need_visit = list()
+      ```python
+      def bfs(graph, start_node):
+        visited = list()
+        need_visit = list()
 
-      need_visit.append(start_node)
+        need_visit.append(start_node)
 
-      while need_visit:
-        node = need_visit.pop(0)
-        if node not in visited:
-          visited.append(node)
-          need_visit.extend() # extend: 데이터를 붙이는 개념(in js: concat?)
+        while need_visit:
+          node = need_visit.pop(0)
+          if node not in visited:
+            visited.append(node)
+            need_visit.extend() # extend: 데이터를 붙이는 개념(in js: concat?)
 
-      return visited
-    ```
+        return visited
+      ```
 
     <br>
 
   - DFS(Depth First Search)
     정점의 자식들을 먼저 탐색하는 방식(형제의 자식을 타며 순회)
 
-        ```python
-        def dfs(graph, start_node):
-          visited, need_visit = list(), list()
-          need_visit.append(start_node)
+    ```python
+    def dfs(graph, start_node):
+      visited, need_visit = list(), list()
+      need_visit.append(start_node)
 
-          while need_visit
-          node = need_visit.pop()
-          if node not in visited:
-            visited.append(node)
-            need_visited.extend(graph[node])
+      while need_visit
+      node = need_visit.pop()
+      if node not in visited:
+        visited.append(node)
+        need_visited.extend(graph[node])
 
-          return visited
-        ```
+      return visited
+    ```
 
     <br>
 
@@ -421,17 +422,17 @@ def sequencial(data_list, search_data):
     ````python
     coin_list = [500, 100, 50, 1]
 
-        def min_coin_count(value, coin_list):
-          total_count = 0
-          details = list()
-          coin_list.sort(reverse=True)
-          for coin in coin_list:
-            coin_num = value // coin
-            total_coin_count += coin_num
-            value -= coin_num * coin
-            details.append([coin, coin_num])
-          return total_coin_count, details
-        ```
+    def min_coin_count(value, coin_list):
+      total_count = 0
+      details = list()
+      coin_list.sort(reverse=True)
+      for coin in coin_list:
+        coin_num = value // coin
+        total_coin_count += coin_num
+        value -= coin_num * coin
+        details.append([coin, coin_num])
+      return total_coin_count, details
+    ```
 
     <br>
 
@@ -439,26 +440,26 @@ def sequencial(data_list, search_data):
 
   - 부분 베낭 문제: 무게 제한이 있는 베낭이 최대 가치를 가지도록 물건을 넣는 문제
 
-    ````python # 무게w와 가치v로 표현 가능
+    ```python # 무게w와 가치v로 표현 가능
     data_list = [(10, 10), (15, 12), (20, 10), (25, 8), (30, 5)]
 
-        def get_max_value(data_list, capacity):
-          data_list = sorted(data_list, key = lambda x: x[1] / x[0], reverse = True)
-          total_value = 0
-          details = list()
+    def get_max_value(data_list, capacity):
+      data_list = sorted(data_list, key = lambda x: x[1] / x[0], reverse = True)
+      total_value = 0
+      details = list()
 
-          for data in data_list:
-            if capacity - data[0] >= 0:
-              capacity -= data[0]
-              total_value += data[1]
-              details.append([data[0], data[1], 1])
-            else:
-              fraction = capacity / data[0]
-              total_value += data[1] * fraction
-              details.append([data[0], data[1], fraction])
-              break
-          return total_value, details
-        ```
+      for data in data_list:
+        if capacity - data[0] >= 0:
+          capacity -= data[0]
+          total_value += data[1]
+          details.append([data[0], data[1], 1])
+        else:
+          fraction = capacity / data[0]
+          total_value += data[1] * fraction
+          details.append([data[0], data[1], fraction])
+          break
+      return total_value, details
+    ```
 
     <br>
     ````
