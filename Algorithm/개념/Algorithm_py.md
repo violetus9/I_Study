@@ -207,17 +207,17 @@ _이 경우 시간복잡도, 공간복잡도 둘 모두 O(n)_
     ```
   - **정수 n를 1, 2, 3의 조합으로 나타내는 방법**
 
-    ````python
+    ```python
     def func(data):
     if data == 1:
-    return 1
+      return 1
     elif data == 2:
-    return 2
+      return 2
     elif data == 3:
-    return 4
+      return 4
 
-          return func(data - 1) + func(data - 2) + func(data - 3)
-        ```
+    return func(data - 1) + func(data - 2) + func(data - 3)
+    ```
 
     <br>
     ````
@@ -254,7 +254,7 @@ _이 경우 시간복잡도, 공간복잡도 둘 모두 O(n)_
     ````python # 재귀를 활용
     def fibo(num):
     if num <= 1:
-    return num
+      return num
     return fibo(num - 1) + fibo(num - 2)
 
     # DP 활용
