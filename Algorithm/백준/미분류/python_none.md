@@ -49,7 +49,8 @@
 [(11650)좌표 정렬하기](#좌표-정렬하기)  
 [(10989)수 정렬하기3](#수-정렬하기3)  
 [(2747) 피보나치 수](#피보나치-수)  
-[(1074) Z](#Z)
+[(1074) Z](#Z)  
+[(7490) 0 만들기](#0-만들기)
 
 <br>
 
@@ -1503,6 +1504,52 @@ def Z(sz, x, y):
 
 
 print(Z(2**N, r, c))
+```
+
+<br>
+
+---
+
+<br>
+
+## 0 만들기
+
+> 7490
+
+```python
+import copy
+def recu(arr, n):
+    if len(arr) == n:
+        operators_list.append(copy.deepcopy(arr))
+        return
+    arr.append(' ')
+    recu(arr, n)
+    arr.pop()
+    arr.append('+')
+    recu(arr, n)
+    arr.pop()
+    arr.append('-')
+    recu(arr, n)
+    arr.pop()
+
+
+N = int(input())
+
+for _ in range(N):
+    operators_list = []
+    n = int(input())
+    recu([], n - 1)
+
+    integers = [i for i in range(1, n + 1)]
+
+    for operators in operators_list:
+        string = ''
+        for i in range(n - 1):
+            string += str(integers[i]) + operators[i]
+        string += str(integers[-1])
+        if eval(string.replace(' ', '')) == 0:
+            print(string)
+    print()
 ```
 
 <br>
