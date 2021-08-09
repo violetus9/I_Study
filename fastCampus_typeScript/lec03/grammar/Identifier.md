@@ -28,5 +28,5 @@ _(변수명, 함수명, 속성들을 데이터로 변환할 수는 없다는 것
 
   // 표기법을 따르도록 하고 일관성 있게 지어주자
   function cammelCase() {}
-  function snakeCase() {}
+  function snake_case() {}
   ```
