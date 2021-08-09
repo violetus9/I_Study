@@ -5,7 +5,20 @@
 <br>
 
 [(2751) 수 정렬하기 2](#수-정렬하기-2)  
-[(11004)K번째 수](#K번째-수)
+[(11004)K번째 수](#K번째-수)  
+[(1543) 문서 검색](#문서-검색)  
+[(1568) 새](#새)  
+[(1302) 베스트셀러](#베스트셀러)  
+[(1668) 트로피 진열](#트로피-진열)  
+[(1236) 성 지키기](#성-지키기)  
+[(2110) 공유기 설치](#공유기-설치)  
+[(1939) 중량제한](#중량제한)  
+[(1991) 트리 순회](#트리-순회)  
+[(2250) 트리의 높이와 너비](#트리의-높이와-너비)  
+[(1927) 최소 힙](#최소-힙)  
+[(1715) 카드 정렬하기](#카드-정렬하기)  
+[(1766) 문제집](#문제집)  
+[(1904) 01타일](#01타일)
 
 <br>
 
@@ -85,6 +98,499 @@ arr = sorted(arr)
 
 print(arr[K - 1])
 ```
+
+<br>
+
+---
+
+<br>
+
+## 문서 검색
+
+> 1543
+
+```python
+S = str(input())
+string = str(input())
+print(len(S.split(string)) - 1)
+
+# 다른 풀이
+doc = input()
+word = input()
+idx = 0
+res = 0
+while len(doc) - idx >= len(word):
+  if doc[idx:idx + len(word)] == word:
+    res += 1
+    idx += len(word)
+  else:
+    idx += 1
+print(res)
+```
+
+<br>
+
+---
+
+<br>
+
+## 새
+
+> 1568
+
+```python
+N = int(input())
+res = 0
+K = 1
+while N != 0:
+  if K > N:
+    K = 1
+  N -= K
+  K += 1
+  res += 1
+print(res)
+```
+
+<br>
+
+---
+
+<br>
+
+## 베스트셀러
+
+> 1302
+
+```python
+N = int(input())
+books = {}
+
+for _ in range(N):
+  book = input()
+  if book not in books:
+    books[book] = 1
+  else:
+    books[book] += 1
+
+target = max(books.values())
+arr = []
+
+for book, number in books.items():
+  if number == target:
+    arr.append(book)
+
+print(sorted(arr)[0])
+```
+
+<br>
+
+---
+
+<br>
+
+## 트로피 진열
+
+> 1668
+
+```python
+def checker(li):
+  now = li[0]
+  res = 1
+  for i in range(1, len(li)):
+    if now < li[i]:
+      res += 1
+      now = li[i]
+  return res
+
+N = int(input())
+li = []
+
+for _ in range(N):
+  li.append(int(input()))
+
+print(checker(li))
+li.reverse()
+print(checker(li))
+```
+
+<br>
+
+---
+
+<br>
+
+## 성 지키기
+
+> 1236
+
+```python
+N, M = map(int, input().split())
+li = []
+for _ in range(N):
+  li.append(input())
+
+row = [0] * N
+col = [0] * M
+
+for i in range(N):
+  for j in range(M):
+    if li[i][j] == 'X':
+      row[i] = 1
+      col[j] = 1
+
+row_cnt = 0
+for i in range(N):
+  if row[i] == 0:
+    row_cnt += 1
+col_cnt = 0
+for i in range(M):
+  if col[i] == 0:
+    col_cnt += 1
+
+print(max(row_cnt, col_cnt))
+```
+
+<br>
+
+---
+
+<br>
+
+## 공유기 설치
+
+> 2110
+
+```python
+N, C = list(map(int, input().split()))
+li = []
+
+for _ in range(N):
+  li.append(int(input()))
+li = sorted(li)
+
+start = 1
+end = li[-1] - li[0]
+res = 0
+
+while(start <= end):
+  mid = (start + end) // 2
+  value = li[0]
+  cnt = 1
+  for i in range(1, len(li)):
+    if li[i] >= value + mid:
+      value = li[i]
+      cnt += 1
+  if cnt >= C:
+    start = mid + 1
+    res = mid
+  else:
+    end = mid - 1
+
+print(res)
+```
+
+<br>
+
+---
+
+<br>
+
+## 중량제한
+
+> 1939
+
+```python
+from collections import deque
+
+N, M = map(int, input().split())
+adj = [[] for _ in range(N + 1)]
+
+def bfs(c):
+  queue = deque([start_node])
+  visited = [False] * (N + 1)
+  visited[start_node] = True
+  while queue:
+    x = queue.popleft()
+    for y, weight in adj[x]:
+      if not visited[y] and weight >= c:
+        visited[y] = True
+        queue.append(y)
+  return visited[end_node]
+
+start = 1000000000
+end = 1
+
+for _ in range(M):
+  x, y, weight = map(int, input().split())
+  adj[x].append((y, weight))
+  adj[y].append((x, weight))
+  start = min(start, weight)
+  end = max(end, weight)
+
+start_node, end_node = map(int, input().split())
+res = start
+
+while(start <= end):
+  mid = (start + end) // 2
+  if bfs(mid):
+    res = mid
+    start = mid + 1
+  else:
+    end = mid - 1
+
+print(res)
+```
+
+<br>
+
+---
+
+<br>
+
+## 트리 순회
+
+> 1991
+
+```python
+class Node:
+  def __init__(self, data, left_node, right_node):
+    self.data = data
+    self.left_node = left_node
+    self.right_node = right_node
+
+def pre_order(node):
+  print(node.data, end='')
+  if node.left_node != '.':
+    pre_order(tree[node.left_node])
+  if node.right_node != '.':
+    pre_order(tree[node.right_node])
+
+def in_order(node):
+  if node.left_node != '.':
+    in_order(tree[node.left_node])
+  print(node.data, end='')
+  if node.right_node != '.':
+    in_order(tree[node.right_node])
+
+def post_order(node):
+  if node.left_node != '.':
+    post_order(tree[node.left_node])
+  if node.right_node != '.':
+    post_order(tree[node.right_node])
+  print(node.data, end='')
+
+N = int(input())
+tree = {}
+for i in range(N):
+  data, left_node, right_node = input().split()
+  tree[data] = Node(data, left_node, right_node)
+
+pre_order(tree['A'])
+print()
+in_order(tree['A'])
+print()
+post_order(tree['A'])
+```
+
+<br>
+
+---
+
+<br>
+
+## 트리의 높이와 너비
+
+> 2250
+
+```python
+class Node:
+  def __init__(self, number, left_node, right_node):
+    self.parent = -1
+    self.number = number
+    self.left_node = left_node
+    self.right_node = right_node
+
+def in_order(node, lev):
+  global lev_depth, x
+  lev_depth = max(lev_depth, lev)
+  if node.left_node != -1:
+    in_order(tree[node.left_node], lev + 1)
+  lev_min[lev] = min(lev_min[lev], x)
+  lev_max[lev] = max(lev_max[lev], x)
+  x += 1
+  if node.right_node != -1:
+    in_order(tree[node.right_node], lev + 1)
+
+n = int(input())
+tree = {}
+lev_min = [n]
+lev_max = [0]
+root = -1
+x = 1
+lev_depth = 1
+
+for i in range(1, n + 1):
+  tree[i] = Node(i, -1, -1)
+  lev_min.append(n)
+  lev_max.append(0)
+
+for _ in range(n):
+  number, left_node, right_node = map(int, input().split())
+  tree[number].left_node = left_node
+  tree[number].right_node = right_node
+  if left_node != -1:
+    tree[left_node].parent = number
+  if right_node != -1:
+    tree[right_node].parent = number
+
+for i in range(1, n + 1):
+  if tree[i].parent == -1:
+    root = i
+
+in_order(tree[root], 1)
+res_lev = 1
+res_width = lev_max[1] - lev_min[1] + 1
+
+for i in range(2, lev_depth + 1):
+  width = lev_max[i] - lev_min[i] + 1
+  if res_width < width:
+    res_lev = i
+    res_width = width
+
+print(res_lev, res_width)
+```
+
+<br>
+
+---
+
+<br>
+
+## 최소 힙
+
+> 1927
+
+```python
+import heapq
+
+n = int(input())
+heap = []
+res = []
+
+for _ in range(n):
+  data = int(input())
+  if data == 0:
+    if heap:
+      res.append(heapq.heappop(heap))
+    else:
+      res.append(0)
+  else:
+    heapq.heappush(heap, data)
+
+for data in res:
+  print(data)
+```
+
+<br>
+
+---
+
+<br>
+
+## 카드 정렬하기
+
+> 1715
+
+```python
+import heapq
+n = int(input())
+heap = []
+
+for i in range(n):
+  data = int(input())
+  heapq.heappush(heap, data)
+
+res = 0
+
+while len(heap) != 1:
+  one = heapq.heappop(heap)
+  two = heapq.heappop(heap)
+  sum_value = one + two
+  res += sum_value
+  heapq.heappush(heap, sum_value)
+
+print(res)
+```
+
+<br>
+
+---
+
+<br>
+
+## 문제집
+
+> 1766
+
+```python
+import heapq
+n, m = map(int, input().split())
+li = [[] for i in range(n + 1)]
+deg = [0] * (n + 1)
+heap = []
+res = []
+
+for _ in range(m):
+  x, y = map(int, input().split())
+  li[x].append(y)
+  deg[y] += 1
+
+for i in range(1, n + 1):
+  if deg[i] == 0:
+    heapq.heappush(heap, i)
+
+res = []
+
+while heap:
+  data = heapq.heappop(heap)
+  res.append(data)
+  for y in li[data]:
+    deg[y] -= 1
+    if deg[y] == 0:
+      heapq.heappush(heap, y)
+
+for i in res:
+  print(i, end=' ')
+```
+
+<br>
+
+---
+
+<br>
+
+## 01타일
+
+> 1904
+
+```python
+N = int(input())
+
+dp = [0] * 1000001
+dp[1] = 1
+dp[2] = 2
+
+for i in range(3, N + 1):
+  dp[i] = (dp[i - 2] + dp[i - 1]) % 15746
+
+print(dp[N])
+```
+
+<br>
+
+---
+
+<br>
 
 <br>
 
