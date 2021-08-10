@@ -18,7 +18,12 @@
 [(1927) 최소 힙](#최소-힙)  
 [(1715) 카드 정렬하기](#카드-정렬하기)  
 [(1766) 문제집](#문제집)  
-[(1904) 01타일](#01타일)
+[(1904) 01타일](#01타일)  
+[(12865)평범한 배낭](#평범한-배낭)  
+[(11053)가장 긴 증가하는 부분 수열](#가장-긴-증가하는-부분-수열)  
+[(9251) LCS](#LCS)  
+[(1495) 기타리스트](#기타리스트)  
+[(2655) 가장높은탑쌓기](#가장높은탑쌓기)
 
 <br>
 
@@ -592,11 +597,148 @@ print(dp[N])
 
 <br>
 
+## 평범한 배낭
+
+> 12865
+
+```python
+n, k = map(int, input().split())
+dp = [[0] * (k + 1) for _ in range(n + 1)]
+
+for i in range(1, n + 1):
+  w, v = map(int, input().split())
+  for j in range(1, k + 1):
+    if j < w:
+      dp[i][j] = dp[i - 1][j]
+    else:
+      dp[i][j] = max(dp[i - 1][j], dp[i - 1][j - w] + v)
+
+print(dp[n][k])
+```
+
 <br>
 
 ---
 
 <br>
+
+## 가장 긴 증가하는 부분 수열
+
+> 11053
+
+```python
+n = int(input())
+li = list(map(int, input().split()))
+dp = [1] * n
+
+for i in range(1, n):
+  for j in range(i):
+    if li[j] < li[i]:
+      dp[i] = max(dp[i], dp[j] + 1)
+
+print(max(dp))
+```
+
+<br>
+
+---
+
+<br>
+
+## LCS
+
+> 9251
+
+```python
+# LCS(Longest Common Subsequence) : 최장 공통 부분 수열
+s1 = input()
+s2 = input()
+dp = [[0] * (len(s1) + 1) for _ in range(len(s2) + 1)]
+
+for i in range(1, len(s2) + 1):
+  for j in range(1, len(s1) + 1):
+    if s2[i - 1] == s1[j - 1]:
+      dp[i][j] = dp[i - 1][j - 1] + 1
+    else:
+      dp[i][j] = max(dp[i][j - 1], dp[i - 1][j])
+
+print(dp[len(s2)][len(s1)])
+```
+
+<br>
+
+---
+
+<br>
+
+## 기타리스트
+
+> 1495
+
+```python
+n, s, m = map(int, input().split())
+li = list(map(int, input().split()))
+dp = [[0] * (m + 1) for _ in range(n + 1)]
+dp[0][s] = 1
+
+for i in range(1, n + 1):
+  for j in range(m + 1):
+    if dp[i - 1][j] == 0:
+      continue
+    if j - li[i - 1] >= 0:
+      dp[i][j - li[i - 1]] = 1
+    if j + li[i - 1] <= m:
+      dp[i][j + li[i - 1]] = 1
+
+res = -1
+for i in range(m, -1, -1):
+  if dp[n][i] == 1:
+    res = i
+    break
+
+print(res)
+```
+
+<br>
+
+---
+
+<br>
+
+## 가장높은탑쌓기
+
+> 2655
+
+```python
+n = int(input())
+li = []
+li.append((0, 0, 0, 0))
+for i in range(1, n + 1):
+  a, h, w = map(int, input().split())
+  li.append((i, a, h, w))
+
+li.sort(key=lambda data: data[3])
+
+dp = [0] * (n + 1)
+for i in range(1, n + 1):
+  for j in range(i):
+    if li[i][1] > li[j][1]:
+      dp[i] = max(dp[i], dp[j] + li[i][2])
+
+max_value = max(dp)
+idx = n
+res = []
+
+while idx != 0:
+  if max_value == dp[idx]:
+    res.append(li[idx][0])
+    max_value -= li[idx][2]
+  idx -= 1
+
+res.reverse()
+print(len(res))
+[print(i) for i in res]
+```
 
 <br>
 
