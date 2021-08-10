@@ -1,104 +1,112 @@
-## 언어별 입력 방법
+_목차에서 클릭했을 때, 뒤로가기 누르면 목차로 돌아와짐!_
 
-[JavaScript](#JavaScript)   
-[python](#python)   
+## 백준 문제풀이 언어별 입력 방법
 
----------------------
----------------------
+[JavaScript](#JavaScript)  
+[python](#python)
+
+---
+
+---
 
 <br>
 
 ## JavaScript
 
 1. readline 모듈
-    ```javaScript
-    /********** 한 줄 입력 **********/
 
-    const readline = require('readline');
+   ```javaScript
+   /********** 한 줄 입력 **********/
 
-    const rl = readline.createInterface({
-      input: process.stdin,
-      output: process.stdout
-    });
+   const readline = require('readline');
 
-    rl.on('line', function(line) {
-      console.log(line);
+   const rl = readline.createInterface({
+     input: process.stdin,
+     output: process.stdout
+   });
 
-      rl.close();
-    }).on("close", function() {
-      process.exit();
-    });
+   rl.on('line', function(line) {
+     console.log(line);
+
+     rl.close();
+   }).on("close", function() {
+     process.exit();
+   });
 
 
-    /********* 여러 줄 입력 *********/
+   /********* 여러 줄 입력 *********/
 
-    const readline = require('readline');
+   const readline = require('readline');
 
-    const rl = readline.createInterface({
-      input: process.stdin,
-      output: process.stdout
-    });
+   const rl = readline.createInterface({
+     input: process.stdin,
+     output: process.stdout
+   });
 
-    rl.on('line', function (line) {
-      const input = line.split(' ');
-    })
-      .on('close', function () {
-      console.log(input);
-      process.exit();
-    });
-    ```
+   rl.on('line', function (line) {
+     const input = line.split(' ');
+   })
+     .on('close', function () {
+     console.log(input);
+     process.exit();
+   });
+   ```
 
-<br><br> 
-    
+<br><br>
+
 2. fs 모듈
-    ```javaScript
-    /********** 한 줄 입력 **********/
-    
-    const fs = require('fs');
-    const input = fs.readFileSync('/dev/stdin').toString().split(' ');
 
-    
-    /********* 여러 줄 입력 *********/
+   ```javaScript
+   /********** 한 줄 입력 **********/
 
-    const fs = require('fs');
-    const input = fs.readFileSync('/dev/stdin').toString().split('\n');
-
-    let count = input[0];
-    let numbers = [];
-
-    for (let i = 1; i < input.length; i++) {
-      if (input[i] !== '') {
-        numbers.push(input[i].split(' '));
-      }
-    }
-
-    ```
-    * *line : 입력값, 문자열*
+   const fs = require('fs');
+   const input = fs.readFileSync('/dev/stdin').toString().split(' ');
 
 
----------------------
----------------------
+   /********* 여러 줄 입력 *********/
+
+   const fs = require('fs');
+   const input = fs.readFileSync('/dev/stdin').toString().split('\n');
+
+   let count = input[0];
+   let numbers = [];
+
+   for (let i = 1; i < input.length; i++) {
+     if (input[i] !== '') {
+       numbers.push(input[i].split(' '));
+     }
+   }
+
+   ```
+
+   - _line : 입력값, 문자열_
+
+---
+
+---
 
 ## python
-  
+
 1. input()
-  ```python
-  data = list(map(int, input().split()))
-  ```
+
+```python
+data = list(map(int, input().split()))
+```
 
 <br>
 
 2. sys.stdin.readline()
-  ```python
-  import sys
 
-  # 2차원 리스트 입력시
-  li = [list(map(int, sys.stdin.readline().split())) for _ in range(N)]
+```python
+import sys
 
-  # 문자열 입력시
-  text = sys.stdin.readline().rstrip()  
-  ```
+# 2차원 리스트 입력시
+li = [list(map(int, sys.stdin.readline().split())) for _ in range(N)]
 
-  * input() 으로 받는 입력보다 sys 이용하는 편이 더 빠르대
+# 문자열 입력시
+text = sys.stdin.readline().rstrip()
+```
 
------------------------
+- input() 으로 받는 입력보다 sys 이용하는 편이 더 빠르대
+
+---
