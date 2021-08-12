@@ -477,11 +477,89 @@ def sequencial(data_list, search_data):
   - 전체 쌍 최단 경로: 모든 노드 쌍에 대한 최단 경로를 찾는 문제
 
   - 단일 출발: 그래프 내 특정 노드와 타 모든 노드 각각의 가장 짧은 경로를 찾는 문제
+
     - 다익스트라 알고리즘(BFS와 유사, 우선순위 큐 활용할 것임)
       - 첫 정점을 기준으로 연결 된 정점들 추가하며 최단 거리 갱신하는 기법
       1. 초기화
          첫 정점 기준 배열 선언, 각 정점까지 거리를 저장, 우선순위 큐에 첫 정점, 거리0 넣는다
       2. 우선순위 큐에서 추출한 값 기반, 인접 노드 거리 계산, 업데이트(반복)
+
+  - 다익스트라
+
+    - heapq이용(우선순위 큐): 데이터가 리스트 형태인 경우, 0번 인덱스를 우선순위로 인지하여 우선순위가 낮은 순으로 pop가능
+
+    ```python
+    import heapq
+    queue = []
+    heapq.heappush(queue, [2, 'A'])
+    heapq.heappush(queue, [5, 'B'])
+    heapq.heappush(queue, [1, 'C'])
+    heapq.heappush(queue, [7, 'D'])
+
+    # 트리구조이기에 완전 정렬처럼 보이진 않는다
+    print(queue)
+
+    # 뽑아내면 우선순위에 맞게 나온다
+    for idx in range(len(queue)):
+      print(heapq.heappop(queue))
+    ```
+
+    - 예제가 될 그래프
+
+      ```python
+      mygraph = {
+        'A':{'B':8,'C':1,'D':2},
+        'B':{},
+        'C':{'B':5,'D':2},
+        'D':{'E':3,'F':5},
+        'E':{'F':1},
+        'F':{'A':5}
+      }
+      ```
+
+    - 다익스트라 구현을 해보쟈
+
+      ```python
+      import heapq
+
+      def dijkstra(graph, start):
+        distances = {node: float('inf') for node in graph}
+        distances[start] = 0
+        queue = []
+        heapq.heappush(queue, [distances[start], start])
+
+        while queue:
+          current_dist.current_node = heapq.heappop(queue)
+
+          if distances[currnet_node] < current_dist:
+            continue
+
+          for adjacent, weight in graph[current_node].items():
+            distance = current_dist + weight
+
+            if distance < distances[adjacent]:
+              distances[adjacent] = distance
+              heapq.heappush(queue, [distance, adjacent])
+
+        return distances
+
+      # 시연
+      dijkstra(mygraph, 'A')
+      ```
+
+      <br>
+
+    - 시간 복잡도
+
+      크게 두가지 과정을 거침
+
+      1. 각 노드마다 인접한 간선들을 모두 검사하는 과정  
+         각 노드를 최대 한 번씩 방문하므로(노드간 경로가 존재하는 경우만), 그래프의 모든 간선은 최대 한 번씩 검사
+
+      2. 우선순위 큐에 노드/거리 정보를 넣고 삭제(pop)하는 과정  
+         우선순위 큐에 가장 많은 노드, 거리 정보가 있는 경우 정보를 넣고 삭제하는 과정이 최악의 시간소요
+
+      **결국** : O(E) + O(ElogE) = O(E + ElogE) = O(ElogE)
 
 <br>
 
