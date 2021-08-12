@@ -2,10 +2,38 @@
 
 <br>
 
+[(1158) 요세푸스 문제](#요세푸스-문제)  
 [(9012) 괄호](#괄호)  
 [(10828)스택](#스택)  
-[(10845)큐](#큐)  
-[(1158) 요세푸스 문제](#요세푸스-문제)
+[(10845)큐](#큐)
+
+<br>
+
+---
+
+<br>
+## 요세푸스 문제
+
+> 1158
+
+```python
+n, cnt = map(int, input().split())
+
+li = [i+1 for i in range(n)]
+answer = []
+idx = 0
+
+while len(li) > 0:
+		idx = (idx + (cnt - 1)) % len(li)
+		answer.append(str(li.pop(idx)))
+
+print(f"<{', '.join(answer)}>")
+```
+
+_굉장히 유용한 f-String!_  
+_인덱스에 유용한 나머지연산!_
+
+<br>
 
 ---
 
@@ -37,7 +65,9 @@ for _ in range(1):
 
 - _벌써 몇번째야 제출언어좀 확인해_
 
-<br><br>
+---
+
+<br>
 
 ---
 
@@ -74,9 +104,11 @@ for _ in range(n):
 						print(0)
 ```
 
-<br><br>
+<br>
 
 ---
+
+<br>
 
 ## 큐
 
@@ -116,39 +148,24 @@ for _ in range(n):
 						print(que[-1])
 ```
 
-<br><br>
+<br>
 
 ---
 
-## 요세푸스 문제
+<br>
 
-> 1158
-
-```python
-n, cnt = map(int, input().split())
-
-li = [i+1 for i in range(n)]
-answer = []
-idx = 0
-
-while len(li) > 0:
-		idx = (idx + (cnt - 1)) % len(li)
-		answer.append(str(li.pop(idx)))
-
-print(f"<{', '.join(answer)}>")
-```
-
-_굉장히 유용한 f-String!_  
-_인덱스에 유용한 나머지연산!_
-
-<br><br>
+<br>
 
 ---
 
-<br><br>
+<br>
+<br>
 
 ---
 
-<a href='#0'>맨위로</a>
+<br>
+<br>
 
 ---
+
+<br>

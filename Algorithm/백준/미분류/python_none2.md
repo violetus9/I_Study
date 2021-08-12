@@ -23,7 +23,18 @@
 [(11053)가장 긴 증가하는 부분 수열](#가장-긴-증가하는-부분-수열)  
 [(9251) LCS](#LCS)  
 [(1495) 기타리스트](#기타리스트)  
-[(2655) 가장높은탑쌓기](#가장높은탑쌓기)
+[(2655) 가장높은탑쌓기](#가장높은탑쌓기)  
+[(1260) DFS와 BFS](#DFS와-BFS)  
+[(1697) 숨바꼭질](#숨바꼭질)  
+[(2606) 바이러스](#바이러스)  
+[(1012) 유기농 배추](#유기농-배추)  
+[(1325) 효율적인 해킹](#효율적인-해킹)  
+[(2012) 등수 매기기](#등수-매기기)  
+[(1092) 배](#배)  
+[(10282)해킹](#해킹)  
+[(2212) 센서](#센서)  
+[(1461) 도서관](#도서관)  
+[(1781) 컵라면](#컵라면)
 
 <br>
 
@@ -738,6 +749,439 @@ while idx != 0:
 res.reverse()
 print(len(res))
 [print(i) for i in res]
+```
+
+<br>
+
+---
+
+<br>
+
+## DFS와 BFS
+
+> 1260
+
+```python
+from collections import deque
+
+def dfs(v):
+  print(v, end=' ')
+  visited[v] = True
+  for e in adj[v]:
+    if not(visited[e]):
+      dfs(e)
+
+def bfs(v):
+  q = deque([v])
+  while q:
+    v = q.popleft()
+    if not(visited[v]):
+      visited[v] = True
+      print(v, end=' ')
+      for e in adj[v]:
+        if not visited[e]:
+          q.append(e)
+
+n, m, v = map(int, input().split())
+adj = [[] for _ in range(n + 1)]
+
+for _ in range(m):
+  x, y = map(int, input().split())
+  adj[x].append(y)
+  adj[y].append(x)
+
+for e in adj:
+  e.sort()
+
+visited = [False] * (n + 1)
+dfs(v)
+print()
+visited = [False] * (n + 1)
+bfs(v)
+```
+
+<br>
+
+---
+
+<br>
+
+## 숨바꼭질
+
+> 1697
+
+```python
+from collections import deque
+
+MAX = 100001
+n, k = map(int, input().split())
+li = [0] * MAX
+
+def bfs():
+  q = deque([n])
+  while q:
+    posit = q.popleft()
+    if posit == k:
+      return li[posit]
+    for next_posit in (posit - 1, posit + 1, posit * 2):
+      if 0 <= next_posit < MAX and not li[next_posit]:
+        li[next_posit] = li[posit] + 1
+        q.append(next_posit)
+
+print(bfs())
+```
+
+<br>
+
+---
+
+<br>
+
+## 바이러스
+
+> 2606
+
+```python
+n = int(input())
+m = int(input())
+adj = [[] for _ in range(n + 1)]
+visited = [False] * (n + 1)
+cnt = 0
+
+for _ in range(m):
+  x, y = map(int, input().split())
+  adj[x].append(y)
+  adj[y].append(x)
+
+def dfs(now_pos):
+  global cnt
+  cnt += 1
+  visited[now_pos] = True
+  for next_pos in adj[now_pos]:
+    if not visited[next_pos]:
+      dfs(next_pos)
+
+dfs(1)
+print(cnt - 1)
+```
+
+<br>
+
+---
+
+<br>
+
+## 유기농 배추
+
+> 1012
+
+```python
+import sys
+sys.setrecursionlimit(100000)
+
+def dfs(x, y):
+  visited[x][y] = True
+  directions = [(-1, 0), (1, 0), (0, -1), (0, 1)]
+  for dx, dy in directions:
+    nx, ny = x + dx, y + dy
+    if nx < 0 or nx >= n or ny < 0 or ny >= m:
+      continue
+    if li[nx][ny] and not visited[nx][ny]:
+      dfs(nx, ny)
+
+for _ in range(int(input())):
+  m, n, k = map(int, input().split())
+  li = [[0] * m for _ in range(n)]
+  visited = [[False] * m for _ in range(n)]
+  for _ in range(k):
+    y, x = map(int, input().split())
+    li[x][y] = 1
+  res = 0
+  for i in range(n):
+    for j in range(m):
+      if li[i][j] and not visited[i][j]:
+        dfs(i, j)
+        res += 1
+
+  print(res)
+```
+
+<br>
+
+---
+
+<br>
+
+## 효율적인 해킹
+
+> 1325
+
+```python
+from collections import deque
+
+n, m = map(int, input().split())
+gph = [[] for _ in range(n + 1)]
+
+for _ in range(m):
+  x, y = map(int, input().split())
+  gph[y].append(x)
+
+def bfs(v):
+  q = deque([v])
+  visited = [False] * (n + 1)
+  visited[v] = True
+  cnt = 1
+  while q:
+    v = q.popleft()
+    for e in gph[v]:
+      if not visited[e]:
+        q.append(e)
+        visited[e] = True
+        cnt += 1
+  return cnt
+
+res = []
+max_v = -1
+
+for i in range(1, n + 1):
+  c = bfs(i)
+  if c > max_v:
+    res = [i]
+    max_v = c
+  elif c == max_v:
+    res.append(i)
+    max_v = c
+
+for e in res:
+  print(e, end=' ')
+```
+
+<br>
+
+---
+
+<br>
+
+## 등수 매기기
+
+> 2012
+
+```python
+n = int(input())
+li = []
+
+for _ in range(n):
+  li.append(int(input()))
+
+li.sort()
+
+res = 0
+for i in range(1, len(li) + 1):
+  res += abs(i - li[i - 1])
+
+print(res)
+```
+
+<br>
+
+---
+
+<br>
+
+## 배
+
+> 1092
+
+```python
+import sys
+
+n = int(input())
+c = list(map(int, input().split()))
+
+m = int(input())
+b = list(map(int, input().split()))
+
+if max(c) < max(b):
+  print(-1)
+  sys.exit()
+
+posit = [0] * n
+chk = [False] * m
+c.sort(reverse=True)
+b.sort(reverse=True)
+
+res = 0
+cnt = 0
+
+while True:
+  if cnt == len(b):
+    break
+  for i in range(n):
+    while posit[i] < len(b):
+      if not chk[posit[i]] and c[i] >= b[posit[i]]:
+        chk[posit[i]] = True
+        posit[i] += 1
+        cnt += 1
+        break
+      posit[i] += 1
+  res += 1
+
+print(res)
+```
+
+<br>
+
+---
+
+<br>
+
+## 해킹
+
+> 10282
+
+```python
+import heapq
+import sys
+input = sys.stdin.readline
+
+def dijkstra(start):
+  heap_data = []
+  heapq.heappush(heap_data, (0, start))
+  distance[start] = 0
+  while heap_data:
+    dist, now = heapq.heappop(heap_data)
+    if distance[now] < dist:
+      continue
+    for i in adj[now]:
+      cost = dist + i[1]
+      if distance[i[0]] > cost:
+        distance[i[0]] = cost
+        heapq.heappush(heap_data, (cost, i[0]))
+
+for _ in range(int(input())):
+  n, m, start = map(int, input().split())
+  adj = [[] for i in range(n + 1)]
+  distance = [1e9] * (n + 1)
+  for _ in range(m):
+    x, y, cost = map(int, input().split())
+    adj[y].append((x, cost))
+  dijkstra(start)
+  cnt = 0
+  max_dist = 0
+  for i in distance:
+    if i != 1e9:
+      cnt += 1
+      if i > max_dist:
+        max_dist = i
+  print(cnt, max_dist)
+```
+
+<br>
+
+---
+
+<br>
+
+## 센서
+
+> 2212
+
+```python
+import sys
+
+n = int(input())
+k = int(input())
+
+if k >= n:
+  print(0)
+  sys.exit()
+
+li = list(map(int, input().split()))
+li.sort()
+
+dist = []
+for i in range(1, n):
+  dist.append(li[i] - li[i - 1])
+dist.sort(reverse=True)
+
+for i in range(k - 1):
+  dist[i] = 0
+
+print(sum(dist))
+```
+
+<br>
+
+---
+
+<br>
+
+## 도서관
+
+> 1461
+
+```python
+import heapq
+
+n, m = map(int, input().split())
+li = list(map(int, input().split()))
+pos = []
+neg = []
+max_dist = max(max(li), -min(li))
+
+for i in li:
+  if i > 0:
+    heapq.heappush(pos, -i)
+  else:
+    heapq.heappush(neg, i)
+
+res = 0
+while pos:
+  res += heapq.heappop(pos)
+  for _ in range(m - 1):
+    if pos:
+      heapq.heappop(pos)
+
+while neg:
+  res += heapq.heappop(neg)
+  for _ in range(m - 1):
+    if neg:
+      heapq.heappop(neg)
+
+print(-res * 2 - max_dist)
+```
+
+_참고로 말하자면 힙큐는 우선순위 순으로 pop된다_
+
+<br>
+
+---
+
+<br>
+
+## 컵라면
+
+> 1781
+
+```python
+import heapq
+
+n = int(input())
+li = []
+q = []
+
+for i in range(n):
+  a, b = map(int, input().split())
+  li.append((a, b))
+li.sort()
+
+for i in li:
+  a = i[0]
+  heapq.heappush(q, i[1])
+  if a < len(q):
+    heapq.heappop(q)
+
+print(sum(q))
 ```
 
 <br>
