@@ -3,10 +3,13 @@
 <br>
 
 [(9095) 123더하기](#123더하기)  
+[(9655) 돌 게임](#돌-게임)  
 [(10870)피보나치 수 5](#피보나치-수-5)  
-[(11727)2xn타일링2](#2xn타일링2)  
+[(11048)이동하기](#이동하기)  
 [(11052)카드 구매하기](#카드-구매하기)  
-[(11054)가장 긴 바이토닉 부분 수열](#가장-긴-바이토닉-부분-수열)
+[(11054)가장 긴 바이토닉 부분 수열](#가장-긴-바이토닉-부분-수열)  
+[(11660)구간 합 구하기 5](#구간-합-구하기-5)  
+[(11727)2xn타일링2](#2xn타일링2)
 
 <br>
 
@@ -40,6 +43,22 @@ for _ in range(N):
 
 <br>
 
+## 돌 게임
+
+> 9655
+
+```python
+n = int(input())
+if n%2 == 0: print('CY')
+else: print('SK')
+```
+
+<br>
+
+---
+
+<br>
+
 ## 피보나치 수 5
 
 > 10870
@@ -61,17 +80,23 @@ print(fibo(int(input())))
 
 <br>
 
-## 2xn타일링2
+## 이동하기
 
-> 11727
+> 11048
 
 ```python
-N = int(input())
-dp = [0, 1, 3]
+y, x = map(int, input().split())
+labirinth = [[0] for _ in range(y + 1)]
+for i in range(1, y + 1):
+  labirinth[i] += (list(map(int, input().split())))
+labirinth[0] += [0] * x
 
-for i in range(3, N + 1):
-  dp.append(dp[i - 1] + 2 * dp[i - 2])
-print(dp[N] % 10007)
+for i in range(1, y + 1):
+  for j in range(1, x + 1):
+    labirinth[i][j] = labirinth[i][j] + \
+      max(labirinth[i - 1][j], labirinth[i][j - 1])
+
+print(labirinth[y][x])
 ```
 
 <br>
@@ -129,6 +154,55 @@ for i in range(N):
         res = dp[i] + dp2[i]
 
 print(res)
+```
+
+<br>
+
+---
+
+<br>
+
+## 구간 합 구하기 5
+
+> 11660
+
+```python
+import sys
+input = sys.stdin.readline
+n, m = map(int, input().split())
+prob = [[0] for _ in range(n + 1)]
+dp = [[0] * (n + 1) for _ in range(n + 1)]
+
+for i in range(1, n + 1):
+  prob[i] += list(map(int, input().split()))
+
+for i in range(1, n + 1):
+  for j in range(1, n + 1):
+    dp[i][j] = dp[i - 1][j] + dp[i][j - 1] - dp[i - 1][j - 1] + prob[i][j]
+
+for _ in range(m):
+  x1, y1, x2, y2 = map(int, input().split())
+
+  print(dp[x2][y2] - dp[x1-1][y2] - dp[x2][y1-1] + dp[x1-1][y1-1])
+```
+
+<br>
+
+---
+
+<br>
+
+## 2xn타일링2
+
+> 11727
+
+```python
+N = int(input())
+dp = [0, 1, 3]
+
+for i in range(3, N + 1):
+  dp.append(dp[i - 1] + 2 * dp[i - 2])
+print(dp[N] % 10007)
 ```
 
 <br>
