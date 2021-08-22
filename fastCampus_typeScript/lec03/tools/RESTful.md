@@ -3,7 +3,7 @@
 프론트 엔드 개발시 서버와 통신을 하게 되는데 이 때 가장 많이 쓰이는 방식이 RESTful API이다.
 
 HTTP 프로토콜을 사용한다.  
-HTTP(Hyper Text Trans Protocol): 인터넷에서 html, 이미지, 비디오등의 것들을 송수신할 수 있는 통신 규약.
+HTTP(Hyper Text Transfer Protocol): 인터넷에서 html, 이미지, 비디오등의 것들을 송수신할 수 있는 통신 규약.
 
 여러 특징이 있지만 우리가 이번에 주목할 부분은 `HTTP는 상태가 없지만 세션은 있다`라는 특징이다.
 
