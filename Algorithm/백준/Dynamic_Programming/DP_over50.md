@@ -9,6 +9,7 @@
 [(11052)카드 구매하기](#카드-구매하기)  
 [(11054)가장 긴 바이토닉 부분 수열](#가장-긴-바이토닉-부분-수열)  
 [(11660)구간 합 구하기 5](#구간-합-구하기-5)  
+[(11722)가장 긴 감소하는 부분 수열](#가장-긴-감소하는-부분-수열)  
 [(11727)2xn타일링2](#2xn타일링2)
 
 <br>
@@ -184,6 +185,29 @@ for _ in range(m):
   x1, y1, x2, y2 = map(int, input().split())
 
   print(dp[x2][y2] - dp[x1-1][y2] - dp[x2][y1-1] + dp[x1-1][y1-1])
+```
+
+<br>
+
+---
+
+<br>
+
+## 가장 긴 감소하는 부분 수열
+
+> 11722
+
+```python
+n = int(input())
+seq = list(map(int, input().split()))
+dp = [1] * n
+
+for i in range(1, n):
+  for j in range(i):
+    if seq[i] < seq[j]:
+      dp[i] = max(dp[i], dp[j] + 1)
+
+print(max(dp))
 ```
 
 <br>
