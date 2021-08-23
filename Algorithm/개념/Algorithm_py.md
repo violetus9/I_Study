@@ -479,12 +479,16 @@ def sequencial(data_list, search_data):
   - 단일 출발: 그래프 내 특정 노드와 타 모든 노드 각각의 가장 짧은 경로를 찾는 문제
 
     - 다익스트라 알고리즘(BFS와 유사, 우선순위 큐 활용할 것임)
+
       - 첫 정점을 기준으로 연결 된 정점들 추가하며 최단 거리 갱신하는 기법
+
       1. 초기화
          첫 정점 기준 배열 선언, 각 정점까지 거리를 저장, 우선순위 큐에 첫 정점, 거리0 넣는다
       2. 우선순위 큐에서 추출한 값 기반, 인접 노드 거리 계산, 업데이트(반복)
 
-  - 다익스트라
+      <br>
+
+  - **다익스트라**
 
     - heapq이용(우선순위 큐): 데이터가 리스트 형태인 경우, 0번 인덱스를 우선순위로 인지하여 우선순위가 낮은 순으로 pop가능
 
@@ -560,6 +564,139 @@ def sequencial(data_list, search_data):
          우선순위 큐에 가장 많은 노드, 거리 정보가 있는 경우 정보를 넣고 삭제하는 과정이 최악의 시간소요
 
       **결국** : O(E) + O(ElogE) = O(E + ElogE) = O(ElogE)
+
+    <br>
+
+  - **최소 신장 트리**
+
+    본래 그래프의 노드를 다 포함하며 연결되어 있고 사이클을 이루지 않아야 한다.
+
+    - MST(Minimum Spanning Tree): 간선 가중치의 합이 최소인 ST  
+      대표적으로 크루스칼, 프림 알고리즘이 있음
+
+      - **Kruskal**
+
+        1. 모든 정점을 독립적인 집합으로 만든다.
+        2. 모든 간선을 비용을 기준으로 정렬, 비용이 작은 간선부터 양 끝의 두 정점을 비교한다.
+        3. 두 정점의 최상위 정점을 확인하고 서로 다른 경우 연결한다. (다만 사이클이 생기지 않도록 한다)
+
+        - _그리디 알고리즘을 기초로 하고 있다._
+
+        - 사이클 체크 알고리즘은 여러가지가 있다. 우리는 `Union-Find` 알고리즘을 사용한다.
+
+          - Union-find
+
+            간단하게 노드들 중 연결된 노드를 찾거나, 노드들을 서로 연결할 때 사용.
+
+            Disjoint Set(서로소 집합 자료구조)를 사용.
+
+        <br>
+
+        **코드로 봅시다**
+
+        ```python
+        mygraph = {
+          'vertices': ['A', 'B', 'C', 'D', 'E', 'F', 'G'],
+          'edges': [
+            (7, 'A', 'B'),
+            (5, 'A', 'D'),
+            (7, 'B', 'A'),
+            (8, 'B', 'C'),
+            (9, 'B', 'D'),
+            (7, 'B', 'E'),
+            (8, 'C', 'B'),
+            (5, 'C', 'E'),
+            (5, 'D', 'A'),
+            (9, 'D', 'B'),
+            (7, 'D', 'E'),
+            (6, 'D', 'F'),
+            (7, 'E', 'B'),
+            (5, 'E', 'C'),
+            (7, 'E', 'D'),
+            (8, 'E', 'F'),
+            (9, 'E', 'G'),
+            (6, 'F', 'D'),
+            (8, 'F', 'E'),
+            (11, 'F', 'G'),
+            (9, 'G', 'E'),
+            (11, 'G', 'F')
+          ]
+        }
+
+        parent = dict() # 부모 노드를 저장
+        rank = dict()   # 해당 랭크를 저장
+
+        def find(node):
+          # path compression 기법
+          # 해당 노드의 최종 루트노드를 바로 연결짓는 기법
+          if parent[node] != node:
+            parent[node] = find(parent[node])
+          return parent[node]
+
+        def union(node_v, node_u):
+          root1 = find(node_v)
+          root2 = find(node_u)
+
+          # union-by-rank 기법
+          if rank[root1] > rank[root2]:
+            parent[root2] = root1
+          else:
+            parent[root1] = root2
+
+            if rank[root1] == rank[root2]:
+              rank[root2] += 1
+
+        # 각각의 부분집합 초기화
+        def make_set(node):
+          parent[node] = node
+          rank[node] = 0
+
+        def kruskal(graph):
+          # 간선의 리스트
+          mst = list()
+
+          # 초기화, 노드별로 부분집합 생성
+          for node in graph['vertices']:
+            make_set(node)
+
+          # 간선 weight 기반 sorting
+          edges = graph['edges']
+          edges.sort()
+
+          # 간선 연결(사이클 없게)
+          for edge in edges:
+            weight, node_v, node_u = edge
+            if find(node_v) != find(node_u):  # 다르다는 것은 사이클이 없다는 것.
+              union(node_v, node_u)
+              mst.append(edge)
+
+          return mst
+        ```
+
+        **test**
+
+        ```python
+        kruskal(mygraph)
+
+        # [
+        #   (5, 'A', 'D'),
+        #   (5, 'C', 'E'),
+        #   (6, 'D', 'F'),
+        #   (7, 'A', 'B'),
+        #   (7, 'B', 'E'),
+        #   (9, 'E', 'G'),
+        # ]
+        ```
+
+        <br>
+
+        - 시간 복잡도
+
+          **O(ElogE)**: E는 간선
+
+          O(V): 초기화, 노드 수만큼 부분집합 생성  
+          O(ElogE): 정렬하는 부분  
+          O(E): 간선을 돌며 find, union 작업 수행
 
 <br>
 
