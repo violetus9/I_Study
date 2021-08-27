@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>class를 통한 객체생성</title>
+</head>
+
+<body>
+
+  <script>
+
+    // ES6 Class
+    function Health(name) {
+      this.name = name;
+    }
+
+    Health.prototype.showHealth = function () {
+      console.log(this.name + '님 안녕하세요');
+    }
+    // 이렇게 헬스라는 클래스에 이름만으로 출력해씀
+
+    const h = new Health('crong');
+    h.showHealth();
+    // 이게 일반적인 클래스 형태
+    // 즉, 효율적인 객체를 프로토타입안에 두면서 객체를 제너레이트 하는, new키워드를 부를 때, prototype하위의, this추가한거등 모두를 묶어 할당한것
+    // constructor도 없고 일반적 객체와는 다르지만, ES6 클래스는 호불호가 갈리지만 가독성에서는 좀 좋대
+
+    // 위와 같은 형태임
+    // 이 헬스도 사실 모습만 클래스일 뿐이지 내부적으로는 함수로 처리가 됨 ㅇㅇ 그정도
+    // 결국 프로토타입이랑 연결되어있다는 그런
+    class Health1 {
+      constructor(name, lastTime) {
+        this.name = name;
+        this.lastTime = lastTime;
+      }
+      showHealth() {
+        console.log('안녕하세요' + this.name);
+      }
+    }
+    const myHealth = new Health1('crom');
+    myHealth.showHealth();
+    // 실행후 객체 열어보면 프로토타입 하위항목으로 메서드 들어가있는거 보여
+    // 타입체크를 해보까
+    console.log(toString.call(Health1));    // object Function >> 클래스가 아니래 ㅋ
+    // 허나 이런식으로 클래스를 짜두면 가독성도 좋고 협업시 이런 코드패턴이 좋다고~ 할 수 있다
+
+  </script>
+
+</body>
+
+</html>

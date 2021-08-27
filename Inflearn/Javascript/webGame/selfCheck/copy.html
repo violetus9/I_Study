@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>복사</title>
+</head>
+
+<body>
+
+  <script>
+
+    // 다음을 복사해보시길(깊은복사)
+    const a = 'b';
+    const c = ['d', true, 1];
+    const e = { g: 'h' };
+    const i = [{ j: 'k' }, { 1: 'm' }];
+    const n = { o: { p: 'q' } };
+
+    const a1 = a; // 원시값이니까 ㅇㅇ
+    const c1 = c.slice();  // 배열이니까, 객체안에 객체도 아닌 원시값이고 그래서 이렇게만해도 됨
+    const e1 = { ...e } // 이것도 위와 마찬가지
+    const i1 = JSON.parse(JSON.stringify(i));
+    const n1 = JSON.parse(JSON.stringify(n));
+
+  </script>
+
+</body>
+
+</html>

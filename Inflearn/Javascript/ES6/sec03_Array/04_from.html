@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>from 메서드로 진짜 배열 만들기</title>
+</head>
+
+<body>
+
+  <script>
+
+    // ES6 from method
+    // function addMark() {
+    //   let newData = [];
+    //   for (let i = 0; i < arguments.length; i++) {
+    //     newData.push(arguments[i] + '!');
+    //   }
+    //   console.log(newData);
+    // }
+    // addMark(1, 2, 3, 4, 5, 6);
+    // arguments 는 파라미터 인자가 어떻게 전달될 지 모를 경우 사용되는 객체
+
+    // 근데 굳이 위처럼 안해도 map 사용하면 쉬울거같은데?
+    // function addMark() {
+    //   let newData = arguments.map(function (value) {
+    //     return value + '!';
+    //   });
+    //   console.log(newData);
+    // };
+    // addMark(1, 2, 3, 4, 5);
+    // >> arguments.map is not a function
+    // 배열이 아니야.. map을 못써(모양만 배열임, querySelectorAll NodeList이런애들)
+
+    // 이런 가짜배열들을 진짜로 바꿔보자
+    function addMark() {
+      let newArray = Array.from(arguments);
+      let newData = newArray.map(function (value) {
+        return value + '!';
+      });
+      console.log(newData);
+    }
+    addMark(1, 2, 3, 5, 6, 1);
+    // 됨!
+
+  </script>
+
+</body>
+
+</html>

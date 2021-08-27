@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>for of - 순회하기</title>
+</head>
+
+<body>
+
+  <script>
+
+    let data = [1, 2, undefined, NaN, null, ''];
+    data.forEach((value) => {
+      console.log(`value is : ${value}`);
+    })
+
+    // for in 문법의 경우 문제점
+    // 자신이 가지고 있지 않은 상위의 추가 값까지 결과를 나타낼 수 있다
+    Array.prototype.getIndex = function () { };
+    for (let idx in data) {
+      console.log(data[idx]);
+    }
+    // 상위에 선언된 func까지 출력된다. >> 배열서 for in 사용은 하지 않도록 하자(prototype같은게 없다면 괜찮지만 장담할 수는 없기에)
+
+    // for of, 본인이 가진 요소만 출력하는지 확인해보자
+    for (let value of data) {
+      console.log(value);
+    } // 출력되지 않음!
+
+    // 또한 문자열에 대한 순회에도 for of 구문을 사용할 수 있따
+    let str = 'hello world!!';
+    for (let value of str) {
+      console.log(value);
+    }
+
+  </script>
+
+</body>
+
+</html>

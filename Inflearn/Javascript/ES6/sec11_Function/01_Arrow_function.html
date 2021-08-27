@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Arrow function 활용</title>
+</head>
+
+<body>
+
+  <script>
+
+    // func.
+    // setTimeout(function() {
+    //   console.log('settimeout!');
+    // }, 1000);
+
+    setTimeout(() => {
+      console.log('settimeout arrow');
+    }, 1000);
+    // 요경우 반환값이 있는 경우도 더 축약해서 효율적으로 짤 수 있음
+
+    // 예를들면 이와같다
+    let newArr = [1, 2, 3, 4, 5].map(function (value, index, object) {
+      return value * 2;
+    });
+    console.log(newArr);  // 여서 index는 쓰지 않았음
+    // 콜백함수의 문제점 > 어느 함수의 인자로 들어가는데 인자에 있는 함수가 너무 길다
+    // 밖으로 구현할 수도 있지만 뭐, 화살표 이용하면 편리
+
+    let newArr1 = [1, 2, 3, 4, 5].map((v) => {
+      return v * 2;
+    }); // 리턴이 필요 없는 경우 생략 후 v*2 까지만 나오게 해도 된다
+    console.log('arrow newArr1', newArr1);
+
+  </script>
+
+</body>
+
+</html>

@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ES2015 String 에 새로운 메서드들</title>
+</head>
+
+<body>
+
+  <script>
+    let str = 'hello world ! ^^ ~~';
+    // 여기서 시작하는 hello로 시작하는 글자인지 판단하려면 >> 정규표현식등이 있지
+    let matchstr = 'hello'; // 이처럼 substr을 통한 자르기로 비교해도 되고
+
+    // but 아래와 같이 하는 새로운 방법이 생겼음
+    console.log(str.startsWith(matchstr));  // 시작이 이와 같은가
+    console.log(str.endsWith(matchstr));   // 끝이 이와 같은가
+    console.log(str.includes('!'));     // 이거 포함 했는가
+
+  </script>
+
+</body>
+
+</html>

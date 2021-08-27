@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>rest parameters</title>
+</head>
+
+<body>
+
+  <script>
+
+    // 이런거들 말고도 더 많으니가 찾아보셍(default, rest, .....많대)
+
+    // 들어오는 인자의 값이 숫자인가를 체크하는 함수를 만들고 싶다, 인자가 몇개가 올지 모른다?
+    function checkNum() {
+      // arguments 가 있지만, 얘는 배열이 아니다(가배열임)
+      // 그렇기에 배열에대한 함수를 쓸 수는 없서, 지금은 every를 쓰고싶어
+      const argArray = Array.prototype.slice.call(arguments);
+      console.log(toString.call(argArray));  // 타입을 보면 array가 되어씀
+      const result = argArray.every((v) => typeof v === 'number');  // every >> 순회하면서 true일 경우만 true
+    }
+    const result = checkNum(10, 2, 3, 4, 5, '55');
+    const result1 = checkNum(4, 5, '55');
+
+    // 이렇게 진짜배열로 바꿔서 했는데 사실 (...argArray) 하면 그냥; 된다
+    // spread operator 과 헷갈리지 않도록 하자 둘은 엄연히 다른 개념이래
+
+  </script>
+
+</body>
+
+</html>
