@@ -96,6 +96,16 @@
     const box3 = JSON.parse(JSON.stringify(box));
     ```
 
+    - lodash(외부 라이브러리)
+
+      라이브러리 쓰는 방법도 있다.
+
+      ```js
+      const _ = require("lodash");
+
+      const cloneTarget = _.cloneDeep(originalTarget);
+      ```
+
 <br>
 
 ---
