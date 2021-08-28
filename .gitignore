@@ -1,18 +1,15 @@
 .gitignore
 .vscode
+node_modules
 
+# dist는 배포시 사용, 깃으로 관리하지 않아야 함
+dist
 
-#
-# Algorithm
-Javascript
-# KH
-NodeReact_inflearn
-react_practice
-fastCampus_typeScript
-webpack_test
+# KH edu, 정리 아직 안됨
+KH
 
 # 학석박
 coursera
 
 # 업 노노노노
-NOTEPAD
+Notepad
