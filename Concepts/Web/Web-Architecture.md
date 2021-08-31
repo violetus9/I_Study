@@ -134,8 +134,7 @@ app이 일정 수준에 도달했을 때 별도의 application으로 제공되�
 - pipeline의 3단계
 
   1. app이 사용자 상호작용에 관한 데이터를 firehose에 전송하고 firehose는 데이터를 즉각 처리할 수 있는 streaming interface를 제공한다.
-
-  보통의 가공되지 않은 데이터는 변환되거나 정보가 추가되어 또 다른 firehose에 전달된다. 대표적으로 AWS의 Kinesis, Kafka는 이런 목적을 위한 기술이다.
+     보통의 가공되지 않은 데이터는 변환되거나 정보가 추가되어 또 다른 firehose에 전달된다. 대표적으로 AWS의 Kinesis, Kafka는 이런 목적을 위한 기술이다.
 
   2. 가공되지 않은 데이터와 변환, 추가된 데이터는 cloud storage에 저장된다.  
      (AWS Kinesis는 firehose란 설정을 제공하며 이를 통해 간단하게 cloud storage (S3)에 저장이 가능하다.)
