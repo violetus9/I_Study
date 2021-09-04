@@ -1,6 +1,10 @@
 ## web
 
-개론
+개론(충분히 가볍지만 너무 가볍지는 않은 내용들)
+
+[How does the Internet work?](#How-does-the-Internet-work?)  
+[What is the difference between webpage, website, web server, and search engine?](#What-is-the-difference-between-webpage,-website,-web-server,-and-search-engine?)  
+[Web Server](#Web-Server)
 
 <br>
 
@@ -127,6 +131,40 @@ _해당 웹 서버의 여러 웹 사이트를 이용할 수 없을 것이다._
 그래도 알아놓으면 좋겠지!
 
 <br>
+
+---
+
+### Web Server
+
+웹 서버라는 개념은 하드웨어, 소프트웨어 혹은 둘 모두 동작하는 것을 의미한다.
+
+1. **하드웨어**: 웹 사이트의 구성 파일들을 저장하는 컴퓨터라고 할 수 있다.  
+   여기엔 HTML 문서, 이미지, CSS, Javascript 파일이 포함되며, 웹 서버는 인터넷에 연결되어 웹과 연결되어 있는 다른 기기들이 웹 서버의 데이터 파일을 주고받을 수 있다.
+
+2. **소프트웨어**: 웹 사용자가 어떤 방법으로 호스트 파일들에 접근하는지 관리한다.  
+   이 글에서는 웹 서버를 HTTP 서버로 퉁치겠다.  
+   (HTTP 서버는 URL과 HTTP의 소프트웨어의 일부)
+
+<br>
+
+브라우저가 웹 서버에서 파일을 원할 때 브라우저는 HTTP를 통해 파일을 요청한다. 그리고 요청이 맞는 웹 서버(하드웨어)에 도착했을 때, HTTP 서버(소프트웨어)는 요청받은 문서를 HTTP를 통해 전송한다.
+
+<br>
+
+**웹 사이트 공개 방식**
+
+웹 사이트의 공개는 정적, 동적 웹 서버를 필요로 한다.
+
+`정적 웹 서버`는 HTTP 서버가 있는 컴퓨터로 구성된다. 그리고 서버는 요청에 대한 파일을 (있는 그대로) 브라우저로 전송한다. 여기서 파일을 있는 그대로 보낸다라고 하는 것은 HTML, image, CSS 등 정적인 컨텐츠를 전송한다는 말이다.
+
+정적 웹 서버엔 `Apache`, `Nginx`, `IIS`등이 있다.
+
+`동적 웹 서버`는 정적 웹 서버에 추가적으로 소프트웨어(일반적 앱 서버와 DB들)로 구성된다. 정적 웹 서버가 단순 파일만 전송하는 것과는 다르다. 동적 웹 서버는 앱 서버가 HTTP 서버를 통해 사용자의 브라우저에 요청된 파일을 전송하기 전에 앱 서버가 업데이트를 진행한다.
+
+동적 웹 서버엔 `Tomcat`, `Jeus`, `Web Sphere` 등이 있다.
+
+_앱 서버가 생소하다면 WAS라는 말은 들어봤을 것임. 그게 그거다 흔히들 웹 서버와 WAS라고 구분한다._
+
 <br>
 <br>
 <br>
@@ -152,3 +190,6 @@ https://developer.mozilla.org/en-US/docs/Learn/Common_questions/How_does_the_Int
 
 **What is the difference between webpage, website, web server, and search engine?**  
 https://developer.mozilla.org/en-US/docs/Learn/Common_questions/Pages_sites_servers_and_search_engines
+
+**Web Server**  
+https://developer.mozilla.org/ko/docs/Learn/Common_questions/What_is_a_web_server
