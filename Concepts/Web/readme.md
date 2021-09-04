@@ -3,7 +3,9 @@
 개론(충분히 가볍지만 너무 가볍지는 않은 내용들)
 
 [How does the Internet work?](#How-does-the-Internet-work?)  
+
 [What is the difference between webpage, website, web server, and search engine?](#What-is-the-difference-between-webpage,-website,-web-server,-and-search-engine?)  
+
 [Web Server](#Web-Server)
 
 <br>
