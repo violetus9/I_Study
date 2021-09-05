@@ -1,5 +1,4 @@
 // 시저 암호
-const log = console.log;
 
 function solution(s, n) {
   let answer = '';
@@ -22,17 +21,3 @@ function solution(s, n) {
 
   return answer;
 }
-
-log(solution('AB', 1))
-log(solution('z', 1))
-log(solution('a B z', 4))
-
-// case
-/*
-
-  s:  'AB'  'z' 'a B z'
-  n:   1     1    4
-  result:
-      'BC'  'a' 'e F d'
-
-*/
