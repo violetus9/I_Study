@@ -15,7 +15,7 @@ n이 10만으로 주어졌을 때, `splice`, `shift`, `구현된 queue` 세가�
 
 splice : 12025 ms
 shift : 2177 ms
-Qclass : 1 ms
+Qclass : 11 ms
 ```
 
 **결론**

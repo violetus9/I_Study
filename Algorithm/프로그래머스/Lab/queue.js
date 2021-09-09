@@ -71,7 +71,7 @@ for (let i = 0; i < 100000; i++) {
 	init3.push(0);
 }
 const startQcl = new Date().getTime();
-for (let i = 0; i < init3.length; i++) {
+for (let i = 0; i < init3.length(); i++) {
 	init3.popLeft();
 }
 const endQcl = new Date().getTime();
