@@ -2,6 +2,18 @@
 
 <br>
 
+[Sort](#Sort)
+
+[Dijkstra](#Dijkstra)
+
+<br>
+
+---
+
+<br>
+
+### Sort
+
 - Bubble Sort
 
   ```ts
@@ -93,4 +105,68 @@
   	}
   	return quickSort(left).concat(pivot, quickSort(right));
   };
+  ```
+
+<br>
+
+---
+
+<br>
+
+### Dijkstra
+
+- **Priority Queue**
+
+  condition: [
+  [1, 2, 1],
+  [2, 3, 3],
+  [5, 2, 2],
+  [1, 4, 2],
+  [5, 3, 1],
+  [5, 4, 2]
+  ]
+
+  ```js
+  function dijkstra(numOfNode, arr) {
+  	const graph = Array.from({ length: numOfNode + 1 }, () => []);
+
+  	for (let i = 0; i < arr.length; i++) {
+  		let nod = arr[i][0];
+  		let nod2 = arr[i][1];
+  		let dist = arr[i][2];
+
+  		graph[nod].push([nod2, dist]);
+  		graph[nod2].push([nod, dist]);
+  	}
+
+  	const distFromStart = Array.from({ length: numOfNode + 1 }, () => Infinity);
+
+  	const queue = [];
+  	distFromStart[1] = 0;
+
+  	queue.push([1, 0]);
+
+  	while (queue.length !== 0) {
+  		const qDist = queue.map((x) => x[1]);
+  		const minDistIdx = qDist.indexOf(Math.min(...qDist));
+  		const current = queue[minDistIdx][0];
+  		const shortDistInQ = queue[minDistIdx][1];
+
+  		queue.splice(minDistIdx, 1);
+
+  		if (distFromStart[current] < shortDistInQ) continue;
+
+  		for (let j = 0; j < graph[current].length; j++) {
+  			const near = graph[current][j][0];
+  			const distNear = graph[current][j][1] + shortDistInQ;
+
+  			if (distFromStart[near] > distNear) {
+  				distFromStart[near] = distNear;
+  				queue.push([near, distNear]);
+  			}
+  		}
+  	}
+
+  	return distFromStart;
+  }
   ```
