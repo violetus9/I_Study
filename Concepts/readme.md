@@ -8,7 +8,7 @@
 
 - [HTML, CSS](./HTML-CSS/)
 
-- [Infra](./Infra/)
+- ~~[Infra](./Infra/)~~ pending
 
 - [Javasciprt](./Javascript/)
 
