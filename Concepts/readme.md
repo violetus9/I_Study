@@ -24,6 +24,19 @@
 <br>
 <br>
 <br>
+
+- **remained questions**
+
+- 무선 연결은 어떻게 가능하지?
+
+- tmp
+
+- tmp
+
+<br>
+<br>
+<br>
+<br>
 <br>
 <br>
 <br>
