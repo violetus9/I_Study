@@ -25,7 +25,7 @@
 <br>
 <br>
 
-- **remained questions**
+### **remained questions**
 
 - 무선 연결은 어떻게 가능하지?
 
