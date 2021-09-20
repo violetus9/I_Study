@@ -4,6 +4,10 @@
 
 [Sort](#Sort)
 
+[Combinations](#Combinations)
+
+[Permutations](#Permutations)
+
 [LRU](#LRU)
 
 [Dijkstra](#Dijkstra)
@@ -108,6 +112,59 @@
   	return quickSort(left).concat(pivot, quickSort(right));
   };
   ```
+
+<br>
+
+---
+
+<br>
+
+### Combinations
+
+조합
+
+```js
+const combinations = (arr, num) => {
+	if (num === 1) return arr.map((e) => [e]);
+
+	const result = [];
+
+	arr.forEach((fix, idx, ori) => {
+		const rest = ori.slice(idx + 1);
+		const comb = combinations(rest, num - 1);
+		const attach = comb.map((e) => [fix, ...e]);
+		result.push(...attach);
+	});
+
+	return result;
+};
+```
+
+<br>
+
+---
+
+<br>
+
+### Permutations
+
+순열
+
+```js
+const permutations = (arr, num) => {
+	if (num === 1) return arr.map((e) => [e]);
+	const result = [];
+
+	arr.forEach((fix, idx, ori) => {
+		const rest = [...ori.slice(0, idx), ...ori.slice(idx + 1)];
+		const permu = permutations(rest, num - 1);
+		const attach = permu.map((e) => [fix, ...e]);
+		result.push(...attach);
+	});
+
+	return result;
+};
+```
 
 <br>
 
