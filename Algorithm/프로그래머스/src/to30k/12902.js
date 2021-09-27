@@ -2,26 +2,24 @@
 
 function solution(n) {
 	const dp = Array(n + 1).fill(0);
+	dp[0] = 1;
+	dp[2] = 3;
+	dp[4] = 11;
 	const div = 1000000007;
 
-	const process = (n) => {
-		if (n % 2 === 1) return 0;
-		if (n === 0) return 1;
-		if (n === 2) return 3;
+	if (n % 2 === 1) return 0;
+	if (n === 0) return 1;
+	if (n === 2) return 3;
 
-		if (dp[n] === 0) {
-			dp[n] += 3 * process(n - 2);
-			for (let i = 4; i <= n; i += 2) {
-				dp[n] += 2 * process(n - i);
-			}
-			dp[n] %= div;
-			return dp[n];
-		} else {
-			return dp[n] % div;
-		}
-	};
+	for (let i = 4, mid = 0; i <= n; i += 2) {
+		mid += 2 * dp[i - 4];
+		dp[i] = 3 * dp[i - 2] + mid;
 
-	return process(n);
+		mid %= div;
+		dp[i] %= div;
+	}
+
+	return dp[n];
 }
 
 // 홀수는 못구함
