@@ -6,7 +6,7 @@
 
 <br>
 
-### javascript Queue, 메서드별 성능 실험
+### Queue, 메서드별 성능 비교
 
 n이 10만으로 주어졌을 때, `splice`, `shift`, `구현된 queue` 세가지를 비교하여 속도를 측정함.
 
@@ -23,6 +23,16 @@ Qclass : 11 ms
 자료구조 구현에 있어서 직접 모듈을 만드는 편이 빠른 성능을 보이므로 메서드에 너무 의존하지 말자
 
 [코드 참고](./queue.js)
+
+<br>
+
+---
+
+<br>
+
+### for loop 성능 비교
+
+https://velog.io/@cada/%EC%9E%90%EB%B0%94%EC%8A%A4%ED%81%AC%EB%A6%BD%ED%8A%B8-for-loop-%EC%86%8D%EB%8F%84-%EB%B9%84%EA%B5%90
 
 <br>
 
