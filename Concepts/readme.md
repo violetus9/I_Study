@@ -24,14 +24,20 @@
 <br>
 <br>
 <br>
+<br>
+<br>
 
-### **remained questions**
+### **대기중**
 
-- 무선 연결은 어떻게 가능하지?
+- wireless network connectivity
 
-- tmp
+- micro service architecture
 
-- tmp
+- serverLess
+
+- nightwatch
+
+- slate.js
 
 <br>
 <br>
