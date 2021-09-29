@@ -29,15 +29,21 @@
 
 ### **대기중**
 
-- wireless network connectivity
+- serverLess
 
 - micro service architecture
 
-- serverLess
+- wireless network connectivity
 
-- nightwatch
+- SSR = SEO 라고, SPA는 SEO에 단점이 있다 >> 확실히 할 것  
+  (결과가 HTML로 나타나지 않으면 구글 검색 노출이 힘들다?)
+
+- Static Site Generator  
+  (JAMstack)
 
 - slate.js
+
+- ~~nightwatch~~
 
 <br>
 <br>
