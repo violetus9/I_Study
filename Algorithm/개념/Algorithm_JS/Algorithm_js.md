@@ -123,6 +123,8 @@
 
 조합
 
+1. return, Array set
+
 ```js
 const combinations = (arr, num) => {
 	if (num === 1) return arr.map((e) => [e]);
@@ -137,6 +139,19 @@ const combinations = (arr, num) => {
 	});
 
 	return result;
+};
+```
+
+2. return, String Set
+
+```js
+const c = (arr, n) => {
+	const l = arr.length;
+	if (n === 0 || n === 0) return [""];
+	if (l === n) return [arr.join("")];
+
+	const next = arr.slice(1);
+	return [...c(next, n - 1).map((v) => `${arr[0]}` + v), ...c(next, n)];
 };
 ```
 
