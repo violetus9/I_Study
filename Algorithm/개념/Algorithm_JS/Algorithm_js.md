@@ -12,6 +12,8 @@
 
 [Dijkstra](#Dijkstra)
 
+[Heap](#Heap)
+
 <br>
 
 ---
@@ -114,9 +116,11 @@
   ```
 
 <br>
+<br>
 
 ---
 
+<br>
 <br>
 
 ### Combinations
@@ -156,9 +160,11 @@ const c = (arr, n) => {
 ```
 
 <br>
+<br>
 
 ---
 
+<br>
 <br>
 
 ### Permutations
@@ -182,9 +188,11 @@ const permutations = (arr, num) => {
 ```
 
 <br>
+<br>
 
 ---
 
+<br>
 <br>
 
 ### LRU
@@ -259,9 +267,11 @@ class Node {
 ```
 
 <br>
+<br>
 
 ---
 
+<br>
 <br>
 
 ### Dijkstra
@@ -321,3 +331,122 @@ class Node {
   	return distFromStart;
   }
   ```
+
+<br>
+<br>
+
+---
+
+<br>
+<br>
+
+### Heap
+
+트리 기반 자료구조  
+Max Heap, Min Heap으로 구분
+
+- peek `O(1)`
+- insert `O(logn)`
+- delete `O(logn)`
+
+<br>
+
+사용처: OS 우선순위 기반 작업을 스케줄링하는 데 쓰임둥
+
+<br>
+
+**Min Heap**
+
+```js
+class Heap {
+	constructor() {
+		this.heap = [];
+	}
+
+	getLeftChildIdx = (parentIdx) => parentIdx * 2 + 1;
+	getRightChildIdx = (parentIdx) => parentIdx * 2 + 2;
+	getParentIdx = (childIdx) => Math.floor((childIdx - 1) / 2);
+
+	peak = () => this.heap[0];
+
+	insert = (key, val) => {
+		const node = { key, val };
+		this.heap.push(node);
+		this.heapifyUp();
+	};
+
+	heapifyUp = () => {
+		let idx = this.heap.length - 1;
+		const lastInsertedNode = this.heap[idx];
+
+		while (idx > 0) {
+			const parentIdx = this.getParentIdx(idx);
+
+			if (this.heap[parentIdx].key > lastInsertedNode.key) {
+				this.heap[idx] = this.heap[parentIdx];
+				idx = parentIdx;
+			} else {
+				break;
+			}
+		}
+
+		this.heap[idx] = lastInsertedNode;
+	};
+
+	remove = () => {
+		const cnt = this.heap.length;
+		const rootNode = this.heap[0];
+
+		if (cnt <= 0) return undefined;
+		if (cnt === 1) this.heap = [];
+		else {
+			this.heap[0] = this.heap.pop();
+			this.heapifyDown();
+		}
+
+		return rootNode;
+	};
+
+	heapifyDown = () => {
+		let idx = 0;
+		const cnt = this.heap.length;
+		const rootNode = this.heap[idx];
+
+		while (this.getLeftChildIdx(idx) < cnt) {
+			const leftChildIdx = this.getLeftChildIdx(idx);
+			const rightChildIdx = this.getRightChildIdx(idx);
+
+			const smallerChildIdx =
+				rightChildIdx < cnt &&
+				this.heap[rightChildIdx].key < this.heap[leftChildIdx].key
+					? rightChildIdx
+					: leftChildIdx;
+
+			if (this.heap[smallerChildIdx].key <= rootNode.key) {
+				this.heap[idx] = this.heap[smallerChildIdx];
+				idx = smallerChildIdx;
+			} else break;
+		}
+
+		this.heap[idx] = rootNode;
+	};
+}
+```
+
+<br>
+
+구현된 Heap을 이용해 PQ도 구할 수 있다.
+
+<br>
+
+```js
+class PQ extends Heap {
+	constructor() {
+		super();
+	}
+
+	enqueue = (priority, val) => this.insert(priority, val);
+	dequeue = () => this.remove();
+	isEmpty = () => this.heap.length <= 0;
+}
+```
