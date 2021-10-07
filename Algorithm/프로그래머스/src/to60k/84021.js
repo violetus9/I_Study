@@ -51,7 +51,7 @@ const refine = (block) => {
 const blockMemorizer = (i, j, stage, row, col, origin = true) => {
 	// 입력 테이블이 game_board인지 table인지 판단 = origin
 	const changeValue = origin ? 1 : 0;
-	const cannotGo = origin ? 0 : 1;
+	const canGo = origin ? 0 : 1;
 	const move = [
 		[1, 0],
 		[-1, 0],
@@ -65,8 +65,10 @@ const blockMemorizer = (i, j, stage, row, col, origin = true) => {
 
 	while (queue.length) {
 		const [i, j] = queue.shift();
-		stage[i][j] = changeValue;
-		coord.push([i, j]);
+		if (stage[i][j] !== changeValue) {
+			stage[i][j] = changeValue;
+			coord.push([i, j]);
+		}
 
 		for (const d of move) {
 			const dy = i + d[0];
@@ -74,7 +76,7 @@ const blockMemorizer = (i, j, stage, row, col, origin = true) => {
 
 			if (dy < 0 || dx < 0 || dy >= row || dx >= col) continue;
 
-			if (stage[dy][dx] === cannotGo) {
+			if (stage[dy][dx] === canGo) {
 				queue.push([dy, dx]);
 			}
 		}
@@ -137,26 +139,26 @@ function solution(game_board, table) {
 // 반드시 크기 맞아야 회전 로직으로 진입
 // 회전 하면서 비교, arr1과 arr2의 격자간 합이 +1-1=0이 반드시 되어야 성립
 
-console.log(
-	solution(
-		[
-			[1, 1, 0, 0, 1, 0],
-			[0, 0, 1, 0, 1, 0],
-			[0, 1, 1, 0, 0, 1],
-			[1, 1, 0, 1, 1, 1],
-			[1, 0, 0, 0, 1, 0],
-			[0, 1, 1, 1, 0, 0],
-		],
-		[
-			[1, 0, 0, 1, 1, 0],
-			[1, 0, 1, 0, 1, 0],
-			[0, 1, 1, 0, 1, 1],
-			[0, 0, 1, 0, 0, 0],
-			[1, 1, 0, 1, 1, 0],
-			[0, 1, 0, 0, 0, 0],
-		]
-	)
-);
+// console.log(
+// 	solution(
+// 		[
+// 			[1, 1, 0, 0, 1, 0],
+// 			[0, 0, 1, 0, 1, 0],
+// 			[0, 1, 1, 0, 0, 1],
+// 			[1, 1, 0, 1, 1, 1],
+// 			[1, 0, 0, 0, 1, 0],
+// 			[0, 1, 1, 1, 0, 0],
+// 		],
+// 		[
+// 			[1, 0, 0, 1, 1, 0],
+// 			[1, 0, 1, 0, 1, 0],
+// 			[0, 1, 1, 0, 1, 1],
+// 			[0, 0, 1, 0, 0, 0],
+// 			[1, 1, 0, 1, 1, 0],
+// 			[0, 1, 0, 0, 0, 0],
+// 		]
+// 	)
+// );
 // console.log(
 // 	solution(
 // 		[
@@ -171,3 +173,46 @@ console.log(
 // 		]
 // 	)
 // );
+
+/*******************  tc 6 to 13 failed  ********************/
+
+// 1자 블럭
+// console.log(
+// 	solution(
+// 		[
+// 			[0, 1, 0, 1, 1, 0],
+// 			[0, 1, 0, 1, 1, 0],
+// 			[0, 1, 1, 1, 1, 0],
+// 			[1, 1, 1, 1, 1, 0],
+// 			[0, 0, 0, 0, 1, 0],
+// 			[1, 1, 1, 1, 1, 0],
+// 		],
+// 		[
+// 			[1, 0, 0, 0, 1, 0],
+// 			[0, 0, 1, 0, 1, 0],
+// 			[0, 0, 1, 0, 1, 0],
+// 			[0, 0, 1, 0, 0, 0],
+// 			[0, 0, 0, 0, 0, 0],
+// 			[1, 1, 1, 1, 1, 1],
+// 		]
+// 	)
+// );
+
+// 발견, bfs서 중복 요소 접근하고 있었음
+// console.log(
+// 	solution(
+// 		[
+// 			[0, 0],
+// 			[0, 0],
+// 			[0, 0],
+// 		],
+// 		[
+// 			[1, 1],
+// 			[1, 1],
+// 			[1, 1],
+// 		]
+// 	)
+// );
+
+/********************* tc 10, 11 failed **********************/
+
