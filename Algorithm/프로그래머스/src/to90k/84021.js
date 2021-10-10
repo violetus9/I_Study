@@ -17,16 +17,13 @@ const check = (hole, block) => {
 		} else {
 			// rotate
 			const row = Math.max(...block.map((e) => e[0])) + 1;
-			const col = Math.max(...block.map((e) => e[1])) + 1;
 			const tmp = [];
 			for (const b of block) {
 				const [i, j] = b;
 				tmp.push([j, row - 1 - i]);
 			}
 
-			block = refine(tmp);
-
-			continue;
+			block = tmp;
 		}
 	}
 	return false;
@@ -125,6 +122,8 @@ function solution(game_board, table) {
 					parts[p].used = true;
 					holes[h].used = true;
 					answer += parts[p].area;
+					console.log(h);
+					console.log(p);
 					break;
 				}
 			}
@@ -204,10 +203,8 @@ function solution(game_board, table) {
 // 		[
 // 			[0, 0],
 // 			[0, 0],
-// 			[0, 0],
 // 		],
 // 		[
-// 			[1, 1],
 // 			[1, 1],
 // 			[1, 1],
 // 		]
@@ -216,3 +213,23 @@ function solution(game_board, table) {
 
 /********************* tc 10, 11 failed **********************/
 
+console.log(
+	solution(
+		[
+			[1, 1, 0, 0, 0, 1],
+			[0, 0, 1, 1, 0, 1],
+			[1, 0, 1, 1, 0, 1],
+			[1, 1, 1, 1, 1, 1],
+			[1, 1, 1, 1, 1, 0],
+			[1, 0, 0, 0, 0, 0],
+		],
+		[
+			[0, 1, 1, 1, 1, 1],
+			[0, 1, 0, 0, 0, 0],
+			[1, 0, 0, 1, 1, 1],
+			[1, 0, 0, 1, 0, 0],
+			[1, 0, 0, 1, 0, 1],
+			[1, 1, 1, 0, 1, 1],
+		]
+	)
+);
