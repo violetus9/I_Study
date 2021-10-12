@@ -1,5 +1,7 @@
 // 후보키
 
+/* 부러진 이유: [0, 01, 12, 142]와 같은 입력이 주어진 경우 142를 지우지 못함 */
+
 const comb = (arr, n) => {
 	if (n === 1) return arr.map((e) => [e]);
 
@@ -31,16 +33,23 @@ const overlab = (relation, arrOfIdx) => {
 	else return null;
 };
 
-const spellChecker = (idxArr, res) => {
-	const shifted = idxArr.shift();
-	res.push(shifted);
-	const check = idxArr.filter((e) => !e.includes(shifted));
-	if (check.length === 0) {
-		return res;
-	} else {
-		spellChecker(check, res);
-	}
-};
+/*
+// const spellChecker = ([shifted, ...idxArr], res = []) => {
+// 	res.push(shifted);
+// 	const check = idxArr.filter((e) => !e.includes(shifted));
+
+// 	if (check.length === 0) {
+// 		return res;
+// 	}
+
+// 	return spellChecker(check, res);
+// };
+/////////////////////////////////////////////////////
+// 한줄 코드 리팩토링
+// const f = ([s, ...i], r = []) => i.length === 0 ? r : f(i.filter(e => !e.includes(s)), [...r, s]);
+*/
+
+const spellChecker = (arrOfIdx) => {};
 
 function solution(relation) {
 	const answer = [];
@@ -56,11 +65,9 @@ function solution(relation) {
 		}
 		level += 1;
 	}
+	const candidate = spellChecker(answer);
 
-	const res = [];
-	spellChecker(answer, res);
-
-	return res.length;
+	return candidate.length;
 }
 
 // 학번, 이름, 전공, 학년
@@ -83,13 +90,21 @@ function solution(relation) {
 // [1, 2]가 등록되었다면
 // [1, 2, 3] 조합에서 [1, 2]가 포함관계이므로 불가능
 
+// console.log(
+// 	solution([
+// 		["100", "ryan", "music", "2"],
+// 		["200", "apeach", "math", "2"],
+// 		["300", "tube", "computer", "3"],
+// 		["400", "con", "computer", "4"],
+// 		["500", "muzi", "music", "3"],
+// 		["600", "apeach", "music", "2"],
+// 	])
+// );
 console.log(
 	solution([
-		["100", "ryan", "music", "2"],
-		["200", "apeach", "math", "2"],
-		["300", "tube", "computer", "3"],
-		["400", "con", "computer", "4"],
-		["500", "muzi", "music", "3"],
-		["600", "apeach", "music", "2"],
+		["a", "1", "aaa", "c", "ng"],
+		["a", "1", "bbb", "e", "g"],
+		["c", "1", "aaa", "d", "ng"],
+		["d", "2", "bbb", "d", "ng"],
 	])
 );
