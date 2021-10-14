@@ -26,17 +26,16 @@
 <br>
 <br>
 <br>
+<br>
+<br>
 
 ### **대기중**
 
+- GPG
+
 - serverLess
 
-- micro service architecture
-
 - wireless network connectivity
-
-- SSR = SEO 라고, SPA는 SEO에 단점이 있다 >> 확실히 할 것  
-  (결과가 HTML로 나타나지 않으면 구글 검색 노출이 힘들다?)
 
 - Static Site Generator  
   (JAMstack)
