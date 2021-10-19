@@ -6,9 +6,13 @@
 
 - [Design-pattern](./DesignPattern/)
 
+- ~~[Hardware](./Hardware/)~~ pending
+
 - [HTML, CSS](./HTML-CSS/)
 
 - ~~[Infra](./Infra/)~~ pending
+
+- [Java](./Java/)
 
 - [Javasciprt](./Javascript/)
 
@@ -31,16 +35,16 @@
 
 ### **대기중**
 
-- GPG
+- ~~GPG~~
 
-- serverLess
+- ~~serverLess~~
 
-- wireless network connectivity
+- ~~wireless network connectivity~~
 
-- Static Site Generator  
+- ~~Static Site Generator~~  
   (JAMstack)
 
-- slate.js
+- ~~slate.js~~
 
 - ~~nightwatch~~
 
